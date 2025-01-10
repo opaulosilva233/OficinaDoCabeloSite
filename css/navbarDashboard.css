@@ -1,0 +1,75 @@
+header {
+    background: #2b2b2b; /* Preto com um toque de cinza */
+    color: #d4a373; /* Dourado suave */
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    position: relative; /* Para permitir que os elementos dentro sejam posicionados corretamente */
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+    transition: transform 0.3s ease; /* Suaviza a transição */
+}
+
+.logo img {
+    height: 40px; /* Ajuste o tamanho da imagem conforme necessário */
+    width: auto;
+    margin-right: 10px;
+    transition: transform 0.3s ease; /* Suaviza a transição da imagem */
+}
+
+/* Efeito de aumento ao passar o mouse sobre o logo */
+.logo:hover img {
+    transform: scale(1.1); /* Aumenta a imagem em 10% */
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 15px;
+    flex-grow: 1; /* Garante que a nav ocupe o máximo de espaço possível */
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: #d4a373; /* Dourado suave para os links */
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+nav ul li a:hover {
+    background: #3e3e3e; /* Cinza escuro ao passar o mouse */
+}
+
+/* Estilo do botão de logout */
+.logout-btn {
+    padding: 10px 15px;
+    background-color: #d4a373; /* Dourado suave */
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    position: absolute; /* Posiciona o botão em relação ao header */
+    right: 20px; /* Coloca o botão a 20px da borda direita */
+}
+
+.logout-btn:hover {
+    background-color: #b5855f;
+    transform: translateY(-2px);
+}
