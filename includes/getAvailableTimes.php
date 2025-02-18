@@ -1,37 +1,55 @@
 <?php
-require_once 'db.php';  // Inclua o seu arquivo de conexão com o banco de dados
+// Incluir o arquivo de conexão com o banco de dados
+include('db.php');
 
+// Verificar se os parâmetros 'barber' e 'date' foram enviados via GET
 if (isset($_GET['barber']) && isset($_GET['date'])) {
-    $barber = $_GET['barber'];  // O barbeiro selecionado
-    $date = $_GET['date'];      // A data selecionada
+    $barber = $_GET['barber']; // Obter o barbeiro selecionado
+    $date = $_GET['date']; // Obter a data selecionada
 
-    // Consulta para verificar horários ocupados na tabela "marcacoes"
-    $sql = "SELECT horario_marcacao FROM marcacoes WHERE barbeiro = :barber AND data_marcacao = :date AND estado = 'marcada'";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([':barber' => $barber, ':date' => $date]);
-    $ocupados = $stmt->fetchAll(PDO::FETCH_COLUMN);  // Retorna todos os horários ocupados para essa data e barbeiro
+    // Log para verificar os parâmetros recebidos
+    error_log("Parâmetros recebidos: barber=$barber, date=$date");
 
-    // Horários disponíveis
-    $timeSlots = [];
-    $startHour = "10:00";
-    $endHour = "17:00";
-    $interval = 30;  // Intervalo de 30 minutos
-
-    // Gera os horários de 30 em 30 minutos
-    $currentTime = strtotime($startHour);
-    $endTime = strtotime($endHour);
-
-    while ($currentTime <= $endTime) {
-        $time = date("H:i", $currentTime);  // Hora formatada
-        if (!in_array($time, $ocupados)) {  // Se não estiver ocupado
-            $timeSlots[] = $time;
-        }
-        $currentTime = strtotime("+$interval minutes", $currentTime);  // Avança o tempo em 30 minutos
+    // Conversão da data do formato "DD-MM-YYYY" para "YYYY-MM-DD"
+    $dateParts = explode('-', $date); // Divide a data em partes
+    if (count($dateParts) == 3) {
+        // Reorganiza a data para o formato "YYYY-MM-DD"
+        $formattedDate = $dateParts[2] . '-' . $dateParts[1] . '-' . $dateParts[0];
+    } else {
+        // Caso o formato de data seja inválido, retorna erro em JSON
+        echo json_encode(['success' => false, 'message' => 'Formato de data inválido.']);
+        exit;
     }
 
-    // Retorna os horários disponíveis em formato JSON
-    header('Content-Type: application/json');
-    echo json_encode(['slots' => $timeSlots]);
-    exit;
+    // Consulta SQL para obter os horários já marcados para o barbeiro na data selecionada
+    $sql = "SELECT horario_marcacao FROM marcacoes
+            WHERE barbeiro = :barber AND data_marcacao = :date AND estado = 'marcada'"; // Filtra as marcações já feitas
+    $stmt = $pdo->prepare($sql); // Prepara a consulta
+    $stmt->bindParam(':barber', $barber); // Vincula o parâmetro 'barber'
+    $stmt->bindParam(':date', $formattedDate); // Vincula o parâmetro 'date'
+    $stmt->execute(); // Executa a consulta
+
+    // Obtém os horários que já estão marcados para o barbeiro na data
+    $bookedTimes = $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
+
+    // Definir os horários disponíveis (das 9h às 18h, com intervalos de 30 minutos)
+    $availableTimes = [];
+    for ($hour = 9; $hour <= 18; $hour++) {
+        // Adiciona os horários de cada meia hora
+        $availableTimes[] = sprintf('%02d:00', $hour); // Horário completo (ex: 09:00)
+        $availableTimes[] = sprintf('%02d:30', $hour); // Horário de meia hora (ex: 09:30)
+    }
+
+    // Remover os horários que já estão marcados da lista de horários disponíveis
+    $availableTimes = array_diff($availableTimes, $bookedTimes);
+
+    // Log para verificar os horários disponíveis após a remoção dos já marcados
+    error_log("Horários disponíveis: " . implode(', ', $availableTimes));
+
+    // Retornar os horários disponíveis em formato JSON
+    echo json_encode(['success' => true, 'slots' => $availableTimes]);
+} else {
+    // Caso os parâmetros 'barber' ou 'date' não sejam enviados, retorna um erro
+    echo json_encode(['success' => false, 'message' => 'Parâmetros inválidos.']);
 }
 ?>

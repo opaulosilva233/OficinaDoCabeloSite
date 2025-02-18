@@ -1,10 +1,10 @@
 <?php
-var_dump($_POST);
-include('db.php'); // Inclui o arquivo de conexão com o banco de dados
+// Incluir o arquivo de conexão com o banco de dados
+include('db.php');
 
-// Verifique se os dados foram enviados via POST
+// Verificar se os dados foram enviados via POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Recebe os dados do formulário
+    // Receber os dados do formulário
     $service = isset($_POST['service']) ? $_POST['service'] : null;
     $barber = isset($_POST['barber']) ? $_POST['barber'] : null;
     $date = isset($_POST['date']) ? $_POST['date'] : null;
@@ -13,7 +13,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $phone = isset($_POST['phone']) ? $_POST['phone'] : null;
     $email = isset($_POST['email']) ? $_POST['email'] : null;
 
-    // Inicializa um array para armazenar mensagens de erro
+    // Log dos dados recebidos
+    error_log("Dados recebidos: service=$service, barber=$barber, date=$date, time=$time, name=$name, phone=$phone, email=$email");
+
+    // Inicializar um array para armazenar mensagens de erro
     $errors = [];
 
     // Validação de cada campo individualmente
@@ -41,9 +44,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Verificar se há erros de validação
     if (!empty($errors)) {
-        // Se houver erros, redireciona para erroMarcacao.php com a mensagem de erro
-        $errorMessage = urlencode(implode(' ', $errors));
-        header("Location: /erroMarcacao.php?error=" . $errorMessage); // Redireciona para erroMarcacao.php
+        $errorMessage = implode(' ', $errors);
+        error_log("Erros de validação: " . $errorMessage);
+        echo json_encode(['success' => false, 'message' => $errorMessage]);
         exit;
     }
 
@@ -54,43 +57,55 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // A data está no formato "DD-MM-YYYY"
             $formattedDate = $dateParts[2] . '-' . $dateParts[1] . '-' . $dateParts[0]; // "YYYY-MM-DD"
         } else {
-            // Se o formato da data estiver errado
-            $errorMessage = urlencode('Formato de data inválido.');
-            header("Location: /erroMarcacao.php?error=" . $errorMessage); // Redireciona para erroMarcacao.php
+            $errorMessage = 'Formato de data inválido.';
+            error_log("Erro de formato de data: $date");
+            echo json_encode(['success' => false, 'message' => $errorMessage]);
             exit;
         }
     }
 
     // Preparar a consulta SQL com prepared statements
-    $stmt = $conn->prepare("INSERT INTO marcacoes (nome_utilizador, telefone_utilizador, email_utilizador, barbeiro, servico, data_marcacao, horario_marcacao, estado, criado_em, atualizado_em) 
-                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $sql = "INSERT INTO marcacoes (nome_utilizador, telefone_utilizador, email_utilizador, barbeiro, servico, data_marcacao, horario_marcacao, estado, criado_em, atualizado_em)
+            VALUES (:name, :phone, :email, :barber, :service, :date, :time, :status, :created_at, :updated_at)";
+    $stmt = $pdo->prepare($sql);
 
     // Verificar se a consulta foi preparada corretamente
     if ($stmt === false) {
-        $errorMessage = urlencode('Erro ao preparar a consulta SQL.');
-        header("Location: /erroMarcacao.php?error=" . $errorMessage); // Redireciona para erroMarcacao.php
+        $errorMessage = 'Erro ao preparar a consulta SQL.';
+        error_log("Erro ao preparar a consulta SQL: " . implode(' ', $pdo->errorInfo()));
+        echo json_encode(['success' => false, 'message' => $errorMessage]);
         exit;
     }
 
-    // Definindo os valores para os parâmetros
+    // Definir os valores para os parâmetros
     $status = 'marcada'; // Status inicial da marcação
     $created_at = date('Y-m-d H:i:s'); // Data e hora de criação
     $updated_at = $created_at; // Data e hora de atualização (inicialmente igual à criação)
 
     // Bind dos parâmetros
-    $stmt->bind_param("ssssssssss", $name, $phone, $email, $barber, $service, $formattedDate, $time, $status, $created_at, $updated_at);
+    $stmt->bindParam(':name', $name);
+    $stmt->bindParam(':phone', $phone);
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':barber', $barber);
+    $stmt->bindParam(':service', $service);
+    $stmt->bindParam(':date', $formattedDate);
+    $stmt->bindParam(':time', $time);
+    $stmt->bindParam(':status', $status);
+    $stmt->bindParam(':created_at', $created_at);
+    $stmt->bindParam(':updated_at', $updated_at);
 
     // Executar a consulta
     if ($stmt->execute()) {
+        error_log("Reserva realizada com sucesso para: service=$service, barber=$barber, date=$formattedDate, time=$time, name=$name, phone=$phone, email=$email");
         echo json_encode(['success' => true, 'message' => 'Reserva realizada com sucesso!']);
     } else {
-        $errorMessage = urlencode('Erro ao salvar a reserva: ' . $stmt->error);
-        header("Location: /erroMarcacao.php?error=" . $errorMessage); // Redireciona para erroMarcacao.php
-        exit;
+        $errorMessage = 'Erro ao salvar a reserva: ' . implode(' ', $stmt->errorInfo());
+        error_log("Erro ao salvar a reserva: " . implode(' ', $stmt->errorInfo()));
+        echo json_encode(['success' => false, 'message' => $errorMessage]);
     }
-
-    // Fechar a consulta e a conexão
-    $stmt->close();
-    mysqli_close($conn);
+} else {
+    $errorMessage = 'Método de requisição inválido.';
+    error_log("Método de requisição inválido: " . $_SERVER["REQUEST_METHOD"]);
+    echo json_encode(['success' => false, 'message' => $errorMessage]);
 }
 ?>
