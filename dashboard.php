@@ -20,10 +20,10 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
 
     <!-- Incluindo o Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <?php include('includes/navbarLateral.php') ?>
 </head>
 <body>
 
-<?php include('includes/navbarLateral.php') ?>
 
 <!-- Layout principal -->
 <div class="dashboard-container">

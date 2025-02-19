@@ -17,10 +17,17 @@
               <span>Dashboard</span>
           </a>
       </div>
+
+      <!-- Menu Hamburger -->
+      <div id="hamburger" class="hamburger">
+          <div></div>
+          <div></div>
+          <div></div>
+      </div>
   </header>
 
   <!-- Navbar Lateral -->
-  <aside class="sidebar">
+  <aside id="menu" class="sidebar">
       <ul>
           <li><a href="dashboard.php" class="sidebar-link">Geral</a></li>
           <li><a href="barbeiro1.php" class="sidebar-link">Bruno Martins</a></li>
@@ -30,5 +37,6 @@
       </ul>
   </aside>
 
+<script src="js/navLatMenu.js"></script> <!-- Script para o menu hamburger -->
 </body>
 </html>
