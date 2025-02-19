@@ -1,0 +1,208 @@
+/* Estilo geral do body */
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Estilo do conteúdo principal */
+.content {
+    margin-left: 220px; /* Espaço para a navbar lateral */
+    padding: 20px;
+    margin-top: 60px; /* Garante que o conteúdo comece abaixo da navbar superior */
+}
+
+/* Contêiner principal da Dashboard */
+.container {
+    margin-left: 220px;
+    padding: 20px;
+    margin-top: 60px;
+}
+
+.container h1 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: #444;
+    text-align: center;
+}
+
+.container p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #666;
+    text-align: center;
+}
+
+/* Tabela de dados */
+.appointments-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.appointments-table thead {
+    background-color: #d4a373;
+    color: white;
+    text-align: left;
+}
+
+.appointments-table th,
+.appointments-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Garantir que o cabeçalho não mude de cor ao passar o mouse */
+.appointments-table thead th:hover {
+    background-color: #d4a373; /* Mantém a mesma cor de fundo */
+    color: white; /* Mantém a cor do texto */
+}
+
+/* Aplicar hover apenas às células normais (td) */
+.appointments-table tbody tr:hover td {
+    background-color: #f9f9f9;
+}
+
+.appointments-table th {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.appointments-table td {
+    font-size: 14px;
+}
+
+/* Botões de ação na tabela */
+.appointments-table button {
+    display: inline-block;
+    padding: 8px 12px;
+    background-color: #d4a373;
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 6px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-size: 14px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.appointments-table button:hover {
+    background-color: #b5855f;
+    transform: translateY(-2px);
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal-content .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal-content .close:hover,
+.modal-content .close:focus {
+    color: black;
+    text-decoration: none;
+}
+
+.modal-content button {
+    display: inline-block;
+    padding: 10px 15px;
+    margin: 10px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.modal-content button#confirm-button {
+    background-color: #d4a373;
+    color: white;
+}
+
+.modal-content button#confirm-button:hover {
+    background-color: #b5855f;
+    transform: translateY(-2px);
+}
+
+.modal-content button.cancel {
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.modal-content button.cancel:hover {
+    background-color: #e0e0e0;
+    transform: translateY(-2px);
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+    .content,
+    .dashboard-container {
+        margin-left: 0;
+        padding: 10px;
+    }
+
+    .appointments-table th,
+    .appointments-table td {
+        font-size: 12px;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .appointments-table {
+        font-size: 12px;
+    }
+
+    .modal-content {
+        width: 95%;
+        margin: 20% auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .appointments-table th,
+    .appointments-table td {
+        font-size: 10px;
+        padding: 8px;
+    }
+
+    .modal-content {
+        width: 95%;
+        margin: 25% auto;
+    }
+}
