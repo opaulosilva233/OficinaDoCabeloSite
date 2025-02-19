@@ -5,10 +5,10 @@ try {
     // Obtém a data e hora atuais
     $data_atual = date('Y-m-d');
     $hora_atual = date('H:i:s');
-    // Consulta para buscar as marcações futuras do barbeiro Bruno Martins
+    // Consulta para buscar as marcações futuras do barbeiro Hugo Alves
     $sql = "SELECT id, nome_utilizador, telefone_utilizador, email_utilizador, servico, data_marcacao, horario_marcacao, estado 
             FROM marcacoes 
-            WHERE barbeiro = 'Bruno Martins' 
+            WHERE barbeiro = 'Hugo Alves' 
             AND estado NOT IN ('concluída', 'cancelada')
             AND (data_marcacao > :data_atual OR (data_marcacao = :data_atual AND horario_marcacao >= :hora_atual))
             ORDER BY data_marcacao ASC, horario_marcacao ASC";
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id']) && isset($_POST
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bruno Martins - Marcações</title>
+    <title>Hugo Alves - Marcações</title>
     <link rel="stylesheet" href="css/barbeiro1.css"> <!-- Arquivo CSS para estilização -->
     <style>
         /* Estilo para o modal */
@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id']) && isset($_POST
     <!-- Incluir a Navbar -->
     <?php include 'includes/navbarLateral.php'; ?>
     <div class="container">
-        <h1>Marcações - Bruno Martins</h1>
+        <h1>Marcações - Hugo Alves</h1>
         
         <table class="appointments-table" id="appointmentsTable">
     <thead>
