@@ -36,6 +36,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
         
         <!-- Adicionar o gráfico de barras -->
         <div class="chart-container">
+        <div id="chartLegend"></div>
             <canvas id="weeklyChart"></canvas>
         </div>
     </main>

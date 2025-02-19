@@ -156,6 +156,14 @@ body {
     margin-bottom: 20px; /* Espaçamento entre o gráfico e os cartões */
 }
 
+/* Ajustes adicionais para garantir que o gráfico ocupe toda a largura */
+#weeklyChart {
+    width: 100% !important; /* Força a largura para 100% */
+    height: 400px; /* Altura fixa */
+    max-width: 100%; /* Impede que o gráfico ultrapasse a largura da página */
+    margin: 0 auto; /* Centraliza o gráfico se necessário */
+}
+
 /* Cartões de informação */
 .info-cards {
     display: flex;

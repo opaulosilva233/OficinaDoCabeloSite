@@ -1,59 +1,57 @@
 <?php
 // Incluir o arquivo de conexão com o banco de dados
-include('db.php');
+include('db.php'); // Adicionado ponto e vírgula
 
-// Consulta SQL para obter o número de marcações por dia da semana (segunda a sábado) na semana atual
-$sql = "SELECT DAYOFWEEK(data_marcacao) AS day_of_week, COUNT(*) AS booking_count 
-        FROM marcacoes 
-        WHERE WEEK(data_marcacao) = WEEK(CURDATE()) 
-        GROUP BY DAYOFWEEK(data_marcacao)";
+try {
+    // Data atual para pegar os dias da semana
+    $startOfWeek = date('Y-m-d', strtotime('monday this week')); // Segunda-feira
+    $endOfWeek = date('Y-m-d', strtotime('saturday this week')); // Sábado (Corrigido)
 
-// Executa a consulta SQL
-$stmt = $pdo->query($sql);
+    // Consulta SQL para contar o número de marcações por dia
+    $query = "
+    SELECT
+        DAYOFWEEK(data_marcacao) AS day_of_week, 
+        COUNT(*) AS booking_count
+    FROM marcacoes
+    WHERE data_marcacao BETWEEN :startOfWeek AND :endOfWeek
+    GROUP BY DAYOFWEEK(data_marcacao)
+    ORDER BY day_of_week ASC
+";
 
-// Array para armazenar os dados de marcações por dia da semana
-$data = [];
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':startOfWeek', $startOfWeek);
+    $stmt->bindParam(':endOfWeek', $endOfWeek);
+    $stmt->execute();
 
-// Inicializa os dias da semana com valor 0 (isso garante que todos os dias da semana serão representados)
-$weekDays = [
-    1 => 'Domingo',
-    2 => 'Segunda-feira',
-    3 => 'Terça-feira',
-    4 => 'Quarta-feira',
-    5 => 'Quinta-feira',
-    6 => 'Sexta-feira',
-    7 => 'Sábado'
-];
-
-// Inicializa o array de dados com 0 marcações para cada dia da semana
-foreach ($weekDays as $dayNumber => $dayName) {
-    $data[$dayNumber] = 0; // Marcações inicializadas em 0
-}
-
-// Preenche o array de dados com o número de marcações para cada dia da semana, ignorando o domingo
-while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    $dayOfWeek = $row['day_of_week']; // Obtém o número do dia da semana
-    $bookingCount = $row['booking_count']; // Obtém a quantidade de marcações para o dia
-    if ($dayOfWeek != 1) { // Ignora o domingo (DAYOFWEEK = 1)
-        $data[$dayOfWeek] = $bookingCount; // Atualiza o número de marcações para o dia específico
-    }
-}
-
-// Define os dias da semana para a exibição
-$days = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-
-// Recria o array de dados, agora gerando números aleatórios entre 0 e 20 (para fins de exemplo)
-$data = [];
-foreach ($days as $day) {
-    $data[] = [
-        'day_of_week' => $day, // Nome do dia da semana
-        'booking_count' => rand(0, 20)  // Gera um número aleatório de marcações entre 0 e 20
+    // Mapeando os resultados para os dias da semana
+    $diasSemana = [
+        '2' => 'Segunda', '3' => 'Terça', '4' => 'Quarta',
+        '5' => 'Quinta', '6' => 'Sexta', '7' => 'Sábado'
     ];
+
+    // Inicializa os contadores para os dias de Segunda a Sábado
+    $bookings = array_fill_keys(array_keys($diasSemana), 0);
+
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $day = $row['day_of_week'];
+        if (isset($bookings[$day])) {
+            $bookings[$day] = (int)$row['booking_count']; // Preenche o contador do dia
+        }
+    }
+
+    // Organiza os dados para retorno como JSON
+    $result = [];
+    foreach ($bookings as $key => $value) {
+        $result[] = [
+            'day_of_week' => $diasSemana[$key], // Nome do dia
+            'booking_count' => $value // Número de marcações
+        ];
+    }
+
+    // Retorna os dados no formato JSON
+    echo json_encode($result);
+
+} catch (PDOException $e) {
+    echo json_encode(['error' => 'Erro na consulta ao banco de dados: ' . $e->getMessage()]);
 }
-
-// Define o tipo de resposta como JSON
-header('Content-Type: application/json');
-
-// Retorna os dados como JSON
-echo json_encode($data);
 ?>
