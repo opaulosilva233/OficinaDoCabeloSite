@@ -1,0 +1,92 @@
+/* Estilos gerais */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9; /* Fundo claro para maior legibilidade */
+    color: #333;
+}
+
+/* Estilização da Navbar (já deve estar no seu arquivo principal) */
+
+/* Conteúdo Principal */
+.rgpd-main {
+    max-width: 1200px; /* Largura máxima do conteúdo */
+    margin: 20px auto; /* Centraliza o conteúdo na página */
+    padding: 20px;
+    background-color: #fff; /* Fundo branco para o conteúdo principal */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra suave para dar profundidade */
+    border-radius: 8px; /* Bordas arredondadas */
+}
+
+/* Títulos */
+.rgpd-content h1 {
+    text-align: center; /* Centraliza o título principal */
+    color: #2b2b2b; /* Mesma cor usada na navbar */
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.rgpd-content h2 {
+    color: #d4a373; /* Dourado suave para os subtítulos */
+    font-size: 18px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/* Parágrafos e listas */
+.rgpd-content p,
+.rgpd-content ul {
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #555; /* Cor de texto mais suave para melhor leitura */
+}
+
+.rgpd-content ul {
+    padding-left: 20px; /* Espaçamento para itens de lista */
+}
+
+/* Links */
+.rgpd-content a {
+    color: #d4a373; /* Dourado suave para os links */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.rgpd-content a:hover {
+    color: #b5855f; /* Tom mais escuro ao passar o mouse */
+}
+
+/* Rodapé da página (opcional) */
+.rgpd-footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #777;
+}
+
+.rgpd-footer a {
+    color: #d4a373;
+    text-decoration: underline;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .rgpd-main {
+        padding: 15px; /* Reduz o espaço interno em telas menores */
+    }
+
+    .rgpd-content h1 {
+        font-size: 20px; /* Ajusta o tamanho do título principal */
+    }
+
+    .rgpd-content h2 {
+        font-size: 16px; /* Ajusta o tamanho dos subtítulos */
+    }
+
+    .rgpd-content p,
+    .rgpd-content ul {
+        font-size: 14px; /* Ajusta o tamanho do texto principal */
+    }
+}

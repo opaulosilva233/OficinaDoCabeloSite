@@ -8,7 +8,7 @@
     <script src="/js/slider.js"></script>
 </head>
 <?php include('includes/header.php'); ?>
-<link rel="stylesheet" href="/css/estilo.css">
+
 
 <main>
 
