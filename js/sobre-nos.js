@@ -9,23 +9,26 @@ document.addEventListener("DOMContentLoaded", function () {
             name: "Bruno Martins",
             description: "Bruno é um barbeiro talentoso com mais de 8 anos de experiência. Especialista em cortes modernos e cuidados com a barba, ele transforma cada visita em uma experiência única.",
             instagram: "https://www.instagram.com/brunomartins_barber", // Link do Instagram
-            image: "/img/BBarber.png", // Imagem do barbeiro
+            image: "./img/BBarber.png", // Caminho relativo para a imagem
         },
         barber2: {
             name: "Hugo Alves",
             description: "Hugo é conhecido por sua criatividade e atenção aos detalhes. Com habilidades que combinam técnicas clássicas e modernas, ele garante resultados impecáveis para seus clientes.",
             instagram: "https://www.instagram.com/hugoalves_barber", // Link do Instagram
-            image: "/img/HBarber.png", // Imagem do barbeiro
+            image: "./img/HBarber.png", // Caminho relativo para a imagem
         },
     };
 
     // Abre o modal com informações
     document.querySelectorAll(".barber-link").forEach((link) => {
         link.addEventListener("click", (e) => {
-            e.preventDefault();
+            e.preventDefault(); // Impede o comportamento padrão do link
             const barberKey = link.dataset.barber;
+
             if (barbersInfo[barberKey]) {
                 const { name, description, instagram, image } = barbersInfo[barberKey];
+
+                // Atualiza o conteúdo do modal
                 modalContent.innerHTML = `
                     <h2>${name}</h2>
                     <p>${description}</p>
@@ -33,12 +36,14 @@ document.addEventListener("DOMContentLoaded", function () {
                         <img src="${image}" alt="${name}" style="width: 150px; border-radius: 15px; margin-top: 20px; cursor: pointer;">
                     </a>
                 `;
+
+                // Exibe o modal
                 modal.style.display = "flex";
             }
         });
     });
 
-    // Fecha o modal
+    // Fecha o modal ao clicar no botão de fechar
     closeBtn.addEventListener("click", () => {
         modal.style.display = "none";
     });
