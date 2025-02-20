@@ -1,3 +1,4 @@
+/* Estilos gerais */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -63,25 +64,25 @@ header {
 .slider {
     position: relative;
     width: 100%; /* O slider ocupa toda a largura da página */
-    height: 100vh; /* Altura do slider ocupa a altura total da janela */
+    height: 80vh; /* Altura reduzida para ocupar 80% da janela */
     overflow: hidden; /* Esconde qualquer conteúdo que transborde */
 }
 
 /* Estilo dos slides */
-.slides {
-    display: flex; /* Configura para que os slides fiquem lado a lado */
-    width: 100%;
-    height: 100%;
+.slide {
+    display: none; /* Todos os slides começam ocultos */
+    width: 100%; /* Cada slide ocupa 100% da largura do slider */
+    height: 100%; /* Garante que todos os slides tenham a mesma altura */
+    position: absolute; /* Posicionamento absoluto para sobrepor os slides */
+    top: 0;
+    left: 0;
+    opacity: 0; /* Inicia com opacidade 0 */
+    transition: opacity 0.5s ease-in-out; /* Transição suave para a opacidade */
 }
 
-.slide {
-    flex: 1 0 100%; /* Cada slide ocupa 100% da largura do slider */
-    height: 100%; /* Garante que todos os slides tenham a mesma altura */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
+.slide.active {
+    display: block; /* Exibe o slide ativo */
+    opacity: 1; /* Define a opacidade para 1 quando o slide está ativo */
 }
 
 /* As imagens ocupam todo o espaço disponível no slide */
@@ -89,6 +90,11 @@ header {
     width: 100%; /* A imagem se adapta à largura do slider */
     height: 100%; /* A imagem se adapta à altura do slider */
     object-fit: cover; /* Mantém a proporção e preenche todo o espaço */
+    transition: transform 0.5s ease-in-out; /* Efeito de zoom */
+}
+
+.slide:hover img {
+    transform: scale(1.1); /* Zoom na imagem ao passar o mouse */
 }
 
 /* Estilo da caixa de texto */
@@ -155,4 +161,251 @@ header {
 .button:hover {
     background: #3e3e3e; /* Cor do fundo ao passar o mouse */
     color: #fff; /* Cor do texto ao passar o mouse */
+}
+
+/* Botões de navegação */
+.slider-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo semi-transparente */
+    color: #fff; /* Cor do texto */
+    border: none;
+    font-size: 24px; /* Tamanho do ícone */
+    padding: 10px 15px; /* Espaçamento interno */
+    cursor: pointer;
+    z-index: 10; /* Garante que os botões fiquem acima do slider */
+    border-radius: 50%; /* Formato circular */
+    transition: background-color 0.3s ease; /* Transição suave */
+}
+
+.slider-button:hover {
+    background-color: rgba(0, 0, 0, 0.8); /* Escurece ao passar o mouse */
+}
+
+.slider-button.prev {
+    left: 20px; /* Posiciona o botão "Anterior" à esquerda */
+}
+
+.slider-button.next {
+    right: 20px; /* Posiciona o botão "Próximo" à direita */
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .slider {
+        height: 50vh; /* Reduz a altura do slider em telas menores */
+    }
+
+    .text {
+        height: 180px; /* Reduz a altura da caixa de texto */
+    }
+
+    .text h2 {
+        font-size: 1.5rem; /* Reduz o tamanho do título */
+    }
+
+    .text p {
+        font-size: 0.9rem; /* Reduz o tamanho do parágrafo */
+    }
+
+    .button {
+        padding: 6px 12px; /* Reduz o padding do botão */
+        font-size: 0.9rem; /* Reduz o tamanho da fonte do botão */
+    }
+}
+
+/* Estilização geral */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f9f9f9; /* Fundo claro e limpo */
+    color: #333; /* Cor padrão do texto */
+}
+
+main {
+    padding: 40px 20px; /* Espaçamento maior para dar ar de "respiração" */
+}
+
+/* Estilo geral para seções */
+section {
+    margin-bottom: 60px; /* Espaçamento generoso entre as seções */
+    padding: 40px;
+    background-color: white; /* Fundo branco para contraste */
+    border-radius: 15px; /* Bordas arredondadas suaves */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08); /* Sombra leve para destaque */
+    opacity: 0; /* Inicialmente invisível */
+    animation: fadeInUp 1s ease-out forwards; /* Animação de entrada suave */
+}
+
+/* Animação de entrada (fadeInUp) */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px); /* Começa ligeiramente abaixo */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0); /* Move para a posição final */
+    }
+}
+
+/* Títulos das seções */
+section h2 {
+    font-size: 2rem; /* Tamanho grande, mas não exagerado */
+    margin-bottom: 20px;
+    color: #333; /* Cor de destaque sofisticada */
+    text-align: center; /* Centraliza os títulos */
+}
+
+/* Parágrafos nas seções */
+section p {
+    font-size: 1rem; /* Tamanho padrão para parágrafos */
+    line-height: 1.8; /* Espaçamento confortável entre linhas */
+    margin-bottom: 20px;
+    text-align: center; /* Centraliza o texto */
+}
+
+/* Botões nas seções */
+section .button {
+    background-color: #d4a373; /* Usa a cor de destaque para botões */
+    color: white;
+    border: none;
+    padding: 12px 24px; /* Padding generoso para botões maiores */
+    border-radius: 8px; /* Bordas arredondadas suaves */
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+section .button:hover {
+    background-color: #b88c5f; /* Escurece ligeiramente ao passar o mouse */
+    transform: scale(1.05); /* Efeito de crescimento sutil */
+}
+
+/* Estilo específico para a seção "Sobre Nós" */
+.about-us {
+    display: flex;
+    margin-top: 60px; /* Mesmo espaçamento que as outras seções têm */
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px; /* Espaçamento consistente entre texto e imagem */
+}
+
+.about-us .text {
+    width: 60%;
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #333;
+    text-align: left; /* Alinha o texto à esquerda */
+}
+
+.about-us .image img {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 15px; /* Bordas arredondadas suaves */
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.about-us .image img:hover {
+    transform: scale(1.05); /* Zoom sutil ao passar o mouse */
+}
+
+/* Estilo específico para a seção "Nossos Serviços" */
+.services {
+    text-align: center;
+}
+
+.service-list {
+    display: flex;
+    justify-content: center;
+    gap: 40px; /* Espaçamento generoso entre os serviços */
+    flex-wrap: wrap;
+}
+
+.service-item {
+    background-color: #f9f9f9; /* Fundo claro e limpo */
+    padding: 30px;
+    border-radius: 15px; /* Bordas arredondadas suaves */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06); /* Sombra muito leve */
+    width: 250px; /* Largura fixa para consistência */
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-item:hover {
+    transform: translateY(-10px); /* Elevação sutil ao passar o mouse */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); /* Sombra mais pronunciada */
+}
+
+.service-item img {
+    width: 80px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.service-item h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.service-item p {
+    font-size: 0.9rem;
+    color: #777;
+}
+
+/* Estilo específico para a seção "Fale Conosco" */
+.contact {
+    text-align: center;
+}
+
+.contact ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.contact ul li {
+    font-size: 1rem;
+    margin-bottom: 15px;
+    color: #555;
+}
+
+.contact ul li strong {
+    color: #333; /* Destaca os rótulos (ex.: Endereço, Telefone) */
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    section h2 {
+        font-size: 1.8rem; /* Reduz o tamanho do título */
+    }
+
+    section p {
+        font-size: 0.9rem; /* Reduz o tamanho do parágrafo */
+    }
+
+    .about-us {
+        flex-direction: column; /* Coloca o texto e a imagem em coluna */
+        align-items: center;
+        text-align: center;
+    }
+
+    .about-us .text {
+        width: 100%; /* Faz o texto ocupar toda a largura */
+    }
+
+    .service-list {
+        gap: 20px; /* Reduz o espaçamento entre os itens */
+    }
+
+    .service-item {
+        width: 100%; /* Faz os serviços ocuparem toda a largura */
+        padding: 20px;
+    }
 }

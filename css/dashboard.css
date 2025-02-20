@@ -1,7 +1,7 @@
 /* Estilo geral do body */
 body {
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif; /* Fonte padrão */
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 /* Estilo do conteúdo principal */
@@ -11,10 +11,11 @@ body {
     margin-top: 60px; /* Garante que o conteúdo comece abaixo da navbar superior */
 }
 
+/* Contêiner principal da Dashboard */
 .dashboard-container {
-    margin-left: 220px; /* Espaço para a navbar lateral */
+    margin-left: 220px;
     padding: 20px;
-    margin-top: 60px; /* Garante que o conteúdo principal comece abaixo da navbar */
+    margin-top: 60px;
 }
 
 .dashboard-container h1 {
@@ -29,12 +30,13 @@ body {
     color: #666;
 }
 
-/* Caixa de resumo (cards) */
+/* Estilo dos cartões da dashboard */
 .dashboard-cards {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     margin-top: 20px;
+    justify-content: center; /* Centraliza os cartões */
 }
 
 .dashboard-card {
@@ -43,7 +45,7 @@ body {
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    width: calc(33.333% - 20px); /* Divide em três colunas */
+    width: calc(33.333% - 20px);
     box-sizing: border-box;
     transition: transform 0.3s, box-shadow 0.3s;
 }
@@ -119,70 +121,68 @@ body {
     font-size: 14px;
 }
 
-/* Responsividade */
+/* Contêiner do gráfico */
+#chartContainer {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Gráfico responsivo - esticado em desktop */
+#weeklyChart {
+    width: 100% !important; /* Ocupa toda a largura disponível */
+    height: 400px !important;
+    max-width: 100%;
+}
+
+/* Ajuste do gráfico para telas médias (tablets) */
+@media (max-width: 1024px) {
+    #weeklyChart {
+        width: 90% !important; /* Mantém um pequeno espaçamento */
+    }
+}
+
+/* Ajuste do gráfico para telas menores */
 @media (max-width: 768px) {
-    .sidebar {
-        width: 180px; /* Ajusta a largura da sidebar em telas menores */
-    }
-
-    .content {
-        margin-left: 180px; /* Ajusta o conteúdo */
-    }
-
-    header {
-        left: 180px; /* Ajusta o header */
+    #weeklyChart {
+        width: 100% !important;
+        height: 300px !important;
     }
 }
 
 @media (max-width: 480px) {
-    .sidebar {
-        width: 100%; /* Sidebar ocupa 100% da largura */
-        height: auto; /* Ajusta a altura */
+    #weeklyChart {
+        width: 100% !important;
+        height: 250px !important;
     }
-
-    .content {
-        margin-left: 0; /* Remove margem lateral em telas muito pequenas */
-    }
-
-    header {
-        left: 0; /* Remove a margem esquerda no cabeçalho */
-    }
-}
-
-/* Contêiner do gráfico */
-#chartContainer {
-    width: 100%;
-    height: 400px; /* Altura do gráfico */
-    margin-bottom: 20px; /* Espaçamento entre o gráfico e os cartões */
-}
-
-/* Ajustes adicionais para garantir que o gráfico ocupe toda a largura */
-#weeklyChart {
-    width: 100% !important; /* Força a largura para 100% */
-    height: 400px; /* Altura fixa */
-    max-width: 100%; /* Impede que o gráfico ultrapasse a largura da página */
-    margin: 0 auto; /* Centraliza o gráfico se necessário */
 }
 
 /* Cartões de informação */
 .info-cards {
     display: flex;
-    justify-content: flex-end; /* Alinha os cartões à direita */
-    gap: 15px; /* Espaço entre os cartões */
-    margin-top: 20px; /* Espaçamento entre o gráfico e os cartões */
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
     width: 100%;
-    max-width: 90%; /* Garante que os cartões não saiam da tela */
+    max-width: 90%;
     padding-right: 10px;
+    flex-wrap: wrap;
 }
 
 .info-card {
-    width: 22%; /* Reduz a largura dos cartões */
-    padding: 10px;
+    flex: 1;
+    max-width: 300px;
+    padding: 20px;
     background-color: #f4f4f4;
     border: 1px solid #ddd;
     border-radius: 8px;
     text-align: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
 }
 
 .info-card h3 {
@@ -196,6 +196,23 @@ body {
     color: #333;
 }
 
+/* Responsividade */
+@media (max-width: 1024px) {
+    .dashboard-container,
+    .content {
+        margin-left: 0;
+        padding: 10px;
+    }
+
+    .dashboard-cards {
+        justify-content: center;
+    }
+
+    .dashboard-card {
+        width: calc(50% - 20px);
+    }
+}
+
 @media (max-width: 768px) {
     .info-cards {
         flex-direction: column;
@@ -203,6 +220,11 @@ body {
     }
 
     .info-card {
-        width: 100%; /* Cartões ocupam toda a largura em telas menores */
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .dashboard-card {
+        width: 100%;
     }
 }

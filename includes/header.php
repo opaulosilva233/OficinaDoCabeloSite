@@ -23,16 +23,14 @@
                 <span></span>
             </div>
             <!-- Menu -->
-            <ul id="menu">
+            <ul id="menu" class="menu">
                 <li><a href="index.php">Início</a></li>
                 <li><a href="sobre.php">Sobre Nós</a></li>
-                <li><a href="contacto.php">Contato</a></li>
+                <li><a href="contacto.php">Contactos</a></li>
                 <li><a href="marcacoes.php">Marcações</a></li>
-                <li><a href="login.php">Login</a></li>
             </ul>
         </nav>
     </header>
-
     <!-- Inclusão do script JS -->
     <script src="js/navMenu.js"></script>
 </body>

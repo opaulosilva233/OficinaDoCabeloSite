@@ -2,16 +2,17 @@
 header {
     background: #2b2b2b; /* Preto com um toque de cinza */
     color: #d4a373; /* Dourado suave */
-    padding: 10px 0;
+    padding: 10px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 20px;
     font-family: Arial, Helvetica, sans-serif;
     position: relative; /* Garante que o menu seja posicionado de forma absoluta em relação ao header */
     z-index: 1; /* Garante que o header fique acima de outros elementos */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Sombra para dar profundidade */
 }
 
+/* Logo */
 .logo {
     display: flex;
     align-items: center;
@@ -33,11 +34,12 @@ header {
     transform: scale(1.1); /* Aumenta a imagem em 10% */
 }
 
+/* Navbar */
 nav ul {
     list-style: none;
     display: flex;
     margin: 0;
-    padding: 15px;
+    padding: 0;
 }
 
 nav ul li {
@@ -49,11 +51,12 @@ nav ul li a {
     text-decoration: none;
     padding: 10px 15px;
     border-radius: 5px;
-    transition: background 0.3s;
+    transition: background 0.3s, color 0.3s;
 }
 
 nav ul li a:hover {
     background: #3e3e3e; /* Cinza escuro ao passar o mouse */
+    color: #d4a373; /* Mantém a cor dourada */
 }
 
 /* Estilo do menu hamburger */
@@ -61,33 +64,40 @@ nav ul li a:hover {
     display: none; /* Esconde o hamburger por padrão */
     flex-direction: column;
     cursor: pointer;
+    margin-left: 10px;
 }
 
 .hamburger span {
     width: 25px;
     height: 3px;
-    background-color: #d4a373;
+    background-color: #d4a373; /* Dourado suave */
     margin: 4px 0;
     transition: 0.3s;
 }
 
 /* Responsividade */
 @media (max-width: 768px) {
-    /* O menu começa oculto */
+    /* Oculta o menu principal */
     nav ul {
         display: none; /* Esconde o menu */
         flex-direction: column;
         align-items: center;
-        padding: 0;
+        padding: 20px 0;
         width: 100%; /* O menu ocupa toda a largura da tela */
-        background: #2b2b2b;
+        background: #2b2b2b; /* Mesma cor de fundo da navbar */
         position: absolute; /* Faz o menu se sobrepor ao conteúdo */
         top: 100%; /* Coloca o menu logo abaixo da navbar */
         left: 0;
         z-index: 9999; /* Assegura que o menu fique acima de outros conteúdos */
         opacity: 0; /* Inicialmente o menu está invisível */
-        transform: translateY(-50px); /* O menu começa ligeiramente deslocado para cima */
-        transition: opacity 0.9s ease, transform 0.9s ease; /* Animação suave */
+        transform: translateY(-10px); /* Deslocamento inicial para cima */
+        transition: opacity 0.3s ease, transform 0.3s ease; /* Animação suave */
+    }
+
+    nav ul.show {
+        display: flex; /* Exibe o menu */
+        opacity: 1; /* Torna o menu visível */
+        transform: translateY(0); /* Posiciona o menu corretamente */
     }
 
     nav ul li {
@@ -99,10 +109,16 @@ nav ul li a:hover {
         display: flex;
     }
 
-    /* Quando a classe 'show' for adicionada ao menu, ele desce com animação */
-    nav ul.show {
-        display: flex; /* Exibe o menu */
-        opacity: 1; /* Torna o menu visível */
-        transform: translateY(0); /* O menu desce para sua posição final */
+    /* Efeito de animação ao clicar no hamburger */
+    .hamburger.active span:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 6px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
     }
 }

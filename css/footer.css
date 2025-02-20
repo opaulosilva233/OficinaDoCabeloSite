@@ -1,51 +1,89 @@
+/* Estilização Geral */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Faz com que o body ocupe toda a altura da janela */
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+main {
+    flex-grow: 1; /* Garante que o conteúdo principal ocupe todo o espaço disponível */
+}
+
 /* Estilização do Footer */
 footer {
     background: #2b2b2b; /* Cinza escuro para um visual elegante */
     color: #d4a373; /* Dourado suave para o texto */
     padding: 20px 0;
     text-align: center;
-    font-family: Arial, Helvetica, sans-serif;
     position: relative;
-    bottom: 0;  /* Garante que o footer fique no fundo */
+    bottom: 0; /* Garante que o footer fique no fundo */
     width: 100%;
 }
 
-.footer-bottom {
-    margin-top: 10px;
-}
-
-.footer-content {
+.footer-container {
     max-width: 1200px;
     margin: auto;
     padding: 0 20px;
+    display: flex;
+    flex-wrap: wrap; /* Permite que os elementos se adaptem em telas menores */
+    justify-content: space-between;
+    align-items: center;
 }
 
-.footer-content p {
+.footer-section {
+    flex: 1;
+    margin: 10px;
+    text-align: left; /* Alinha o texto à esquerda nas seções */
+}
+
+.footer-section h4 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #ffffff; /* Alteração para branco */
+    font-weight: bold; /* Destaca os títulos */
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-section li {
     margin: 5px 0;
 }
 
-.social-media {
-    margin: 10px 0;
-}
-
-.social-media a {
-    color: #d4a373; /* Dourado suave para os ícones de mídia social */
+.footer-section a {
+    color: #d4a373; /* Dourado suave para os links */
     text-decoration: none;
-    margin: 0 10px;
-    transition: color 0.3s;
+    transition: color 0.3s ease;
 }
 
-.social-media a:hover {
+.footer-section a:hover {
     color: #b5855f; /* Tom de cobre mais escuro ao passar o mouse */
 }
 
-/* Garantir que o footer fique no fundo da página */
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* Faz com que o body ocupe toda a altura da janela */
+.social-media a {
+    margin: 0 5px;
 }
 
-main {
-    flex-grow: 1; /* Garante que o conteúdo principal ocupe todo o espaço disponível */
+.footer-bottom {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-section {
+        text-align: center;
+        margin: 10px 0;
+    }
 }
