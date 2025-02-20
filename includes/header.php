@@ -26,7 +26,7 @@
             <ul id="menu" class="menu">
                 <li><a href="index.php">Início</a></li>
                 <li><a href="sobre.php">Sobre Nós</a></li>
-                <li><a href="contacto.php">Contato</a></li>
+                <li><a href="contacto.php">Contactos</a></li>
                 <li><a href="marcacoes.php">Marcações</a></li>
             </ul>
         </nav>
