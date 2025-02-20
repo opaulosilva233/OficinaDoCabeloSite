@@ -1,14 +1,12 @@
 <?php include('includes/header.php'); ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sobre</title>
-    <link rel="stylesheet" href="/css/sobre.css">
+    <link rel="stylesheet" href="./css/sobre.css">
 </head>
-
 <main>
     <!-- Seção de resumo da barbearia -->
     <section class="about">
@@ -17,14 +15,13 @@
                 <h1>Sobre Nós</h1>
             </div>
             <div class="section-content">
-                <p>Bem-vindo à nossa barbearia! Há anos, temos o orgulho de oferecer cortes de cabelo e cuidados com a barba de alta qualidade. Nossa missão é criar um ambiente acolhedor, onde você possa relaxar e sair se sentindo incrível.</p>
+                <p>A Oficina do Cabelo, localizada em Ermesinde, é mais do que uma barbearia: é um espaço onde estilo e tradição se encontram. Desde 2015, oferecemos cortes personalizados, cuidados com a barba e um ambiente acolhedor para nossos clientes. Venha nos visitar e experimente o verdadeiro espírito da barbearia moderna!</p>
             </div>
         </div>
         <div class="image">
             <img src="/img/Space.png" alt="Imagem da Barbearia">
         </div>
     </section>
-
     <!-- Seção dos barbeiros -->
     <section class="barbers">
         <div class="section-title">
@@ -38,7 +35,6 @@
                 </a>
                 <h3>Bruno Martins</h3>
             </div>
-
             <!-- Barbeiro 2 -->
             <div class="barber">
                 <a href="#" class="barber-link" data-barber="barber2">
@@ -48,7 +44,6 @@
             </div>
         </div>
     </section>
-
     <!-- Modal de sobreposição -->
     <div id="barber-modal" class="modal">
         <div class="modal-content">
@@ -59,8 +54,6 @@
         </div>
     </div>
 </main>
-
 <?php include('includes/footer.php'); ?>
-
-<script src="/js/sobre-nos.js"></script>
+<script src="./js/sobre-nos.js"></script>
 </html>

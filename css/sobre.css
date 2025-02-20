@@ -21,7 +21,6 @@ main {
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-
     /* Animação de zoom-in */
     opacity: 0; /* Inicialmente invisível */
     animation: zoomIn 1s ease-out forwards; /* Aplica a animação */
@@ -84,12 +83,34 @@ main {
     height: 200px;
     object-fit: cover;
     border-radius: 10px;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, filter 0.3s ease;
     cursor: pointer;
+    position: relative; /* Permite posicionar o ícone do Instagram */
 }
 
 .barber img:hover {
-    transform: scale(1.05);
+    transform: scale(1.05); /* Zoom sutil ao passar o mouse */
+    filter: brightness(0.9); /* Escurece ligeiramente para destacar o ícone */
+}
+
+/* Ícone do Instagram sobre a imagem */
+.barber img::after {
+    content: "📸 Instagram"; /* Texto ou ícone para indicar o link */
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7); /* Fundo semi-transparente */
+    color: #fff; /* Cor do texto */
+    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    opacity: 0; /* Inicialmente invisível */
+    transition: opacity 0.3s ease; /* Animação de fade-in */
+}
+
+.barber img:hover::after {
+    opacity: 1; /* Torna o ícone visível ao passar o mouse */
 }
 
 .barber h3 {

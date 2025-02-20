@@ -1,18 +1,21 @@
-// js/sobre-nos.js
 document.addEventListener("DOMContentLoaded", function () {
     const modal = document.getElementById("barber-modal");
     const modalContent = modal.querySelector(".modal-text");
     const closeBtn = modal.querySelector(".close");
 
-    // Dados dos barbeiros
+    // Dados dos barbeiros com links do Instagram
     const barbersInfo = {
         barber1: {
             name: "Bruno Martins",
-            description: "João é um barbeiro experiente com mais de 10 anos no mercado. Especialista em cortes modernos e barbas personalizadas.",
+            description: "Bruno é um barbeiro talentoso com mais de 8 anos de experiência. Especialista em cortes modernos e cuidados com a barba, ele transforma cada visita em uma experiência única.",
+            instagram: "https://www.instagram.com/brunomartins_barber", // Link do Instagram
+            image: "/img/BBarber.png", // Imagem do barbeiro
         },
         barber2: {
             name: "Hugo Alves",
-            description: "Pedro é conhecido por sua habilidade em criar estilos clássicos e modernos. Um profissional dedicado e detalhista.",
+            description: "Hugo é conhecido por sua criatividade e atenção aos detalhes. Com habilidades que combinam técnicas clássicas e modernas, ele garante resultados impecáveis para seus clientes.",
+            instagram: "https://www.instagram.com/hugoalves_barber", // Link do Instagram
+            image: "/img/HBarber.png", // Imagem do barbeiro
         },
     };
 
@@ -22,8 +25,14 @@ document.addEventListener("DOMContentLoaded", function () {
             e.preventDefault();
             const barberKey = link.dataset.barber;
             if (barbersInfo[barberKey]) {
-                const { name, description } = barbersInfo[barberKey];
-                modalContent.innerHTML = `<h2>${name}</h2><p>${description}</p>`;
+                const { name, description, instagram, image } = barbersInfo[barberKey];
+                modalContent.innerHTML = `
+                    <h2>${name}</h2>
+                    <p>${description}</p>
+                    <a href="${instagram}" target="_blank" rel="noopener noreferrer">
+                        <img src="${image}" alt="${name}" style="width: 150px; border-radius: 15px; margin-top: 20px; cursor: pointer;">
+                    </a>
+                `;
                 modal.style.display = "flex";
             }
         });
