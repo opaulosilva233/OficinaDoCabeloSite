@@ -3,103 +3,130 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f9f9f9;
-    color: #333;
+    background-color: #f9f9f9; /* Fundo claro e limpo */
+    color: #333; /* Cor padrão do texto */
+    line-height: 1.6; /* Espaçamento entre linhas confortável */
+}
+
+main {
+    padding: 40px 20px; /* Espaçamento maior para dar ar de "respiração" */
+    max-width: 1200px; /* Limita a largura máxima do conteúdo */
+    margin: 0 auto; /* Centraliza o conteúdo */
 }
 
 /* Container principal */
-.main-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f9f9f9;
-    padding: 20px;
-}
-
-/* Caixa de contacto */
 .contacts {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     max-width: 1200px; /* Largura máxima para o container */
-    margin: 20px auto 0; /* Espaçamento de 20px entre a navbar e o container */
-    padding: 30px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    
-    /* Animação de zoom-in */
+    margin: 40px auto; /* Espaçamento generoso acima e abaixo */
+    padding: 40px;
+    background-color: white; /* Fundo branco para contraste */
+    border-radius: 15px; /* Bordas arredondadas suaves */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08); /* Sombra leve para destaque */
     opacity: 0; /* Inicialmente invisível */
-    animation: zoomIn 1s ease-out forwards; /* Aplica a animação */
+    animation: fadeInUp 1s ease-out forwards; /* Animação de entrada suave */
 }
 
-/* Animação de zoom-in */
-@keyframes zoomIn {
+/* Animação de entrada (fadeInUp) */
+@keyframes fadeInUp {
     0% {
         opacity: 0;
-        transform: scale(0.8); /* Começa com um tamanho menor */
+        transform: translateY(20px); /* Começa ligeiramente abaixo */
     }
     100% {
         opacity: 1;
-        transform: scale(1); /* Chega ao tamanho normal */
+        transform: translateY(0); /* Move para a posição final */
     }
 }
 
-/* Informações de contacto */
+/* Informações de contato */
 .contact-info {
     flex: 1;
-    margin-right: 20px;
+    margin-right: 40px; /* Espaçamento maior entre o texto e o mapa */
     text-align: left;
 }
 
-/* Título */
 .contact-info h1 {
-    font-size: 28px;
-    color: #2b2b2b;
+    font-size: 2rem; /* Tamanho grande, mas não exagerado */
     margin-bottom: 20px;
+    color: #d4a373; /* Cor de destaque sofisticada */
     font-weight: bold;
 }
 
-/* Texto de contacto */
 .contact-info p {
-    font-size: 18px;
-    color: #555;
+    font-size: 1rem; /* Tamanho padrão para parágrafos */
+    color: #555; /* Cor neutra para o texto */
     margin-bottom: 20px;
-    line-height: 1.5;
+    line-height: 1.8; /* Espaçamento confortável entre linhas */
 }
 
 /* Redes sociais */
 .social-links {
-    list-style-type: none;
+    list-style: none;
     padding: 0;
+    margin-top: 20px;
+    display: flex;
+    gap: 15px; /* Espaçamento consistente entre os ícones */
 }
 
 .social-links li {
     display: inline-block;
-    margin-right: 10px;
 }
 
 .social-links a {
     text-decoration: none;
+    transition: transform 0.3s ease; /* Efeito de crescimento ao passar o mouse */
 }
 
 .social-links img {
-    width: 30px;
-    height: 30px;
+    width: 35px; /* Tamanho maior para os ícones */
+    height: 35px;
+    transition: transform 0.3s ease; /* Efeito de crescimento ao passar o mouse */
+}
+
+.social-links a:hover img {
+    transform: scale(1.1); /* Zoom sutil ao passar o mouse */
 }
 
 /* Mapa */
 .map-container {
     flex: 1;
-    max-width: 500px; /* Largura do mapa */
-    height: 400px; /* Altura do mapa */
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 700px; /* Aumenta a largura máxima do mapa */
+    height: 400px; /* Mantém a altura fixa */
+    border-radius: 15px; /* Bordas arredondadas suaves */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08); /* Sombra leve para destaque */
     overflow: hidden;
+    margin-left: 40px; /* Espaçamento maior entre o mapa e o texto */
 }
 
 .map-container iframe {
     width: 100%;
     height: 100%;
+    border: none; /* Remove bordas indesejadas */
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .contacts {
+        flex-direction: column; /* Coloca o texto e o mapa em coluna */
+        align-items: center;
+        text-align: center;
+    }
+
+    .contact-info {
+        margin-right: 0; /* Remove o espaçamento lateral */
+        margin-bottom: 30px; /* Adiciona espaçamento abaixo do texto */
+    }
+
+    .map-container {
+        margin-left: 0; /* Remove o espaçamento lateral */
+        max-width: 100%; /* Faz o mapa ocupar toda a largura disponível */
+        height: 400px; /* Mantém a altura fixa */
+    }
+
+    .social-links {
+        justify-content: center; /* Centraliza os ícones das redes sociais */
+    }
 }

@@ -342,10 +342,13 @@ section .button:hover {
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); /* Sombra mais pronunciada */
 }
 
+/* Ajuste para as imagens nos serviços */
 .service-item img {
-    width: 80px;
-    height: auto;
+    width: 200px; /* Tamanho da imagem */
+    height: auto; /* Mantém a proporção */
     margin-bottom: 20px;
+    border-radius: 15px; /* Cantos arredondados suaves */
+    transition: transform 0.3s ease;
 }
 
 .service-item h3 {

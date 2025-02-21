@@ -15,9 +15,9 @@
     <section class="contacts">
         <div class="contact-info">
             <h1>Contactos</h1>
-            <p><strong>Email:</strong> barbeariaexemplo@email.com</p>
+            <p><strong>Email:</strong> oficinadocabelo@gmail.com</p>
             <p><strong>Telefone:</strong> +351 912 345 678</p>
-            <p><strong>Morada:</strong> Rua Exemplo, 123, Lisboa, Portugal</p>
+            <p><strong>Morada:</strong> R. Eng. Armando de Magalhães 257, 4445-416 Ermesinde</p>
             <p><strong>Redes Sociais:</strong></p>
             <ul class="social-links">
                 <li>

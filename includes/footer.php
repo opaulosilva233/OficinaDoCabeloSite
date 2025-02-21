@@ -27,7 +27,7 @@
         <div class="footer-section login">
             <h4>Login</h4>
             <ul>
-                <li><a href="login_barbeiros.php">Área dos Barbeiros</a></li>
+                <li><a href="login.php">Área dos Barbeiros</a></li>
             </ul>
         </div>
         <div class="footer-bottom">

@@ -4,11 +4,15 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background-color: #f9f9f9;
+    background-color: #f9f9f9; /* Fundo claro e limpo */
+    color: #333; /* Cor padrão do texto */
+    line-height: 1.6; /* Espaçamento entre linhas confortável */
 }
 
 main {
-    padding: 20px;
+    padding: 40px 20px; /* Espaçamento maior para dar ar de "respiração" */
+    max-width: 1200px; /* Limita a largura máxima do conteúdo */
+    margin: 0 auto; /* Centraliza o conteúdo */
 }
 
 /* Seção de resumo */
@@ -16,91 +20,125 @@ main {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 50px;
-    padding: 20px;
+    margin-bottom: 60px;
+    padding: 40px;
     background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-
-    /* Animação de zoom-in */
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08); /* Sombra leve para destaque */
     opacity: 0; /* Inicialmente invisível */
-    animation: zoomIn 1s ease-out forwards; /* Aplica a animação */
+    animation: fadeInUp 1s ease-out forwards; /* Animação de entrada suave */
 }
 
-/* Animação de zoom-in */
-@keyframes zoomIn {
+/* Animação de entrada (fadeInUp) */
+@keyframes fadeInUp {
     0% {
         opacity: 0;
-        transform: scale(0.8); /* Começa com um tamanho menor */
+        transform: translateY(20px); /* Começa ligeiramente abaixo */
     }
     100% {
         opacity: 1;
-        transform: scale(1); /* Chega ao tamanho normal */
+        transform: translateY(0); /* Move para a posição final */
     }
 }
 
 /* Texto da seção "sobre" */
 .about .text {
-    width: 60%;
-    font-size: 16px;
-    line-height: 1.6;
+    width: 55%; /* Ajuste para melhor proporção */
+    font-size: 1rem;
+    line-height: 1.8;
     color: #333;
+    text-align: left;
 }
 
 .about .image img {
     width: 100%;
-    max-width: 400px;
-    border-radius: 10px;
+    max-width: 450px; /* Aumenta a largura máxima da imagem */
+    border-radius: 15px; /* Bordas arredondadas suaves */
     object-fit: cover;
+    transition: transform 0.3s ease; /* Efeito de zoom */
+    cursor: pointer;
+}
+
+.about .image img:hover {
+    transform: scale(1.05); /* Zoom sutil ao passar o mouse */
 }
 
 /* Seção dos barbeiros */
 .barbers {
     text-align: center;
-    margin-top: 50px;
+    margin-top: 60px;
     opacity: 0;
-    animation: zoomIn 1s ease-out forwards;
+    animation: fadeInUp 1s ease-out forwards;
 }
 
 .barbers h2 {
-    font-size: 28px;
-    margin-bottom: 20px;
-    color: #d4a373;
+    font-size: 2rem;
+    margin-bottom: 30px;
+    color: #d4a373; /* Cor de destaque sofisticada */
 }
 
 .barbers-grid {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 40px;
+    flex-wrap: wrap;
 }
 
 .barber {
     text-align: center;
-    max-width: 200px;
+    max-width: 220px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Efeito de elevação */
+}
+
+.barber:hover {
+    transform: translateY(-10px); /* Elevação sutil ao passar o mouse */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); /* Sombra mais pronunciada */
 }
 
 .barber img {
     width: 100%;
-    height: 200px;
+    height: 220px;
     object-fit: cover;
-    border-radius: 10px;
-    transition: transform 0.3s ease;
+    border-radius: 15px;
+    transition: transform 0.3s ease, filter 0.3s ease;
     cursor: pointer;
+    position: relative;
 }
 
 .barber img:hover {
     transform: scale(1.05);
+    filter: brightness(0.9);
+}
+
+/* Ícone do Instagram sobre a imagem */
+.barber img::after {
+    content: "📸 Instagram"; /* Texto ou ícone para indicar o link */
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.barber img:hover::after {
+    opacity: 1;
 }
 
 .barber h3 {
-    margin-top: 10px;
-    font-size: 18px;
+    margin-top: 15px;
+    font-size: 1.1rem;
     color: #333;
 }
 
 /* Modal de sobreposição */
 .modal {
-    display: none; /* Esconde por padrão */
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -114,40 +152,113 @@ main {
 
 .modal-content {
     background: white;
-    padding: 20px;
-    border-radius: 10px;
-    max-width: 500px;
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 550px;
     text-align: center;
     position: relative;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Sombra mais pronunciada */
 }
 
 .modal-content .close {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 24px;
+    top: 15px;
+    right: 15px;
+    font-size: 28px;
     font-weight: bold;
     cursor: pointer;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.modal-content .close:hover {
+    color: #d4a373; /* Cor de destaque ao passar o mouse */
 }
 
 .modal-content .modal-text {
     margin-top: 20px;
-    font-size: 16px;
+    font-size: 1rem;
     color: #333;
+}
+
+/* Estilo da imagem no modal */
+.modal-content .modal-text img {
+    width: 180px;
+    height: auto;
+    border-radius: 15px;
+    margin-top: 20px;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.modal-content .modal-text img:hover {
+    transform: scale(1.05);
+    filter: brightness(0.9);
+}
+
+/* Ícone do Instagram sempre visível sobre a imagem */
+.modal-content .modal-text img::after {
+    content: "📸";
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.modal-content .modal-text img:hover::after {
+    background-color: rgba(0, 0, 0, 0.9);
 }
 
 /* Estilização de botões */
 button {
-    background-color: #007BFF;
+    background-color: #d4a373; /* Usa a cor de destaque para botões */
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1rem;
     cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #b88c5f; /* Escurece ligeiramente ao passar o mouse */
+    transform: scale(1.05); /* Efeito de crescimento sutil */
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .about {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .about .text {
+        width: 100%;
+    }
+
+    .barbers-grid {
+        gap: 20px;
+    }
+
+    .barber {
+        max-width: 100%;
+    }
+
+    .modal-content {
+        padding: 20px;
+    }
+
+    .modal-content .modal-text img {
+        width: 150px;
+    }
 }
