@@ -51,7 +51,7 @@ main {
 .contact-info h1 {
     font-size: 2rem; /* Tamanho grande, mas não exagerado */
     margin-bottom: 20px;
-    color: #d4a373; /* Cor de destaque sofisticada */
+    color: #333; /* Cor de destaque sofisticada */
     font-weight: bold;
 }
 

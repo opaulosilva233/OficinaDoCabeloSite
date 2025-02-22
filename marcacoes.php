@@ -7,10 +7,11 @@
     <link rel="stylesheet" href="/css/marcacoes.css">
     <link rel="icon" href="img/logotipo2.png" type="image/x-icon">
     <script src="/js/marcacao.js" defer></script>
+    <?php include('includes/header.php'); ?>
 </head>
 <body>
     <header>
-        <?php include('includes/header.php'); ?>
+    
     </header>
     <main>
         <section class="appointment-section">
