@@ -1,15 +1,12 @@
 <?php
 session_start();
-
-// Verifica se o utilizador está logado
+// Verifica se o utilizador está autenticado
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
-    header("Location: login.php"); // Redireciona para o login caso o utilizador não esteja logado
+    header("Location: login.php"); // Redireciona para a página de login caso o utilizador não esteja autenticado
     exit();
 }
-
-// Inclui o arquivo de conexão com o banco de dados
-require_once 'includes/db.php';
-
+// Inclui o arquivo de ligação à base de dados
+require_once './includes/db.php';
 try {
     // Consulta para obter o resumo diário
     $query_daily = "
@@ -37,27 +34,24 @@ try {
     $result_weekly = $pdo->query($query_weekly); // Usando $pdo aqui
     $weekly_summary = $result_weekly->fetch(PDO::FETCH_ASSOC);
 } catch (Exception $e) {
-    die("Erro ao consultar o banco de dados: " . $e->getMessage());
+    die("Erro ao consultar a base de dados: " . $e->getMessage());
 }
 ?>
-
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <!-- Link para o CSS da Dashboard -->
-    <link rel="stylesheet" href="css/dashboard.css"> <!-- Substitua pelo caminho correto -->
+    <link rel="stylesheet" href="./css/dashboard.css"> <!-- Substitua pelo caminho correto -->
     <!-- Incluindo o Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <?php include('includes/navbarLateral.php'); ?>
+    <?php include('./includes/navbarLateral.php'); ?>
 </head>
 <body>
-
 <!-- Layout principal -->
 <div class="dashboard-container">
-
     <!-- Resumo Diário -->
     <section class="summary">
         <h2>Resumo Diário</h2>
@@ -78,7 +72,6 @@ try {
             <p><?php echo $daily_summary['canceled_bookings'] ?? 0; ?></p>
         </div>
     </section>
-
     <!-- Resumo Semanal -->
     <section class="summary">
         <h2>Resumo Semanal</h2>
@@ -99,7 +92,6 @@ try {
             <p><?php echo $weekly_summary['canceled_bookings'] ?? 0; ?></p>
         </div>
     </section>
-
     <!-- Conteúdo principal -->
     <main class="main-content">
         <h1>Marcações Semanais</h1>
@@ -109,8 +101,7 @@ try {
         </div>
     </main>
 </div>
-
 <!-- Script para gerar o gráfico -->
-<script src="/js/chartScript.js"></script> <!-- Arquivo JS separado -->
+<script src="./js/chartScript.js"></script> <!-- Arquivo JS separado -->
 </body>
 </html>

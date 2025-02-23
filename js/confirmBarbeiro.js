@@ -11,11 +11,9 @@ function abrirModal(id, estado) {
     // Define as variáveis globais com os valores passados
     currentId = id;
     currentEstado = estado;
-
     // Atualiza a mensagem do modal com base no estado
     const modalMessage = document.getElementById('modal-message');
-    modalMessage.innerText = `Tem certeza que deseja marcar esta marcação como ${estado}?`;
-
+    modalMessage.innerText = `Tem a certeza de que deseja marcar esta marcação como ${estado}?`;
     // Exibe o modal
     const modal = document.getElementById('myModal');
     modal.style.display = 'block';
@@ -48,7 +46,6 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Tabela não encontrada. Verifique o ID 'appointmentsTable'.");
         return;
     }
-
     const headers = table.querySelectorAll("th");
     let currentSortColumn = null;
     let isAscending = true;
@@ -64,31 +61,26 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error("Corpo da tabela (tbody) não encontrado.");
             return;
         }
-
         const rows = Array.from(tbody.querySelectorAll("tr"));
-
         // Função para extrair o valor da célula
         const getValue = (row, index) => {
             const cell = row.children[index];
             return cell.innerText.trim();
         };
-
         // Ordenar as linhas
         rows.sort((a, b) => {
             const aValue = getValue(a, columnIndex);
             const bValue = getValue(b, columnIndex);
-
             // Verificar se é número ou texto
             const isNumber = !isNaN(aValue) && !isNaN(bValue);
             if (isNumber) {
                 return isAscending ? aValue - bValue : bValue - aValue;
             } else {
                 return isAscending
-                    ? aValue.localeCompare(bValue)
-                    : bValue.localeCompare(aValue);
+                    ? aValue.localeCompare(bValue, 'pt-PT') // Utiliza localeCompare com 'pt-PT'
+                    : bValue.localeCompare(aValue, 'pt-PT');
             }
         });
-
         // Limpar e reordenar as linhas na tabela
         while (tbody.firstChild) {
             tbody.removeChild(tbody.firstChild);
@@ -103,13 +95,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 const isSameColumn = currentSortColumn === index;
                 isAscending = isSameColumn ? !isAscending : true;
                 currentSortColumn = index;
-
                 // Remover classe de ordenação de todos os cabeçalhos
                 headers.forEach(h => h.classList.remove("sort-asc", "sort-desc"));
-
                 // Adicionar classe de ordenação ao cabeçalho clicado
                 header.classList.add(isAscending ? "sort-asc" : "sort-desc");
-
                 // Ordenar a tabela
                 sortTable(index, isAscending);
             });

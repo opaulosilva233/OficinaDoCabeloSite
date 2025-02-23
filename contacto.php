@@ -1,17 +1,16 @@
-<?php include('includes/header.php'); ?>
+<?php include('./includes/header.php'); ?>
 <link rel="stylesheet" href="/css/contacto.css">
-
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contactos</title>
     <link rel="stylesheet" href="/css/contacto.css">
 </head>
-
+<body>
 <main>
-    <!-- Seção de Contatos -->
+    <!-- Seção de Contactos -->
     <section class="contacts">
         <div class="contact-info">
             <h1>Contactos</h1>
@@ -45,5 +44,4 @@
         </div>
     </section>
 </main>
-
-<?php include('includes/footer.php'); ?>
+<?php include('./includes/footer.php'); ?>

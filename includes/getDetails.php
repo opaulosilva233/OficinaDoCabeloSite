@@ -1,5 +1,5 @@
 <?php
-include 'db.php';
+include './db.php'; // Caminho atualizado com './'
 
 $id = $_GET['id'];
 
@@ -26,8 +26,8 @@ try {
     $marcacao = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$marcacao) {
-        http_response_code(404);
-        echo json_encode(['error' => 'Marcação não encontrada']);
+        http_response_code(404); // Define o código de resposta HTTP para "Não Encontrado"
+        echo json_encode(['error' => 'Marcação não encontrada']); // Mensagem de erro em português
         exit;
     }
 
@@ -73,8 +73,8 @@ try {
         'total_marcacoes' => $totalMarcacoes,
         'ultimas_marcacoes' => $ultimasMarcacoes // Últimas 5 marcações
     ]);
+
 } catch (Exception $e) {
-    http_response_code(500);
-    echo json_encode(['error' => 'Erro ao buscar dados: ' . $e->getMessage()]);
+    http_response_code(500); // Define o código de resposta HTTP para "Erro Interno do Servidor"
+    echo json_encode(['error' => 'Ocorreu um erro ao obter os dados: ' . $e->getMessage()]); // Mensagem de erro em português
 }
-?>

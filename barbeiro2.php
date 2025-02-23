@@ -1,13 +1,12 @@
 <?php
-// Incluir a conexão com a base de dados
+// Incluir a ligação à base de dados
 include './includes/db.php';
-
 try {
     // Obtém a data e hora atuais
     $data_atual = date('Y-m-d');
     $hora_atual = date('H:i:s');
 
-    // Consulta para buscar as marcações futuras do barbeiro Bruno Martins
+    // Consulta para buscar as marcações futuras do barbeiro Hugo Alves
     $sql_futuras = "
         SELECT id, nome_utilizador, telefone_utilizador, email_utilizador, servico, data_marcacao, horario_marcacao, estado 
         FROM marcacoes 
@@ -17,7 +16,7 @@ try {
         ORDER BY data_marcacao ASC, horario_marcacao ASC
     ";
 
-    // Consulta para buscar as marcações passadas pendentes do barbeiro Bruno Martins
+    // Consulta para buscar as marcações passadas pendentes do barbeiro Hugo Alves
     $sql_passadas_pendentes = "
         SELECT id, nome_utilizador, telefone_utilizador, email_utilizador, servico, data_marcacao, horario_marcacao, estado 
         FROM marcacoes 
@@ -63,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id']) && isset($_POST
         $update_stmt->execute();
 
         // Redireciona para evitar reenvio do formulário
-        header("Location: barbeiro1.php");
+        header("Location: ./barbeiro1.php");
         exit();
     } catch (PDOException $e) {
         die("Erro ao atualizar estado da marcação: " . $e->getMessage());
@@ -71,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id']) && isset($_POST
 }
 ?>
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -80,11 +79,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id']) && isset($_POST
     <link rel="stylesheet" href="./css/barbeiro1.css">
 </head>
 <body>
-    <!-- Incluir a Navbar -->
-    <?php include 'includes/navbarLateral.php'; ?>
+    <!-- Incluir a Barra Lateral -->
+    <?php include './includes/navbarLateral.php'; ?>
     <div class="container">
         <h1>Marcações - Hugo Alves</h1>
-
         <!-- Botão de Alternância -->
         <button class="toggle-button" onclick="toggleTables()">Ver Marcações Passadas Pendentes</button>
 
@@ -132,7 +130,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id']) && isset($_POST
                 ?>
             </tbody>
         </table>
-
         <!-- Tabela de Marcações Passadas Pendentes -->
         <table class="appointments-table" id="pastPendingAppointmentsTable" style="display: none;">
             <thead>
@@ -177,7 +174,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id']) && isset($_POST
                 ?>
             </tbody>
         </table>
-
         <!-- Modal -->
         <div id="myModal" class="modal">
          <div class="modal-content">
@@ -188,7 +184,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id']) && isset($_POST
         <button onclick="fecharModal()">Cancelar</button>
     </div>
 </div>
-
+    </div>
     <!-- Script para alternar entre tabelas -->
     <script src="./js/barbeirosMarc.js"></script>
 </body>

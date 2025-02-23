@@ -4,8 +4,8 @@ const menu = document.querySelector('nav ul');
 
 // Adiciona um ouvinte de evento ao ícone do hamburger
 hamburger.addEventListener('click', () => {
-    // Alternar a classe 'show' no menu
+    // Alterna a classe 'show' no menu para exibir/ocultar
     menu.classList.toggle('show');
-    // Alternar a classe 'active' no hamburger
+    // Alterna a classe 'active' no ícone do hamburger para animação
     hamburger.classList.toggle('active');
 });

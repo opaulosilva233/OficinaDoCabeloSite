@@ -1,13 +1,13 @@
 <?php
-include 'db.php'; // Inclui a conexão ao banco de dados
+include './db.php'; // Inclui a ligação à base de dados (caminho atualizado com './')
 
 // Parâmetros da requisição
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$search = isset($_GET['search']) ? trim($_GET['search']) : '';
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Número da página
+$search = isset($_GET['search']) ? trim($_GET['search']) : ''; // Termo de pesquisa
 
 // Configurações de paginação
 $limit = 50; // Máximo de 50 marcações por página
-$startIndex = ($page - 1) * $limit;
+$startIndex = ($page - 1) * $limit; // Índice inicial para a consulta
 
 // Consulta SQL para buscar as marcações
 $query = "
@@ -45,13 +45,14 @@ $totalStmt = $pdo->prepare($totalQuery);
 $totalStmt->bindValue(':search', $searchParam, PDO::PARAM_STR);
 $totalStmt->execute();
 $totalResults = $totalStmt->fetch(PDO::FETCH_ASSOC)['total'];
-$totalPages = ceil($totalResults / $limit);
+$totalPages = ceil($totalResults / $limit); // Cálculo do número total de páginas
 
-// Retorna os resultados como JSON
+// Define o cabeçalho como JSON
 header('Content-Type: application/json');
+
+// Retorna os resultados como JSON, mantendo as chaves originais
 echo json_encode([
-    'data' => $appointments,
-    'totalPages' => $totalPages,
-    'currentPage' => $page,
+    'data' => $appointments, // Lista de marcações
+    'totalPages' => $totalPages, // Total de páginas
+    'currentPage' => $page, // Página atual
 ]);
-?>

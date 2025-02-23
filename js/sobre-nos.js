@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
         },
         barber2: {
             name: "Hugo Alves",
-            description: "Hugo é conhecido por sua criatividade e atenção aos detalhes. Com habilidades que combinam técnicas clássicas e modernas, ele garante resultados impecáveis para seus clientes.",
+            description: "Hugo é conhecido pela sua criatividade e atenção aos detalhes. Com habilidades que combinam técnicas clássicas e modernas, ele garante resultados impecáveis para os seus clientes.",
             instagram: "https://www.instagram.com/hugoalves_barber", // Link do Instagram
             image: "./img/HBarber.png", // Caminho relativo para a imagem
         },
@@ -24,10 +24,8 @@ document.addEventListener("DOMContentLoaded", function () {
         link.addEventListener("click", (e) => {
             e.preventDefault(); // Impede o comportamento padrão do link
             const barberKey = link.dataset.barber;
-
             if (barbersInfo[barberKey]) {
                 const { name, description, instagram, image } = barbersInfo[barberKey];
-
                 // Atualiza o conteúdo do modal
                 modalContent.innerHTML = `
                     <h2>${name}</h2>
@@ -36,7 +34,6 @@ document.addEventListener("DOMContentLoaded", function () {
                         <img src="${image}" alt="${name}" style="width: 150px; border-radius: 15px; margin-top: 20px; cursor: pointer;">
                     </a>
                 `;
-
                 // Exibe o modal
                 modal.style.display = "flex";
             }

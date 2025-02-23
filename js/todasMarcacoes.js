@@ -10,11 +10,9 @@ async function fetchAppointments(page) {
         if (!response.ok) {
             throw new Error(`Erro na requisição: ${response.status}`);
         }
-
         const data = await response.json();
         const tbody = document.querySelector('#appointmentsTable tbody');
         tbody.innerHTML = ''; // Limpar tabela anterior
-
         data.data.forEach(appointment => {
             const formattedEstado = capitalizeWords(appointment.estado);
             const row = document.createElement('tr');
@@ -27,7 +25,6 @@ async function fetchAppointments(page) {
             `;
             tbody.appendChild(row);
         });
-
         currentPage = data.currentPage;
         totalPages = data.totalPages;
         document.getElementById('currentPage').textContent = `Página ${currentPage} de ${totalPages}`;
@@ -47,16 +44,15 @@ function changePage(direction) {
     }
 }
 
+// Função para obter o ícone correspondente ao estado da marcação
 function getStatusIcon(status) {
     const statusMap = {
         'pendente': { icon: 'fa-solid fa-clock', color: '#f7b538' }, // Relógio para pendente
         'concluido': { icon: 'fa-solid fa-check-circle', color: '#4caf50' }, // Check para concluído
         'cancelado': { icon: 'fa-solid fa-times-circle', color: '#f44336' } // X para cancelado
     };
-
     const defaultStatus = { icon: 'fa-solid fa-question-circle', color: '#9e9e9e' }; // Estado desconhecido
     const selectedStatus = statusMap[status.toLowerCase()] || defaultStatus;
-
     return `<i class="${selectedStatus.icon}" style="color: ${selectedStatus.color}; font-size: 1.5rem;"></i>`;
 }
 
@@ -67,15 +63,12 @@ async function openModal(id) {
         if (!modal) {
             throw new Error("Modal não encontrado no DOM.");
         }
-
         const response = await fetch(`./includes/getDetails.php?id=${id}`);
         if (!response.ok) {
             throw new Error(`Erro na requisição: ${response.status}`);
         }
-
         const data = await response.json();
         const formattedEstado = capitalizeWords(data.estado);
-
         // Preencher os campos do modal
         const fields = [
             { id: 'modal-id', value: data.id },
@@ -90,19 +83,16 @@ async function openModal(id) {
             { id: 'modal-atualizado-em', value: data.atualizado_em },
             { id: 'modal-total-marcacoes', value: data.total_marcacoes }
         ];
-
         fields.forEach(field => {
             const element = document.getElementById(field.id);
             if (element) {
                 element.textContent = field.value;
             }
         });
-
         // Preencher a tabela de últimas marcações
         const ultimasMarcacoesTable = document.getElementById('ultimas-marcacoes-table');
         if (ultimasMarcacoesTable) {
             ultimasMarcacoesTable.innerHTML = ''; // Limpar tabela anterior
-
             if (data.ultimas_marcacoes.length > 0) {
                 data.ultimas_marcacoes.forEach(marcacao => {
                     const row = document.createElement('tr');
@@ -120,7 +110,6 @@ async function openModal(id) {
                 ultimasMarcacoesTable.appendChild(row);
             }
         }
-
         modal.classList.add('show');
         modal.style.display = 'flex';
     } catch (error) {
