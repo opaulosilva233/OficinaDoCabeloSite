@@ -1,23 +1,21 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marcações</title>
-    <link rel="stylesheet" href="/css/marcacoes.css">
-    <link rel="icon" href="img/logotipo2.png" type="image/x-icon">
-    <script src="/js/marcacao.js" defer></script>
-    <?php include('includes/header.php'); ?>
+    <link rel="stylesheet" href="./css/marcacoes.css">
+    <link rel="icon" href="./img/logotipo2.png" type="image/x-icon">
+    <script src="./js/marcacao.js" defer></script>
+    <?php include('./includes/header.php'); ?>
 </head>
 <body>
     <header>
-    
     </header>
     <main>
         <section class="appointment-section">
             <h1>Agendar uma Marcação</h1>
-            <p>Escolha o tipo de corte desejado e preencha suas informações para confirmar a sua marcação.</p>
-
+            <p>Escolha o tipo de corte desejado e preencha as suas informações para confirmar a sua marcação.</p>
             <!-- Etapa 1: Seleção do Tipo de Corte -->
             <div class="step step-1">
                 <h2>Selecione o Tipo de Corte</h2>
@@ -79,62 +77,52 @@
                     </div>
                 </div>
             </div>
-
             <div id="modal-backdrop" class="hidden"></div>
-
             <!-- Modal -->
             <div class="modal hidden" id="modal">
                 <div class="modal-content">
                     <span class="close" id="modal-close">&times;</span>
                     <p id="selected-service" class="selected-service">Corte Selecionado: Nenhum</p>
-
                     <h3>Selecione o Barbeiro</h3>
                     <div class="barbers">
                         <div class="barber" data-barber="Bruno Martins">
-                            <img src="img/BBarber.png" alt="Bruno Martins">
+                            <img src="./img/BBarber.png" alt="Bruno Martins">
                             <p>Bruno Martins</p>
                         </div>
                         <div class="barber" data-barber="Hugo Alves">
-                            <img src="img/HBarber.png" alt="Hugo Alves">
+                            <img src="./img/HBarber.png" alt="Hugo Alves">
                             <p>Hugo Alves</p>
                         </div>
                     </div>
-
                     <h3>Selecione a Data</h3>
                     <input type="date" id="date" name="date" required>
-
                     <h3>Selecione o Horário</h3>
                     <select id="time" name="time" required></select>
-
-                    <h3>Preencha suas Informações</h3>
+                    <h3>Preencha as Suas Informações</h3>
                     <!-- Formulário de Marcação -->
-                    <form id="appointment-form" action="includes/saveBooking.php" method="POST">
+                    <form id="appointment-form" action="./includes/saveBooking.php" method="POST">
                         <!-- Campos ocultos que serão preenchidos via JavaScript -->
                         <input type="hidden" name="service" id="service-selected">
                         <input type="hidden" name="barber" id="barber-selected">
                         <input type="hidden" name="date" id="date-selected">
                         <input type="hidden" name="time" id="time-selected">
-
                         <label for="name">Nome</label>
-                        <input type="text" id="name" name="name" placeholder="Seu nome" required>
-
+                        <input type="text" id="name" name="name" placeholder="O seu nome" required>
                         <label for="phone">Telemóvel</label>
                         <input 
                             type="tel" 
                             id="phone" 
                             name="phone" 
-                            placeholder="Seu número de telemóvel" 
+                            placeholder="O seu número de telemóvel" 
                             required 
                             pattern="[0-9]{9}" 
                             maxlength="9"
                             title="Insira um número de telefone válido com 9 dígitos"
                             oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-
                         <label for="email">Email</label>
-                        <input type="email" id="email" name="email" placeholder="Seu email" required 
+                        <input type="email" id="email" name="email" placeholder="O seu email" required 
                             pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
                             title="Insira um endereço de email válido">
-
                         <button type="submit" id="confirm-selection" class="btn-confirm">Confirmar Marcação</button>
                     </form>
                 </div>
@@ -142,7 +130,7 @@
         </section>
     </main>
     <footer>
-        <?php include('includes/footer.php'); ?>
+        <?php include('./includes/footer.php'); ?>
     </footer>
 </body>
 </html>

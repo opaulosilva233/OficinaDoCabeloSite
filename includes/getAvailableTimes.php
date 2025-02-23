@@ -1,6 +1,6 @@
 <?php
 // Incluir o arquivo de conexão com o banco de dados
-include('db.php');
+include('./db.php'); // Caminho atualizado com './'
 
 // Verificar se os parâmetros 'barber' e 'date' foram enviados via GET
 if (isset($_GET['barber']) && isset($_GET['date'])) {
@@ -17,7 +17,7 @@ if (isset($_GET['barber']) && isset($_GET['date'])) {
         $formattedDate = $dateParts[2] . '-' . $dateParts[1] . '-' . $dateParts[0];
     } else {
         // Caso o formato de data seja inválido, retorna erro em JSON
-        echo json_encode(['success' => false, 'message' => 'Formato de data inválido.']);
+        echo json_encode(['success' => false, 'message' => 'O formato da data é inválido.']); // Alteração para português de Portugal
         exit;
     }
 
@@ -50,6 +50,6 @@ if (isset($_GET['barber']) && isset($_GET['date'])) {
     echo json_encode(['success' => true, 'slots' => $availableTimes]);
 } else {
     // Caso os parâmetros 'barber' ou 'date' não sejam enviados, retorna um erro
-    echo json_encode(['success' => false, 'message' => 'Parâmetros inválidos.']);
+    echo json_encode(['success' => false, 'message' => 'Parâmetros inválidos.']); // Mensagem em português de Portugal
 }
 ?>

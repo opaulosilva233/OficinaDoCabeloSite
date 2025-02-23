@@ -1,9 +1,9 @@
 <?php
-// Incluir o arquivo de conexão com o banco de dados
-include('db.php'); // Adicionado ponto e vírgula
+// Incluir o ficheiro de ligação à base de dados
+include('./db.php'); // Caminho atualizado com './'
 
 try {
-    // Data atual para pegar os dias da semana
+    // Data atual para obter os dias da semana
     $startOfWeek = date('Y-m-d', strtotime('monday this week')); // Segunda-feira
     $endOfWeek = date('Y-m-d', strtotime('saturday this week')); // Sábado (Corrigido)
 
@@ -16,8 +16,7 @@ try {
     WHERE data_marcacao BETWEEN :startOfWeek AND :endOfWeek
     GROUP BY DAYOFWEEK(data_marcacao)
     ORDER BY day_of_week ASC
-";
-
+    ";
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(':startOfWeek', $startOfWeek);
     $stmt->bindParam(':endOfWeek', $endOfWeek);
@@ -48,10 +47,11 @@ try {
         ];
     }
 
-    // Retorna os dados no formato JSON
+    // Devolve os dados no formato JSON
     echo json_encode($result);
 
 } catch (PDOException $e) {
-    echo json_encode(['error' => 'Erro na consulta ao banco de dados: ' . $e->getMessage()]);
+    // Em caso de erro, devolve uma mensagem de erro em formato JSON
+    echo json_encode(['error' => 'Ocorreu um erro na consulta à base de dados: ' . $e->getMessage()]);
 }
 ?>

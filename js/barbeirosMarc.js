@@ -8,42 +8,96 @@ let currentEstado = null;
  * @param {string} estado - O estado a ser aplicado ("concluída" ou "cancelada").
  */
 function abrirModal(id, estado) {
+    console.log("A abrir modal para ID:", id, "e estado:", estado); // Registo de depuração
     // Define as variáveis globais com os valores passados
     currentId = id;
     currentEstado = estado;
     // Atualiza a mensagem do modal com base no estado
     const modalMessage = document.getElementById('modal-message');
+    if (!modalMessage) {
+        console.error("Elemento 'modal-message' não encontrado.");
+        return;
+    }
     modalMessage.innerText = `Tem a certeza de que deseja marcar esta marcação como ${estado}?`;
     // Exibe o modal
     const modal = document.getElementById('myModal');
-    modal.style.display = 'block';
+    if (!modal) {
+        console.error("Elemento 'myModal' não encontrado.");
+        return;
+    }
+    // Remove classes anteriores e adiciona a classe correspondente ao estado
+    const modalContent = modal.querySelector('.modal-content');
+    modalContent.classList.remove('concluida', 'cancelada'); // Remove classes antigas
+    modalContent.classList.add(estado === 'concluída' ? 'concluida' : 'cancelada'); // Adiciona a classe correta
+    // Adiciona um ícone correspondente à ação
+    const icon = modal.querySelector('.icon');
+    if (icon) {
+        icon.innerHTML = estado === 'concluída' ? '✅' : '❌'; // Ícone de check ou X
+    }
+    modal.classList.add('show'); // Adiciona a classe .show
+    modal.style.display = 'block'; // Garante que o modal seja exibido
 }
 
 /**
  * Fecha o modal.
+ * A única maneira de fechar o modal é clicando no botão "Cancelar".
  */
 function fecharModal() {
     const modal = document.getElementById('myModal');
-    modal.style.display = 'none';
+    if (!modal) {
+        console.error("Elemento 'myModal' não encontrado.");
+        return;
+    }
+    modal.classList.remove('show'); // Remove a classe .show
+    modal.style.display = 'none'; // Oculta o modal
 }
 
 /**
  * Confirma a ação e envia o formulário correspondente.
  */
 function confirmarAcao() {
+    console.log("A confirmar ação para ID:", currentId, "e estado:", currentEstado); // Registo de depuração
     if (currentId && currentEstado) {
         const form = document.getElementById(`form-${currentId}`);
-        form.estado.value = currentEstado;
+        if (!form) {
+            console.error(`Formulário com ID 'form-${currentId}' não encontrado.`);
+            return;
+        }
+        form.querySelector('input[name="estado"]').value = currentEstado;
         form.submit();
+    } else {
+        console.error("ID ou estado não definidos.");
     }
     fecharModal();
 }
 
+/**
+ * Função para alternar entre tabelas.
+ */
+function toggleTables() {
+    const futureTable = document.getElementById('futureAppointmentsTable');
+    const pastTable = document.getElementById('pastPendingAppointmentsTable');
+    const button = document.querySelector('.toggle-button');
+    if (!futureTable || !pastTable || !button) {
+        console.error("Elementos das tabelas ou botão não encontrados.");
+        return;
+    }
+    if (futureTable.style.display === 'none') {
+        futureTable.style.display = 'table';
+        pastTable.style.display = 'none';
+        button.textContent = 'Ver Marcações Passadas Pendentes';
+    } else {
+        futureTable.style.display = 'none';
+        pastTable.style.display = 'table';
+        button.textContent = 'Ver Marcações Futuras';
+    }
+}
+
 // Função para adicionar funcionalidade de ordenação à tabela
 document.addEventListener("DOMContentLoaded", function () {
-    const table = document.getElementById("appointmentsTable");
+    const table = document.getElementById("futureAppointmentsTable"); // Altere aqui para o ID correto
     if (!table) {
-        console.error("Tabela não encontrada. Verifique o ID 'appointmentsTable'.");
+        console.error("Tabela não encontrada. Verifique o ID 'futureAppointmentsTable'.");
         return;
     }
     const headers = table.querySelectorAll("th");

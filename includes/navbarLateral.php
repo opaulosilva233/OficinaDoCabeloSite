@@ -1,23 +1,21 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-PT"> <!-- Alterado para 'pt-PT' -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="css/navbarLateral.css"> <!-- Link para o CSS externo -->
-    <link rel="icon" href="img/logotipo2.png" type="image/x-icon">
+    <title>Painel de Controlo</title> <!-- Alterado "Dashboard" para "Painel de Controlo" -->
+    <link rel="stylesheet" href="./css/navbarLateral.css"> <!-- Caminho atualizado com './' -->
+    <link rel="icon" href="./img/logotipo2.png" type="image/x-icon"> <!-- Caminho atualizado com './' -->
 </head>
 <body>
-
-  <!-- Navbar Superior -->
+  <!-- Barra de Navegação Superior -->
   <header class="top-navbar">
       <div class="logo">
-          <a href="dashboard.php" class="logo">
-              <img src="/img/logotipo.png" alt="Logo Barbearia">
-              <span>Dashboard</span>
+          <a href="./dashboard.php" class="logo"> <!-- Caminho atualizado com './' -->
+              <img src="./img/logotipo.png" alt="Logótipo da Barbearia"> <!-- Alterado "Logo" para "Logótipo" -->
+              <span>Painel de Controlo</span> <!-- Alterado "Dashboard" para "Painel de Controlo" -->
           </a>
       </div>
-
       <!-- Menu Hamburger -->
       <div id="hamburger" class="hamburger">
           <div></div>
@@ -25,18 +23,17 @@
           <div></div>
       </div>
   </header>
-
-  <!-- Navbar Lateral -->
+  <!-- Barra de Navegação Lateral -->
   <aside id="menu" class="sidebar">
       <ul>
-          <li><a href="dashboard.php" class="sidebar-link">Geral</a></li>
-          <li><a href="barbeiro1.php" class="sidebar-link">Bruno Martins</a></li>
-          <li><a href="barbeiro2.php" class="sidebar-link">Hugo Alves</a></li>
-          <li><a href="todas_marcacoes.php" class="sidebar-link">Todas Marcações</a></li>
-          <li><a href="logout.php" class="sidebar-link">Logout</a></li>
+          <li><a href="./dashboard.php" class="sidebar-link">Geral</a></li> <!-- Caminho atualizado com './' -->
+          <li><a href="./barbeiro1.php" class="sidebar-link">Bruno Martins</a></li> <!-- Caminho atualizado com './' -->
+          <li><a href="./barbeiro2.php" class="sidebar-link">Hugo Alves</a></li> <!-- Caminho atualizado com './' -->
+          <li><a href="./todasMarcacoes.php" class="sidebar-link">Todas as Marcações</a></li> <!-- Caminho atualizado com './' -->
+          <li><a href="./logout.php" class="sidebar-link">Terminar Sessão</a></li> <!-- Alterado "Logout" para "Terminar Sessão" -->
       </ul>
   </aside>
-
-<script src="js/navLatMenu.js"></script> <!-- Script para o menu hamburger -->
+  <!-- Script para o menu hamburger -->
+  <script src="./js/navLatMenu.js"></script> <!-- Caminho atualizado com './' -->
 </body>
 </html>

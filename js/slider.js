@@ -15,13 +15,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Função para avançar para o próximo slide
     function nextSlide() {
-        currentSlide = (currentSlide + 1) % totalSlides;
+        currentSlide = (currentSlide + 1) % totalSlides; // Calcula o índice do próximo slide
         showSlide(currentSlide);
     }
 
     // Função para voltar ao slide anterior
     function prevSlide() {
-        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides; // Calcula o índice do slide anterior
         showSlide(currentSlide);
     }
 
@@ -35,15 +35,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const prevButton = document.createElement("button");
     prevButton.textContent = "❮"; // Símbolo de seta esquerda
     prevButton.classList.add("slider-button", "prev");
-    prevButton.addEventListener("click", prevSlide);
+    prevButton.addEventListener("click", prevSlide); // Adiciona evento de clique para retroceder
 
     const nextButton = document.createElement("button");
     nextButton.textContent = "❯"; // Símbolo de seta direita
     nextButton.classList.add("slider-button", "next");
-    nextButton.addEventListener("click", nextSlide);
+    nextButton.addEventListener("click", nextSlide); // Adiciona evento de clique para avançar
 
     // Insere os botões na página
     const sliderContainer = document.querySelector(".slider");
     sliderContainer.appendChild(prevButton);
     sliderContainer.appendChild(nextButton);
-}); 
+});

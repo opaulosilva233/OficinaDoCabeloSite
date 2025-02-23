@@ -17,13 +17,11 @@ body {
     padding: 20px;
     margin-top: 60px;
 }
-
 .dashboard-container h1 {
     font-size: 32px;
     margin-bottom: 20px;
     color: #444;
 }
-
 .dashboard-container p {
     font-size: 16px;
     line-height: 1.6;
@@ -38,7 +36,6 @@ body {
     margin-top: 20px;
     justify-content: center; /* Centraliza os cartões */
 }
-
 .dashboard-card {
     background-color: #fff;
     border: 1px solid #ddd;
@@ -49,18 +46,15 @@ body {
     box-sizing: border-box;
     transition: transform 0.3s, box-shadow 0.3s;
 }
-
 .dashboard-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
-
 .dashboard-card h3 {
     font-size: 20px;
     margin-bottom: 10px;
     color: #444;
 }
-
 .dashboard-card p {
     font-size: 14px;
     color: #777;
@@ -78,7 +72,6 @@ body {
     margin-top: 15px;
     font-size: 14px;
 }
-
 .dashboard-btn:hover {
     background-color: #b5855f;
     transform: translateY(-2px);
@@ -95,28 +88,23 @@ body {
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-
 .dashboard-table thead {
     background-color: #d4a373;
     color: white;
     text-align: left;
 }
-
 .dashboard-table th,
 .dashboard-table td {
     padding: 12px 15px;
     border-bottom: 1px solid #ddd;
 }
-
 .dashboard-table tr:hover {
     background-color: #f9f9f9;
 }
-
 .dashboard-table th {
     font-size: 14px;
     font-weight: 600;
 }
-
 .dashboard-table td {
     font-size: 14px;
 }
@@ -172,7 +160,6 @@ body {
     padding-right: 10px;
     flex-wrap: wrap;
 }
-
 .info-card {
     flex: 1;
     max-width: 300px;
@@ -184,12 +171,10 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
 }
-
 .info-card h3 {
     font-size: 14px;
     color: #444;
 }
-
 .info-card p {
     font-size: 18px;
     font-weight: bold;
@@ -203,11 +188,9 @@ body {
         margin-left: 0;
         padding: 10px;
     }
-
     .dashboard-cards {
         justify-content: center;
     }
-
     .dashboard-card {
         width: calc(50% - 20px);
     }
@@ -218,13 +201,79 @@ body {
         flex-direction: column;
         gap: 10px;
     }
-
     .info-card {
         width: 100%;
         max-width: 100%;
     }
-
     .dashboard-card {
         width: 100%;
+    }
+}
+
+/* Estilo geral para os resumos */
+.summary {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 40px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+}
+
+.summary h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333; /* Cor destacada para o título */
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.summary-item {
+    text-align: center;
+    flex: 1; /* Cada item ocupa uma parte igual do espaço disponível */
+    padding: 10px;
+    border-right: 1px solid #ddd; /* Linha divisória entre os itens */
+}
+
+.summary-item:last-child {
+    border-right: none; /* Remove a borda do último item */
+}
+
+.summary-item h3 {
+    font-size: 1rem;
+    color: #555; /* Cor suave para o subtítulo */
+    margin-bottom: 10px;
+}
+
+.summary-item p {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333; /* Cor mais escura para o número */
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 768px) {
+    .summary {
+        flex-direction: column; /* Coloca os itens em coluna */
+        align-items: center;
+        gap: 20px; /* Espaçamento entre os itens */
+    }
+
+    .summary-item {
+        border-right: none; /* Remove as bordas laterais */
+        width: 100%; /* Faz os itens ocuparem toda a largura */
+    }
+
+    .summary h2 {
+        font-size: 1.2rem; /* Reduz o tamanho do título */
+    }
+
+    .summary-item h3 {
+        font-size: 0.9rem; /* Reduz o tamanho do subtítulo */
+    }
+
+    .summary-item p {
+        font-size: 1.2rem; /* Reduz o tamanho do número */
     }
 }

@@ -45,6 +45,7 @@ body {
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px; /* Espaçamento inferior */
 }
 
 .appointments-table thead {
@@ -99,6 +100,26 @@ body {
     transform: translateY(-2px);
 }
 
+/* Botão de alternância */
+.toggle-button {
+    display: block;
+    margin: 20px auto;
+    padding: 12px 24px;
+    background-color: #d4a373;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-align: center;
+}
+
+.toggle-button:hover {
+    background-color: #b5855f;
+    transform: translateY(-2px);
+}
+
 /* Modal */
 .modal {
     display: none;
@@ -109,10 +130,18 @@ body {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal.show {
+    opacity: 1;
+    visibility: visible;
 }
 
 .modal-content {
-    background-color: #fff;
+    background-color: #fff; /* Cor padrão */
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #ddd;
@@ -121,51 +150,99 @@ body {
     max-width: 400px;
     text-align: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
 }
 
-.modal-content .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
+/* Estilo específico para modal de conclusão */
+.modal-content.concluida {
+    background-color: #e8f7ea; /* Fundo verde claro */
+}
+
+.modal-content.concluida button#confirm-button {
+    background: linear-gradient(145deg, #28a745, #218838); /* Gradiente verde */
+}
+
+.modal-content.concluida button#confirm-button:hover {
+    background: linear-gradient(145deg, #218838, #28a745); /* Inverte o gradiente */
+    transform: translateY(-3px); /* Elevação sutil */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Sombra mais pronunciada */
+}
+
+/* Estilo específico para modal de cancelamento */
+.modal-content.cancelada {
+    background-color: #f8d7da; /* Fundo vermelho claro */
+}
+
+.modal-content.cancelada button#confirm-button {
+    background: linear-gradient(145deg, #dc3545, #c82333); /* Gradiente vermelho */
+}
+
+.modal-content.cancelada button#confirm-button:hover {
+    background: linear-gradient(145deg, #c82333, #dc3545); /* Inverte o gradiente */
+    transform: translateY(-3px); /* Elevação sutil */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Sombra mais pronunciada */
+}
+
+/* Ícone para reforçar a ação */
+.modal-content .icon {
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+
+.modal-content.concluida .icon {
+    color: #28a745; /* Verde para conclusão */
+}
+
+.modal-content.cancelada .icon {
+    color: #dc3545; /* Vermelho para cancelamento */
+}
+
+/* Estilo geral para botões no modal */
+.modal-content button {
+    background: linear-gradient(145deg, #d4a373, #b88c5f); /* Gradiente padrão */
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 50px; /* Formato de cápsula */
+    font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1); /* Sombra leve */
+    text-transform: uppercase; /* Texto em maiúsculas */
+    letter-spacing: 1px; /* Espaçamento entre letras */
+    margin: 10px; /* Espaçamento entre os botões */
 }
 
-.modal-content .close:hover,
-.modal-content .close:focus {
-    color: black;
-    text-decoration: none;
+/* Efeito ao passar o mouse nos botões */
+.modal-content button:hover {
+    transform: translateY(-3px); /* Elevação sutil */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Sombra mais pronunciada */
 }
 
-.modal-content button {
-    display: inline-block;
-    padding: 10px 15px;
-    margin: 10px;
-    border: none;
-    border-radius: 6px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+/* Efeito ao clicar nos botões */
+.modal-content button:active {
+    transform: translateY(1px); /* Movimento sutil para baixo */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Reduz a sombra */
 }
 
-.modal-content button#confirm-button {
-    background-color: #d4a373;
-    color: white;
-}
-
-.modal-content button#confirm-button:hover {
-    background-color: #b5855f;
-    transform: translateY(-2px);
-}
-
+/* Botão de cancelar (comum a ambos os modais) */
 .modal-content button.cancel {
-    background-color: #f4f4f4;
-    color: #333;
+    background: linear-gradient(145deg, #dc3545, #c82333); /* Gradiente vermelho */
 }
 
 .modal-content button.cancel:hover {
-    background-color: #e0e0e0;
-    transform: translateY(-2px);
+    background: linear-gradient(145deg, #c82333, #dc3545); /* Inverte o gradiente */
+    transform: translateY(-3px); /* Elevação sutil */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Sombra mais pronunciada */
+}
+
+/* Estilo para mensagens de feedback */
+.no-data-message {
+    text-align: center;
+    font-size: 18px;
+    color: #777;
+    margin-top: 20px;
 }
 
 /* Responsividade */
@@ -175,7 +252,6 @@ body {
         margin-left: 0;
         padding: 10px;
     }
-
     .appointments-table th,
     .appointments-table td {
         font-size: 12px;
@@ -184,10 +260,16 @@ body {
 }
 
 @media (max-width: 768px) {
-    .appointments-table {
-        font-size: 12px;
+    .toggle-button {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
     }
-
+    .appointments-table th,
+    .appointments-table td {
+        font-size: 12px;
+        padding: 8px;
+    }
     .modal-content {
         width: 95%;
         margin: 20% auto;
@@ -198,27 +280,10 @@ body {
     .appointments-table th,
     .appointments-table td {
         font-size: 10px;
-        padding: 8px;
+        padding: 6px;
     }
-
     .modal-content {
         width: 95%;
         margin: 25% auto;
     }
-}
-
-/* Estilo para as setas de ordenação */
-.sort-icon {
-    margin-left: 5px;
-    font-size: 12px;
-}
-
-.sort-asc::after {
-    content: " ↑";
-    color: #f4f4f9;
-}
-
-.sort-desc::after {
-    content: " ↓";
-    color: #f4f4f9;
 }

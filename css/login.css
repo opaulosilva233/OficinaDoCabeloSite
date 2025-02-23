@@ -125,3 +125,35 @@ form input:focus {
     margin-bottom: 20px;
     text-align: center;
 }
+
+ /* Estilo para a nota */
+ .login-note {
+    font-size: 14px;
+    color: #777;
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* Estilo para o rodapé */
+.footer {
+    position: absolute;
+    bottom: 10px; /* Posiciona na parte inferior da página */
+    left: 50%; /* Centraliza horizontalmente */
+    transform: translateX(-50%); /* Ajusta para centralizar perfeitamente */
+    text-align: center;
+    width: 100%;
+}
+
+.credit {
+    font-size: 0.8rem; /* Tamanho pequeno para ser discreto */
+    color: rgba(255, 255, 255, 0.7); /* Cor clara com transparência */
+    margin: 0;
+    padding: 10px 0;
+    text-transform: uppercase; /* Deixa o texto em maiúsculas para um toque profissional */
+    letter-spacing: 1px; /* Espaçamento entre letras para um design limpo */
+}
+
+.credit:hover {
+    color: rgba(255, 255, 255, 1); /* Aumenta a opacidade ao passar o mouse */
+    transition: color 0.3s ease; /* Transição suave */
+}

@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(response => response.json())
         .then(data => {
             console.log('Dados recebidos:', data);
-
             const bookingsData = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'].map(day => {
                 const dayData = data.find(item => item.day_of_week === day);
                 return dayData ? dayData.booking_count : 0;
@@ -14,11 +13,11 @@ document.addEventListener('DOMContentLoaded', function () {
             const daysOfWeek = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
             const maxBookingsPerDay = 30;
 
+            // Função para obter a cor da barra com base no número de marcações
             const getBarColor = (count) => {
                 const minColor = [0, 200, 0];   // Verde (Poucas marcações)
                 const midColor = [255, 165, 0]; // Laranja (Médio)
                 const maxColor = [255, 0, 0];   // Vermelho (Limite)
-
                 const ratio = Math.min(count / maxBookingsPerDay, 1);
                 let r, g, b;
 
@@ -37,7 +36,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const chartContainer = document.getElementById('weeklyChart');
             chartContainer.height = 400;
-
             const ctx = chartContainer.getContext('2d');
 
             // Se já existir um gráfico, destrói-o antes de criar outro
@@ -108,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             </div>
                             <div style="display: flex; align-items: center;">
                                 <div style="width: 20px; height: 20px; background-color: rgb(255,69,0); margin-right: 5px;"></div>
-                                <span>Alto</span>
+                                <span>Elevado</span>
                             </div>
                             <div style="display: flex; align-items: center;">
                                 <div style="width: 20px; height: 20px; background-color: rgb(255,0,0); margin-right: 5px;"></div>
@@ -120,6 +118,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }, 500);
         })
         .catch(error => {
-            console.error('Erro ao carregar os dados do gráfico:', error);
+            console.error('Ocorreu um erro ao carregar os dados do gráfico:', error);
         });
 });

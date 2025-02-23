@@ -1,6 +1,6 @@
 <?php
-// Incluir o arquivo de conexão com o banco de dados
-include('db.php');
+// Incluir o ficheiro de ligação à base de dados
+include('./db.php'); // Caminho atualizado com './'
 
 // Verificar se os dados foram enviados via POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $phone = isset($_POST['phone']) ? $_POST['phone'] : null;
     $email = isset($_POST['email']) ? $_POST['email'] : null;
 
-    // Log dos dados recebidos
+    // Registo dos dados recebidos
     error_log("Dados recebidos: service=$service, barber=$barber, date=$date, time=$time, name=$name, phone=$phone, email=$email");
 
     // Inicializar um array para armazenar mensagens de erro
@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-    // Convertendo a data de "DD-MM-YYYY" para "YYYY-MM-DD"
+    // Converter a data de "DD-MM-YYYY" para "YYYY-MM-DD"
     if ($date) {
         $dateParts = explode('-', $date);
         if (count($dateParts) == 3) {
@@ -71,18 +71,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Verificar se a consulta foi preparada corretamente
     if ($stmt === false) {
-        $errorMessage = 'Erro ao preparar a consulta SQL.';
+        $errorMessage = 'Ocorreu um erro ao preparar a consulta SQL.';
         error_log("Erro ao preparar a consulta SQL: " . implode(' ', $pdo->errorInfo()));
         echo json_encode(['success' => false, 'message' => $errorMessage]);
         exit;
     }
 
     // Definir os valores para os parâmetros
-    $status = 'marcada'; // Status inicial da marcação
+    $status = 'marcada'; // Estado inicial da marcação
     $created_at = date('Y-m-d H:i:s'); // Data e hora de criação
     $updated_at = $created_at; // Data e hora de atualização (inicialmente igual à criação)
 
-    // Bind dos parâmetros
+    // Vincular os parâmetros
     $stmt->bindParam(':name', $name);
     $stmt->bindParam(':phone', $phone);
     $stmt->bindParam(':email', $email);
@@ -99,8 +99,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         error_log("Reserva realizada com sucesso para: service=$service, barber=$barber, date=$formattedDate, time=$time, name=$name, phone=$phone, email=$email");
         echo json_encode(['success' => true, 'message' => 'Reserva realizada com sucesso!']);
     } else {
-        $errorMessage = 'Erro ao salvar a reserva: ' . implode(' ', $stmt->errorInfo());
-        error_log("Erro ao salvar a reserva: " . implode(' ', $stmt->errorInfo()));
+        $errorMessage = 'Ocorreu um erro ao guardar a reserva: ' . implode(' ', $stmt->errorInfo());
+        error_log("Erro ao guardar a reserva: " . implode(' ', $stmt->errorInfo()));
         echo json_encode(['success' => false, 'message' => $errorMessage]);
     }
 } else {
