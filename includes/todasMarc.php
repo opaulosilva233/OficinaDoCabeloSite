@@ -10,7 +10,21 @@ $limit = 50; // Máximo de 50 marcações por página
 $startIndex = ($page - 1) * $limit;
 
 // Consulta SQL para buscar as marcações
-$query = "SELECT * FROM appointments WHERE name LIKE :search OR phone LIKE :search ORDER BY date DESC LIMIT :startIndex, :limit";
+$query = "
+    SELECT 
+        id, 
+        nome_utilizador AS nome, 
+        telefone_utilizador AS telefone, 
+        DATE_FORMAT(data_marcacao, '%d/%m/%Y') AS data, 
+        horario_marcacao AS horario, 
+        estado 
+    FROM marcacoes 
+    WHERE 
+        nome_utilizador LIKE :search OR 
+        telefone_utilizador LIKE :search 
+    ORDER BY data_marcacao DESC, horario_marcacao DESC 
+    LIMIT :startIndex, :limit
+";
 $stmt = $pdo->prepare($query);
 $searchParam = "%$search%";
 $stmt->bindValue(':search', $searchParam, PDO::PARAM_STR);
@@ -20,7 +34,13 @@ $stmt->execute();
 $appointments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Contagem total de marcações para calcular o número de páginas
-$totalQuery = "SELECT COUNT(*) AS total FROM appointments WHERE name LIKE :search OR phone LIKE :search";
+$totalQuery = "
+    SELECT COUNT(*) AS total 
+    FROM marcacoes 
+    WHERE 
+        nome_utilizador LIKE :search OR 
+        telefone_utilizador LIKE :search
+";
 $totalStmt = $pdo->prepare($totalQuery);
 $totalStmt->bindValue(':search', $searchParam, PDO::PARAM_STR);
 $totalStmt->execute();

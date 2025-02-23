@@ -32,7 +32,7 @@
           <li><a href="dashboard.php" class="sidebar-link">Geral</a></li>
           <li><a href="barbeiro1.php" class="sidebar-link">Bruno Martins</a></li>
           <li><a href="barbeiro2.php" class="sidebar-link">Hugo Alves</a></li>
-          <li><a href="todas_marcacoes.php" class="sidebar-link">Todas Marcações</a></li>
+          <li><a href="todasMarcacoes.php" class="sidebar-link">Todas Marcações</a></li>
           <li><a href="logout.php" class="sidebar-link">Logout</a></li>
       </ul>
   </aside>
