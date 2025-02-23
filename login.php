@@ -39,15 +39,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Login</title>
     <link rel="stylesheet" href="/css/login.css">
     <link rel="icon" href="img/logotipo2.png" type="image/x-icon">
-    <style>
-        /* Estilo para a nota */
-        .login-note {
-            font-size: 14px;
-            color: #777;
-            margin-top: 10px;
-            text-align: center;
-        }
-    </style>
 </head>
 <body>
 
@@ -70,6 +61,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <p class="login-note">Este login só se destina a pessoas autorizadas.</p>
     </form>
 </div>
-
+<!-- Rodapé -->
+<footer class="footer">
+        <p class="credit">Criado por Paulo Silva &copy; 2025</p>
+    </footer>
 </body>
 </html>
