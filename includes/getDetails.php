@@ -1,6 +1,5 @@
 <?php
 include './db.php'; // Caminho atualizado com './'
-
 $id = $_GET['id'];
 
 try {
@@ -15,7 +14,7 @@ try {
             servico, 
             DATE_FORMAT(data_marcacao, '%d/%m/%Y') AS data, 
             horario_marcacao AS horario, 
-            estado, 
+            LOWER(estado) AS estado, -- Normaliza o estado para minúsculas
             criado_em, 
             atualizado_em 
         FROM marcacoes 
@@ -29,6 +28,12 @@ try {
         http_response_code(404); // Define o código de resposta HTTP para "Não Encontrado"
         echo json_encode(['error' => 'Marcação não encontrada']); // Mensagem de erro em português
         exit;
+    }
+
+    // Mapeia o estado "marcada" para "pendente" ou outro valor equivalente
+    $estado = strtolower($marcacao['estado'] ?? 'pendente');
+    if ($estado === 'marcada') {
+        $estado = 'pendente'; // Converte "marcada" para "pendente"
     }
 
     // Consulta para calcular o total de marcações da pessoa
@@ -67,14 +72,14 @@ try {
         'servico' => $marcacao['servico'],
         'data' => $marcacao['data'],
         'horario' => $marcacao['horario'],
-        'estado' => $marcacao['estado'],
+        'estado' => $estado, // Estado normalizado
         'criado_em' => $marcacao['criado_em'],
         'atualizado_em' => $marcacao['atualizado_em'],
         'total_marcacoes' => $totalMarcacoes,
         'ultimas_marcacoes' => $ultimasMarcacoes // Últimas 5 marcações
     ]);
-
 } catch (Exception $e) {
     http_response_code(500); // Define o código de resposta HTTP para "Erro Interno do Servidor"
     echo json_encode(['error' => 'Ocorreu um erro ao obter os dados: ' . $e->getMessage()]); // Mensagem de erro em português
 }
+?>

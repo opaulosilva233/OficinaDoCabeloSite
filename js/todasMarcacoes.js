@@ -52,8 +52,13 @@ function getStatusIcon(status) {
         'cancelado': { icon: 'fa-solid fa-times-circle', color: '#f44336' } // X para cancelado
     };
     const defaultStatus = { icon: 'fa-solid fa-question-circle', color: '#9e9e9e' }; // Estado desconhecido
-    const selectedStatus = statusMap[status.toLowerCase()] || defaultStatus;
-    return `<i class="${selectedStatus.icon}" style="color: ${selectedStatus.color}; font-size: 1.5rem;"></i>`;
+
+    // Normaliza o estado para minúsculas e remove espaços extras
+    const normalizedStatus = (status || '').toLowerCase().trim();
+
+    // Retorna o ícone correspondente ao estado ou o ícone padrão
+    const selectedStatus = statusMap[normalizedStatus] || defaultStatus;
+    return `<i class="${selectedStatus.icon}" style="color: ${selectedStatus.color}; font-size: 1.5rem;" title="${capitalizeWords(normalizedStatus)}"></i>`;
 }
 
 // Função para abrir o modal
@@ -86,9 +91,10 @@ async function openModal(id) {
         fields.forEach(field => {
             const element = document.getElementById(field.id);
             if (element) {
-                element.textContent = field.value;
+                element.innerHTML = field.value; // Use innerHTML para renderizar o ícone
             }
         });
+
         // Preencher a tabela de últimas marcações
         const ultimasMarcacoesTable = document.getElementById('ultimas-marcacoes-table');
         if (ultimasMarcacoesTable) {
@@ -100,7 +106,7 @@ async function openModal(id) {
                         <td>${marcacao.data}</td>
                         <td>${marcacao.horario}</td>
                         <td>${marcacao.servico}</td>
-                        <td>${marcacao.barbeiro}</td> <!-- Alterado para exibir o barbeiro -->
+                        <td>${marcacao.barbeiro}</td>
                     `;
                     ultimasMarcacoesTable.appendChild(row);
                 });
