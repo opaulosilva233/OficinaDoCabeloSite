@@ -10,9 +10,10 @@ try {
     // Consulta SQL para contar o número de marcações por dia
     $query = "
     SELECT
-        DAYOFWEEK(data_marcacao) AS day_of_week, 
+        DAYOFWEEK(data_marcacao) AS day_of_week,
         COUNT(*) AS booking_count
     FROM marcacoes
+    WHERE estado = 'marcada' AND 
     WHERE data_marcacao BETWEEN :startOfWeek AND :endOfWeek
     GROUP BY DAYOFWEEK(data_marcacao)
     ORDER BY day_of_week ASC

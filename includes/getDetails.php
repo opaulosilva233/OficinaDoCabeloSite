@@ -1,5 +1,6 @@
 <?php
-include './db.php'; // Caminho atualizado com './'
+include './db.php';
+
 $id = $_GET['id'];
 
 try {
@@ -55,11 +56,11 @@ try {
             barbeiro 
         FROM marcacoes 
         WHERE nome_utilizador = :nome 
-        ORDER BY data_marcacao DESC, horario_marcacao DESC 
-        LIMIT 5
+        ORDER BY data_marcacao DESC, horario_marcacao DESC LIMIT 5
     ";
     $ultimasMarcacoesStmt = $pdo->prepare($ultimasMarcacoesQuery);
     $ultimasMarcacoesStmt->execute(['nome' => $marcacao['nome']]);
+
     $ultimasMarcacoes = $ultimasMarcacoesStmt->fetchAll(PDO::FETCH_ASSOC);
 
     // Retornar os dados como JSON

@@ -1,0 +1,148 @@
+/* Modal */
+#myModal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    transition: background-color 0.3s ease;
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto; /* 10% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    max-width: 600px; /* Maximum width */
+    border-radius: 8px;
+    position: relative; /* For absolute positioning of the close button */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: modalopen 0.3s;
+    text-align: center; /* Centraliza o conteúdo */
+}
+
+/* Modal Content - Concluída */
+.modal-content.concluida {
+    border-color: #4CAF50;
+}
+
+/* Modal Content - Cancelada */
+.modal-content.cancelada {
+    border-color: #f44336;
+}
+
+/* Modal Header */
+.modal-header {
+    padding: 10px 16px;
+    background-color: #fefefe; /* Cor de fundo */
+    color: #333; /* Cor do texto */
+    border-bottom: 1px solid #ddd; /* Linha inferior */
+    border-top-left-radius: 8px; /* Arredonda o canto superior esquerdo */
+    border-top-right-radius: 8px; /* Arredonda o canto superior direito */
+}
+
+/* Modal Body */
+.modal-body {
+    padding: 20px 16px;
+}
+
+/* Modal Footer */
+.modal-footer {
+    padding: 10px 16px;
+    background-color: #fefefe;
+    color: #333;
+    border-top: 1px solid #ddd; /* Linha superior */
+    border-bottom-left-radius: 8px; /* Arredonda o canto inferior esquerdo */
+    border-bottom-right-radius: 8px; /* Arredonda o canto inferior direito */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Modal Button */
+.modal-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Modal Button - Cancelar */
+.modal-button-cancelar {
+    background-color: #f44336; /* Cor vermelha */
+    color: white;
+}
+
+.modal-button-cancelar:hover {
+    background-color: #d32f2f; /* Cor vermelha mais escura ao passar o mouse */
+}
+
+/* Modal Button - Confirmar */
+.modal-button-confirmar {
+    background-color: #4CAF50; /* Cor verde */
+    color: white;
+}
+
+.modal-button-confirmar:hover {
+    background-color: #388E3C; /* Cor verde mais escura ao passar o mouse */
+}
+
+/* Modal Icon */
+.icon {
+    font-size: 3em;
+    margin-bottom: 10px;
+    display: block; /* Adicionado para garantir que o ícone fique em sua própria linha */
+}
+
+/* Estilo para telas menores */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 95%;
+        margin: 20% auto;
+    }
+    .modal-footer {
+        flex-direction: column; /* Organiza os botões verticalmente */
+        gap: 10px; /* Adiciona um espaçamento entre os botões */
+    }
+    .modal-button {
+        width: 100%; /* Faz os botões ocuparem toda a largura disponível */
+    }
+}
+
+/* Animação de abertura do modal */
+@keyframes modalopen {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
