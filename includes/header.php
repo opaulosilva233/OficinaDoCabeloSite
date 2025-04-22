@@ -1,19 +1,14 @@
-
 <?php
-<<<<<<< HEAD
+/**
+ * Este ficheiro contém o código HTML para o cabeçalho (header) da página web.
+ * O cabeçalho inclui a logo, menu de navegação e ligação ao script JavaScript para o menu hamburger.
+ */
 
 // Include config file
 include('config.php');
 // Start the session
 session_start();
 ?><!-- Início do cabeçalho HTML -->
-=======
-/**
- * Este ficheiro contém o código HTML para o cabeçalho (header) da página web.
- * O cabeçalho inclui a logo, menu de navegação e ligação ao script JavaScript para o menu hamburger.
- */
-?>
->>>>>>> 1ffcd0cd5885413e228bcc3484ea7f6983cfabb8
 <!DOCTYPE html>
 <html lang="pt-PT"> <!-- Especifica que o idioma da página é português de Portugal -->
 <head>
