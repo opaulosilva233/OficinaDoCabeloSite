@@ -19,6 +19,29 @@ body.dark-mode {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Estilos para o Dark Mode Toggle do footer */
+.footer .darkmode-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    
+}
+
+.footer .darkmode-container input[type="checkbox"] {
+    display: none;
+}
+
+.footer .darkmode-container label {
+    cursor: pointer;
+    padding: 5px;
+    color: #d4a373;
+}
+
+.footer.dark-mode .darkmode-container label {
+    color: #f4f4f4;
+}
+
 .dark-mode .login-container,
 .dark-mode .dashboard-container {
     background-color: #333;
