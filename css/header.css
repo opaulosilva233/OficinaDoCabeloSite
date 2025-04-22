@@ -27,39 +27,41 @@ header {
     width: 25px;
     height: 25px;
     color: #d4a373;
-    font-size: 20px; /* Tamanho do ícone */
+    font-size: 20px; /* Tamanho fixo para o botão */
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative; /* Para posicionar os ícones */
 }
 
 /* Ícone da lua para o dark mode */
 #dark-mode-toggle::before {
     content: "\263D"; /* Código Unicode para a lua crescente */
     color: #d4a373;
+    font-size: 20px; /* Mesmo tamanho para ambos os ícones */
+    position: absolute;
     opacity: 1; /* Mostrar por padrão */
-    position: static; /* Remove o position absolute */
-    transform: none; /* Remove o transform */
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease; /* Transição suave */
 }
 
 body.dark-mode #dark-mode-toggle::before {
     opacity: 0; /* Esconder quando dark mode está ativo */
+    transition: opacity 0.3s ease 0.15s; /* Pequeno atraso para desaparecer */
 }
 
 /* Ícone do sol para o light mode */
 #dark-mode-toggle::after {
     content: "\2600"; /* Código Unicode para o sol */
     color: #d4a373;
-    font-size: 18px;
+    font-size: 20px; /* Mesmo tamanho para ambos os ícones */
+    position: absolute;
     opacity: 0; /* Esconder por padrão */
-    position: static; /* Remove o position absolute */
-    transform: none; /* Remove o transform */
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease 0.15s; /* Pequeno atraso para aparecer */
 }
 
 body.dark-mode #dark-mode-toggle::after {
     opacity: 1; /* Mostrar quando dark mode está ativo */
+    transition: opacity 0.3s ease; /* Aparece imediatamente */
 }
 
 /* Ajuste no darkmode-container para garantir alinhamento */
