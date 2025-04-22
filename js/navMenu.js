@@ -27,6 +27,5 @@ hamburger.addEventListener('click', () => {
         overlay.style.display = 'none';
     }
 });
-menu.addEventListener('click', closeMenu)
-
+menu.addEventListener('click', closeMenu);
 });
