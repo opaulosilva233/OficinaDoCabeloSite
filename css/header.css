@@ -33,7 +33,7 @@ header {
 #dark-mode-toggle::before,
 #dark-mode-toggle::after {
     content: "";
-    display: block;
+    display: flex;
     position: absolute;
     transition: opacity 0.3s ease, transform 0.3s ease; /* Transição suave */
 }
@@ -63,21 +63,32 @@ header {
 }
 /* Ícone da lua para o dark mode */
 #dark-mode-toggle::before {
-    content: "\\263D"; /* Código Unicode para a lua crescente */
+    content: "\263D"; /* Código Unicode para a lua crescente */
     color: #fff; /* Cor da lua (branco) */
     font-size: 20px;
     top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 1;
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    opacity: 1; /* Mostrar por padrão */
+}
+
+body.dark-mode #dark-mode-toggle::before {
+    opacity: 0; /* Esconder quando dark mode está ativo */
 }
 
 /* Ícone do sol para o light mode */
 #dark-mode-toggle::after {
-    content: "\\2600"; /* Código Unicode para o sol */
-    color: #f5f5f5; /* Cor do sol (amarelo) */
-    font-size: 20px;
-    transform: scale(1.1); /* Aumenta a imagem em 10% */
+    content: "\2600"; /* Código Unicode para o sol */    
+    color: #f5f5f5; /* Cor do sol */
+    font-size: 18px;    
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0; /* Esconder por padrão */
+}
+.dark-mode #dark-mode-toggle::after {
+    opacity: 0;
+    transform: translate(-50%, -50%); /* Aumenta a imagem em 10% */
 }
 
 /* Navbar */
@@ -167,4 +178,8 @@ nav ul li a:hover {
     .hamburger.active span:nth-child(3) {
         transform: rotate(45deg) translate(-5px, -6px);
     }
+}
+
+.dark-mode #dark-mode-toggle::after {
+    opacity: 1; /* Mostrar quando dark mode está ativo */
 }
