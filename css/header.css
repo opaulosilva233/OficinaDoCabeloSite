@@ -18,6 +18,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0 10px;
     transition: transform 0.3s ease; /* Transição suave */
 }
 
@@ -127,7 +128,6 @@ nav ul li a:hover {
     display: none; /* Esconde o hamburger por padrão */
     flex-direction: column;
     cursor: pointer;
-    margin-left: 10px;
 }
 
 .hamburger span {
@@ -143,6 +143,8 @@ nav ul li a:hover {
     /* Oculta o menu principal */
     nav ul {
         display: none; /* Esconde o menu */
+    }
+    header {
         flex-direction: column;
         align-items: center;
         padding: 20px 0;
@@ -155,6 +157,12 @@ nav ul li a:hover {
         opacity: 0; /* Inicialmente o menu está invisível */
         transform: translateY(-10px); /* Deslocamento inicial para cima */
         transition: opacity 0.3s ease, transform 0.3s ease; /* Animação suave */
+    }
+    .dark-mode-toggle {
+        margin: 0;
+    }
+    .logo {
+        margin-bottom: 10px;
     }
 
     nav ul.show {
@@ -170,7 +178,6 @@ nav ul li a:hover {
     /* Exibe o hamburger */
     .hamburger {
         display: flex;
-    }
     .dark-mode-toggle {
         margin-left: 10px;
     }
