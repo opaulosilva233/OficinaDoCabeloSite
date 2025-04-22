@@ -14,8 +14,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Adiciona um event listener para o botão
-    if (darkModeToggle) {
-        darkModeToggle.addEventListener('click', toggleDarkMode);
+    if (darkModeButton) {
+        darkModeButton.addEventListener('click', toggleDarkMode);
     }
 
     function toggleDarkMode() {

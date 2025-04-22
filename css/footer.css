@@ -110,7 +110,7 @@ footer {
 
 /* Ícone da lua para o dark mode */
 .darkmode-container #dark-mode-toggle::before {
-    content: "\\263D"; /* Código Unicode para a lua crescente */
+    content: "☽"; /* Código Unicode para a lua crescente */
     color: #d4a373; /* Cor da lua */
     font-size: 20px;
     top: 50%;
@@ -119,7 +119,7 @@ footer {
     opacity: 1; /* Mostrar por padrão */
 }
 .darkmode-container #dark-mode-toggle::after {
-    content: "\\2600"; /* Código Unicode para o sol */    
+    content: "☀"; /* Código Unicode para o sol */    
     color: #d4a373; /* Cor do sol */
     font-size: 18px;
     top: 50%;
