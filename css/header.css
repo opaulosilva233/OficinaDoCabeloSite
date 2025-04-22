@@ -1,5 +1,4 @@
 /* Estilos gerais */
-
 header {
     background: #2b2b2b; /* Preto com um toque de cinza */
     color: #d4a373; /* Dourado suave */
@@ -16,7 +15,7 @@ header {
 /* Estilo do botão de dark mode */
 .dark-mode-toggle {
     display: flex;
-    align-items: center;
+    align-items: center; /* Alinha verticalmente o botão com os outros itens da navbar */
     justify-content: center;
 }
 
@@ -27,17 +26,55 @@ header {
     padding: 0;
     width: 25px;
     height: 25px;
-    position: relative; /* Para posicionar os ícones */
-}
-
-#dark-mode-toggle::before,
-#dark-mode-toggle::after {
-    content: "";
+    color: #d4a373;
+    font-size: 20px; /* Tamanho do ícone */
     display: flex;
-    position: absolute;
-    transition: opacity 0.3s ease, transform 0.3s ease; /* Transição suave */
+    align-items: center;
+    justify-content: center;
 }
 
+/* Ícone da lua para o dark mode */
+#dark-mode-toggle::before {
+    content: "\263D"; /* Código Unicode para a lua crescente */
+    color: #d4a373;
+    opacity: 1; /* Mostrar por padrão */
+    position: static; /* Remove o position absolute */
+    transform: none; /* Remove o transform */
+    transition: opacity 0.3s ease;
+}
+
+body.dark-mode #dark-mode-toggle::before {
+    opacity: 0; /* Esconder quando dark mode está ativo */
+}
+
+/* Ícone do sol para o light mode */
+#dark-mode-toggle::after {
+    content: "\2600"; /* Código Unicode para o sol */
+    color: #d4a373;
+    font-size: 18px;
+    opacity: 0; /* Esconder por padrão */
+    position: static; /* Remove o position absolute */
+    transform: none; /* Remove o transform */
+    transition: opacity 0.3s ease;
+}
+
+body.dark-mode #dark-mode-toggle::after {
+    opacity: 1; /* Mostrar quando dark mode está ativo */
+}
+
+/* Ajuste no darkmode-container para garantir alinhamento */
+.darkmode-container {
+    display: flex;
+    align-items: center; /* Garante que o botão fique centralizado verticalmente */
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background 0.3s, color 0.3s;
+}
+
+.darkmode-container:hover {
+    background: #3e3e3e; /* Cinza escuro ao passar o mouse */
+    color: #d4a373; /* Mantém a cor dourada */
+}
 
 /* Logo */
 .logo {
@@ -61,51 +98,21 @@ header {
 .logo:hover img {
     transform: scale(1.1); /* Aumenta a imagem em 10% */
 }
-/* Ícone da lua para o dark mode */
-#dark-mode-toggle::before {
-    content: "\263D"; /* Código Unicode para a lua crescente */
-    color: #d4a373; /* Cor da lua */
-    font-size: 20px;
-    top: 50%;
-    left: 50%; 
-    transform: translate(-50%, -50%); 
-    opacity: 1; /* Mostrar por padrão */
-}
- 
-body.dark-mode #dark-mode-toggle::before {
-    opacity: 0; /* Esconder quando dark mode está ativo */
-}
-
-/* Ícone do sol para o light mode */
-#dark-mode-toggle::after {
-    content: "\2600"; /* Código Unicode para o sol */    
-    color: #d4a373; /* Cor do sol */
-    font-size: 18px;    
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0; /* Esconder por padrão */
-}
-.dark-mode #dark-mode-toggle::after {
-    opacity: 0;
-    transform: translate(-50%, -50%); /* Aumenta a imagem em 10% */
-}
 
 /* Navbar */
-.darkmode-container{
-    margin-right: 15px;
-}
-
 nav ul {
     list-style: none;
     display: flex;
     margin: 0;
     padding: 0;
     justify-content: flex-end;
+    align-items: center; /* Garante que os itens da navbar estejam alinhados verticalmente */
 }
 
 nav ul li {
     margin: 0 15px;
+    display: flex;
+    align-items: center; /* Alinha cada item da navbar verticalmente */
 }
 
 nav ul li a {
@@ -114,6 +121,8 @@ nav ul li a {
     padding: 10px 15px;
     border-radius: 5px;
     transition: background 0.3s, color 0.3s;
+    display: flex;
+    align-items: center; /* Garante que o texto fique centralizado verticalmente */
 }
 
 nav ul li a:hover {
@@ -183,8 +192,4 @@ nav ul li a:hover {
     .hamburger.active span:nth-child(3) {
         transform: rotate(45deg) translate(-5px, -6px);
     }
-}
-
-.dark-mode #dark-mode-toggle::after {
-    opacity: 1; /* Mostrar quando dark mode está ativo */
 }
