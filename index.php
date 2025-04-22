@@ -16,6 +16,7 @@
             <!-- Slide 1 -->
             <div class="slide">
                 <img src="./img/slide1.png" alt="Imagem 1">
+                <h3 class="slide-title">Bem-vindo</h3>
                 <div class="text">
                     <h2>Bem-vindo à Oficina do Cabelo</h2>
                     <p>Os melhores cortes que pode imaginar!</p>
@@ -25,6 +26,7 @@
             <!-- Slide 2 -->
             <div class="slide">
                 <img src="./img/slide2.png" alt="Imagem 2">
+                <h3 class="slide-title">Experiencia</h3>
                 <div class="text">
                     <h2>Experiência Única</h2>
                     <p>Profissionais qualificados para transformar o seu visual.</p>
@@ -34,6 +36,7 @@
             <!-- Slide 3 -->
             <div class="slide">
                 <img src="./img/slide3.png" alt="Imagem 3">
+                <h3 class="slide-title">Estilo</h3>
                 <div class="text">
                     <h2>Estilo Personalizado</h2>
                     <p>Cada corte é feito à medida para si.</p>

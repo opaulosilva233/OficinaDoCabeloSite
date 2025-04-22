@@ -77,7 +77,8 @@ header {
     top: 0;
     left: 0;
     opacity: 0; /* Inicia com opacidade 0 */
-    transition: opacity 0.5s ease-in-out; /* Transição suave para a opacidade */
+    transition: opacity 1s ease-in-out; /* Transição suave para a opacidade */
+    z-index: 1;
 }
 
 .slide.active {
@@ -103,10 +104,11 @@ header {
     top: 50%; /* Posiciona no centro vertical */
     left: 50%; /* Centraliza horizontalmente */
     transform: translate(-50%, -50%); /* Ajuste para garantir que fique no centro exato */
-    background: rgba(0, 0, 0, 0.6); /* Fundo escuro semitransparente */
-    color: #fff; /* Texto branco */
-    padding: 20px;
+    background: rgba(50, 50, 50, 0.7); /* Fundo cinza escuro semitransparente */
+    color: #ffffff; /* Texto branco */
+    padding: 30px; /* Aumentando o espaçamento interno */
     border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Adicionando uma sombra */
     text-align: center;
     width: 100%; /* A caixa de texto ocupa toda a largura disponível */
     max-width: 800px; /* Limita a largura máxima da caixa de texto */
@@ -119,7 +121,7 @@ header {
 
 /* Estilo do título */
 .text h2 {
-    font-size: 2rem; /* Tamanho do título */
+    font-size: 2.5rem; /* Aumentando o tamanho do título */
     margin: 0;
 }
 
@@ -191,6 +193,31 @@ header {
     right: 20px; /* Posiciona o botão "Próximo" à direita */
 }
 
+/* Estilos dos pontos de navegação */
+.slider-dots {
+    position: absolute; /* Posiciona os pontos abaixo do slider */
+    bottom: 20px; /* Distância da parte inferior do slider */
+    left: 50%; /* Centraliza os pontos horizontalmente */
+    transform: translateX(-50%); /* Ajusta o posicionamento horizontal */
+    display: flex; /* Organiza os pontos lado a lado */
+    z-index: 2; /* Garante que os pontos fiquem acima das imagens */
+}
+
+.dot {
+    width: 10px; /* Largura do ponto */
+    height: 10px; /* Altura do ponto */
+    border-radius: 50%; /* Formato circular */
+    background-color: #bbb; /* Cor do ponto inativo */
+    margin: 0 5px; /* Espaçamento entre os pontos */
+    cursor: pointer; /* Mudança do cursor ao passar por cima */
+    transition: background-color 0.3s ease; /* Transição suave na cor */
+}
+
+/* Estilo do ponto ativo */
+.dot.active {
+    background-color: #717171; /* Cor do ponto ativo */
+}
+
 /* Responsividade */
 @media (max-width: 768px) {
     .slider {
@@ -202,7 +229,7 @@ header {
     }
 
     .text h2 {
-        font-size: 1.5rem; /* Reduz o tamanho do título */
+        font-size: 2rem; /* Reduz o tamanho do título */
     }
 
     .text p {
