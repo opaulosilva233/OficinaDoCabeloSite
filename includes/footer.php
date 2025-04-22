@@ -10,11 +10,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/footer.css"> <!-- Liga o ficheiro CSS do rodapé -->
-</head>
-        <div class="dark-mode-toggle-container">
-            <button id="dark-mode-toggle"></button>
-        </div>
+    </head>
 <footer>
+    <div class="dark-mode-toggle-container">
+            <button id="dark-mode-toggle"></button>
+    </div>
     <div class="footer-container">
         <!-- Início da Secção de Links Rápidos -->
         <div class="footer-section links">

@@ -12,14 +12,6 @@ header {
     z-index: 1; /* Garante que o header fique acima de outros elementos */
 }
 
-#dark-mode-toggle::before,
-#dark-mode-toggle::after {
-    content: "";
-    display: flex;
-    position: absolute;
-    transition: opacity 0.3s ease, transform 0.3s ease; /* Transição suave */
-}
-
 
 /* Logo */
 .logo {
@@ -131,4 +123,46 @@ nav ul li a:hover {
         transform: rotate(45deg) translate(-5px, -6px);
     }
     }
+}
+
+/* Estilo do botão de dark mode */
+.dark-mode-toggle-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 10px;
+    transition: transform 0.3s ease; /* Transição suave */
+}
+
+#dark-mode-toggle {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    width: 25px;
+    height: 25px;
+    position: relative; /* Para posicionar os ícones */
+}
+
+.dark-mode-toggle:hover{
+    transform: scale(1.1);
+    position: relative; /* Para posicionar os ícones */
+}
+
+#dark-mode-toggle::before,
+#dark-mode-toggle::after {
+    content: "";
+    display: flex;
+    position: absolute;
+    transition: opacity 0.3s ease, transform 0.3s ease; /* Transição suave */
+}
+/* Ícone da lua para o dark mode */
+#dark-mode-toggle::before {
+    content: "\263D"; /* Código Unicode para a lua crescente */
+    color: #d4a373; /* Cor da lua */
+    font-size: 20px;
+    top: 50%;
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    opacity: 1; /* Mostrar por padrão */
 }

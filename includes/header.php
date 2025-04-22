@@ -1,51 +1,168 @@
-<?php
-// Include config file
-include('config.php');
-// Start the session
-session_start();
-?><!-- Início do cabeçalho HTML -->
-<!DOCTYPE html>
-<html lang="pt-PT"> <!-- Especifica que o idioma da página é português de Portugal -->
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/header.css"> <!-- Liga o ficheiro CSS do cabeçalho -->
-    <link rel="stylesheet" href="./css/darkMode.css">
-    <link rel="icon" href="./img/logotipo.png" type="image/x-icon"> <!-- Define o ícone da página (favicon) -->
-    <title>Oficina do Cabelo</title>
-    <script src="./js/darkMode.js"></script>
+/* Estilos gerais */
 
-</head>
-<body>
-    <!-- Início do cabeçalho -->
-    <header>
-        <!-- Secção da logo -->
-        <div class="logo">
-            <a href="./index.php" class="logo"> <!-- Link para a página inicial -->
-                <img src="./img/logotipo.png" alt="Logótipo da Barbearia"> <!-- Exibe a logo da barbearia -->
-                <span>Oficina do Cabelo</span>
-            </a>
-        </div>
-        <!-- Secção da navegação -->
-        <nav>
-            <!-- Ícone Hamburger (para dispositivos móveis) -->
-            <div class="hamburger" id="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <!-- Menu principal -->
-            <ul id="menu" class="menu">
-                <li><a href="./index.php">Início</a></li> <!-- Caminho atualizado com './' -->
-                <li><a href="./sobre.php">Sobre Nós</a></li> <!-- Caminho atualizado com './' -->
-                <li><a href="./contacto.php">Contactos</a></li> <!-- Caminho atualizado com './' -->
-                <li><a href="./marcacoes.php">Marcações</a></li> <!-- Caminho atualizado com './' -->
-            </ul>
-        </nav>
-        <div class="dark-mode-toggle">
-            <button id="dark-mode-toggle"></button>
-        </div>
-    </header>
-    <!-- Inclusão do script JavaScript para o menu de navegação -->
-    <script src="./js/navMenu.js"></script> 
-</body>
+header {
+    background: #2b2b2b; /* Preto com um toque de cinza */
+    color: #d4a373; /* Dourado suave */
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: Arial, Helvetica, sans-serif;
+    position: relative; /* Garante que o menu seja posicionado de forma absoluta em relação ao header */
+    z-index: 1; /* Garante que o header fique acima de outros elementos */
+}
+
+
+/* Logo */
+.logo {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+    color: #d4a373;
+    transition: transform 0.3s ease;
+}
+
+.logo img {
+    height: 40px; /* Ajuste o tamanho da imagem conforme necessário */
+    width: auto;
+    margin-right: 10px;
+    transition: transform 0.3s ease; /* Suaviza a transição da imagem */
+}
+
+.logo:hover img {
+    transform: scale(1.1); /* Aumenta a imagem em 10% */
+}
+
+/* Navbar */
+nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+
+nav ul li { margin: 0 15px;}
+
+
+nav ul li a {
+    color: #d4a373; /* Dourado suave para os links */
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background 0.3s, color 0.3s;
+}
+
+nav ul li a:hover {
+    background: #3e3e3e; /* Cinza escuro ao passar o mouse */
+    color: #d4a373; /* Mantém a cor dourada */
+}
+
+/* Estilo do menu hamburger */
+.hamburger {
+    display: none; /* Esconde o hamburger por padrão */
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background-color: #d4a373; /* Dourado suave */
+    margin: 4px 0;
+    transition: 0.3s;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    /* Oculta o menu principal */
+    nav ul{
+        display: none; /* Esconde o menu */
+    }
+    header {
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 0;
+        width: 100%; /* O menu ocupa toda a largura da tela */
+        background: #2b2b2b; /* Mesma cor de fundo da navbar */
+        position: absolute; /* Faz o menu se sobrepor ao conteúdo */
+        top: 100%; /* Coloca o menu logo abaixo da navbar */
+        left: 0;
+        z-index: 9999; /* Assegura que o menu fique acima de outros conteúdos */
+        opacity: 0; /* Inicialmente o menu está invisível */
+        transform: translateY(-10px); /* Deslocamento inicial para cima */
+        transition: opacity 0.3s ease, transform 0.3s ease; /* Animação suave */
+    }
+    nav ul.show {
+        display: flex; /* Exibe o menu */
+    }
+    .logo {
+        margin-bottom: 10px;
+    }
+
+    
+    nav ul li {
+        margin: 10px 0; /* Espaçamento entre os itens */
+    }
+
+    /* Exibe o hamburger */
+    .hamburger {
+        display: flex;
+    .hamburger.active span:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 6px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
+    }
+    }
+}
+
+/* Estilo do botão de dark mode */
+.dark-mode-toggle-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 10px;
+    transition: transform 0.3s ease; /* Transição suave */
+}
+
+#dark-mode-toggle {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    width: 25px;
+    height: 25px;
+    position: relative; /* Para posicionar os ícones */
+}
+
+.dark-mode-toggle:hover{
+    transform: scale(1.1);
+    position: relative; /* Para posicionar os ícones */
+}
+
+#dark-mode-toggle::before,
+#dark-mode-toggle::after {
+    content: "";
+    display: flex;
+    position: absolute;
+    transition: opacity 0.3s ease, transform 0.3s ease; /* Transição suave */
+}
+/* Ícone da lua para o dark mode */
+#dark-mode-toggle::before {
+    content: "\263D"; /* Código Unicode para a lua crescente */
+    color: #d4a373; /* Cor da lua */
+    font-size: 20px;
+    top: 50%;
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    opacity: 1; /* Mostrar por padrão */
+}
