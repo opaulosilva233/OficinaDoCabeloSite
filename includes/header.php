@@ -40,6 +40,9 @@ session_start();
                 <li><a href="./sobre.php">Sobre Nós</a></li> <!-- Caminho atualizado com './' -->
                 <li><a href="./contacto.php">Contactos</a></li> <!-- Caminho atualizado com './' -->
                 <li><a href="./marcacoes.php">Marcações</a></li> <!-- Caminho atualizado com './' -->
+                <li>
+                    <div class="dark-mode-toggle"><button id="dark-mode-toggle"></button></div>
+                </li>
             </ul>
         </nav>
         <div class="dark-mode-toggle">

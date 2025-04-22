@@ -92,12 +92,16 @@ body.dark-mode #dark-mode-toggle::before {
 }
 
 /* Navbar */
+.darkmode-container{
+    margin-right: 15px;
+}
+
 nav ul {
     list-style: none;
     display: flex;
     margin: 0;
     padding: 0;
-    margin-left: auto;
+    justify-content: flex-end;
 }
 
 nav ul li {
