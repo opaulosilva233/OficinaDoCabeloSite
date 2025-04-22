@@ -26,6 +26,11 @@ body.dark-mode {
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+.dark-mode .login-container p{
+    color: #000;
+    transition: color 0.3s ease;
+}
+
 .dark-mode .submit-btn,
 .dark-mode .back-home-btn,
 .dark-mode .logout-btn{
@@ -55,7 +60,7 @@ body.dark-mode {
 
 .dark-mode form input {
     background-color: #444;
-    color: #f4f4f4;
+    color: #000;
     border-color: #666;
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }

@@ -106,9 +106,9 @@ nav ul {
     padding: 0;
 }
 
-nav ul li {
-    margin: 0 15px;
-}
+
+nav ul li { margin: 0 15px;}
+
 
 nav ul li a {
     color: #d4a373; /* Dourado suave para os links */
@@ -141,7 +141,7 @@ nav ul li a:hover {
 /* Responsividade */
 @media (max-width: 768px) {
     /* Oculta o menu principal */
-    nav ul {
+    nav ul{
         display: none; /* Esconde o menu */
     }
     header {
@@ -158,6 +158,9 @@ nav ul li a:hover {
         transform: translateY(-10px); /* Deslocamento inicial para cima */
         transition: opacity 0.3s ease, transform 0.3s ease; /* Animação suave */
     }
+    nav ul.show {
+        display: flex; /* Exibe o menu */
+    }
     .dark-mode-toggle {
         margin: 0;
     }
@@ -165,12 +168,7 @@ nav ul li a:hover {
         margin-bottom: 10px;
     }
 
-    nav ul.show {
-        display: flex; /* Exibe o menu */
-        opacity: 1; /* Torna o menu visível */
-        transform: translateY(0); /* Posiciona o menu corretamente */
-    }
-
+    
     nav ul li {
         margin: 10px 0; /* Espaçamento entre os itens */
     }
@@ -192,7 +190,7 @@ nav ul li a:hover {
     .hamburger.active span:nth-child(3) {
         transform: rotate(45deg) translate(-5px, -6px);
     }
-
+    }
 }
 
 .dark-mode #dark-mode-toggle::after {
