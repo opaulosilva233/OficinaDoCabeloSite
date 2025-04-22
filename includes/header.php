@@ -45,9 +45,6 @@ session_start();
                 </li>
             </ul>
         </nav>
-        <div class="dark-mode-toggle">
-            <button id="dark-mode-toggle"></button>
-        </div>
     </header>
     <!-- Inclusão do script JavaScript para o menu de navegação -->
     <script src="./js/navMenu.js"></script> 
