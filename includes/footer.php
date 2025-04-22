@@ -50,4 +50,5 @@
             <p>&copy; 2024 Oficina do Cabelo. Todos os direitos reservados.</p>
         </div>
     </div>
+    <script src="./js/darkMode.js"></script>
 </footer>
