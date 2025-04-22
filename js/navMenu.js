@@ -6,13 +6,13 @@ const overlay = document.createElement('div');
 overlay.classList.add('overlay');
 document.body.appendChild(overlay);
 
-
 // Função para fechar o menu e remover o overlay
 function closeMenu() {
     menu.classList.remove('show');
     hamburger.classList.remove('active');
-    overlay.style.display = 'none';    
-    document.body.classList.remove('menu-open');
+    overlay.style.display = 'none';
+    main.classList.remove('menu-open');
+
 }
 // Adiciona um ouvinte de evento ao ícone do hamburger
 hamburger.addEventListener('click', () => {
@@ -20,8 +20,8 @@ hamburger.addEventListener('click', () => {
 
 
     // Alterna a classe 'show' no menu para exibir/ocultar    
-    main.classList.toggle('menu-open');
     menu.classList.toggle('show');
+    main.classList.toggle('menu-open')
     // Alterna a classe 'active' no ícone do hamburger para animação
     hamburger.classList.toggle('active');
 
