@@ -28,4 +28,3 @@ hamburger.addEventListener('click', () => {
     }
 });
 menu.addEventListener('click', closeMenu);
-});
