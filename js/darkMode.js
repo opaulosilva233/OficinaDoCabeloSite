@@ -9,8 +9,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Verifica se o tema está guardado no LocalStorage
     const currentTheme = localStorage.getItem('theme');
-    if (currentTheme === 'dark-mode') {
-        body.classList.add('dark-mode');
+    if (currentTheme) {
+        body.classList.add(currentTheme);
     }
 
     // Adiciona um event listener para o botão

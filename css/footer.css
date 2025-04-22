@@ -109,16 +109,24 @@ footer {
 }
 
 /* Ícone da lua para o dark mode */
+.darkmode-container #dark-mode-toggle::before,
+.darkmode-container #dark-mode-toggle::after {
+    content: "";
+    display: flex;
+    position: absolute;
+    transition: opacity 0.3s ease;
+}
 .darkmode-container #dark-mode-toggle::before {
-    content: "³D"; /* Código Unicode para a lua crescente */
+    content: "\263D"; /* Código Unicode para a lua crescente */
     color: #d4a373; /* Cor da lua */
     font-size: 20px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     opacity: 1; /* Mostrar por padrão */
+    }
 .darkmode-container #dark-mode-toggle::after {
-    content: "°0"; /* Código Unicode para o sol */    
+    content: "\2600"; /* Código Unicode para o sol */    
     color: #d4a373; /* Cor do sol */
     font-size: 18px;
     top: 50%;
@@ -126,13 +134,11 @@ footer {
     transform: translate(-50%, -50%);    
     opacity: 0; /* Esconder por padrão */
 }
-.darkmode-container #dark-mode-toggle::after {
-}
 .dark-mode .darkmode-container #dark-mode-toggle::after {
     opacity: 1;
 }
-.dark-mode .darkmode-container #dark-mode-toggle::before {
-    opacity: 0; /* Esconder quando dark mode está ativo */
+.dark-mode .darkmode-container #dark-mode-toggle::before {    
+    opacity: 0;
 }
 
 
