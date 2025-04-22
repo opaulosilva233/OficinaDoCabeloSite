@@ -3,215 +3,27 @@
  * Este ficheiro contém os estilos para o modo escuro da aplicação.
  */
 
-/* Dark Mode General */
+ .dark-mode header, .dark-mode nav ul li a {
+    color: #d4a373;
+    transition: color 0.3s ease;
+}
+
+body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+
+}
+
 body.dark-mode {
-    background-color: #2b2b2b; /* Dark gray background */
-    color: #d4a373; /* Light gold text */
-}
-
-.dark-mode main, .dark-mode section, .dark-mode .slider, .dark-mode .about-us, .dark-mode .services, .dark-mode .contact {
-    background-color: #2b2b2b;
-    color: #d4a373;
-}
-
-
-.dark-mode h2,
-.dark-mode h3,
-.dark-mode h4 {
-    color: white; /* White text for headings */
-}
-
-.dark-mode a {
-    color: #d4a373;
-}
-
-.dark-mode .about, .dark-mode .services, .dark-mode .contact, .dark-mode .barbers, .dark-mode .section-title {
-    background-color: #2b2b2b; /* Dark gray background */
-    color: #d4a373; /* Light gold text */
-}
-
-.dark-mode .barber, .dark-mode .barbers-grid {
-    background-color: #2b2b2b;
-    color: #d4a373;
-}
-
-.dark-mode .modal {
-    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent dark background */
-    color: white; /* White text */
-}
-
-/* Dark Mode Toggle Styles */
-
-.darkmode-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 10px; 
-    position: relative;
-}
-
-.darkmode-container input[type="checkbox"] {
-    display: none;
-}
-
-.darkmode-container label {
-    cursor: pointer;
-    width: 50px;
-    height: 25px;
-    background-color: #333;
-    display: block;
-    border-radius: 100px;
-    position: relative;
-    transition: background-color 0.2s ease;
-    box-shadow: inset 0px 5px 15px rgba(0, 0, 0, 0.4), inset 0px -5px 15px rgba(255, 255, 255, 0.4);
-}
-
-.darkmode-container label:after {
-    content: "";
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: #f4f4f4;
-    top: 2.5px;
-    left: 2.5px;
-    transition: all 0.2s ease;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
-}
-
-.darkmode-container input[type="checkbox"] {
-    display: none;
-}
-
-.darkmode-container label {
-    cursor: pointer;
-    width: 50px;
-    height: 25px;
-    background-color: #333;
-    display: block;
-    border-radius: 100px;
-    position: relative;
-    transition: background-color 0.2s ease;
-    box-shadow: inset 0px 5px 15px rgba(0, 0, 0, 0.4), inset 0px -5px 15px rgba(255, 255, 255, 0.4);
-}
-
-.darkmode-container label:after {
-    content: "";
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: #f4f4f4;
-    top: 2.5px;
-    left: 2.5px;
-    transition: all 0.2s ease;
-}
-
-.darkmode-container svg {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 16px;
-    height: 16px;
-    fill: #d4a373;
-    transition: fill 0.2s ease;
-}
-
-#sun {
-    left: 5px;
-}
-
-#moon {
-    right: 5px;
-    fill: #f4f4f4;
-}
-
-.darkmode-container input:checked + label {
-    background-color: #d4a373;
-}
-
-.darkmode-container input:checked + label:after {
-    left: 27.5px;
-}
-
-.darkmode-container input:checked + label #sun{
-    fill: #f4f4f4;
-}
-
-.darkmode-container input:checked + label #moon {
-    fill: #d4a373;
-}
-
-/* Dark mode for other pages*/
-.dark-mode .login-container,
-.dark-mode .dashboard-container {
-    background-color: #333;
-    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.dark-mode .login-container p{
-    color: #000;
-    transition: color 0.3s ease;
-}
-
-.dark-mode .submit-btn,
-.dark-mode .back-home-btn,
-.dark-mode .logout-btn{
-    background-color: #b5855f;
-    transition: background-color 0.3s ease;
-}
-
-.dark-mode .submit-btn:hover,
-.dark-mode .back-home-btn:hover,
-.dark-mode .logout-btn:hover {
-    background-color: #d4a373;
-}
-
-.dark-mode .dashboard-container h1 {
-    color: #f4f4f4;
-    transition: color 0.3s ease;
-}
-.dark-mode .login-container h2 {
-    color: #f4f4f4;
-    transition: color 0.3s ease;
-}
-
-.dark-mode form label {
-    color: #f4f4f4;
-    transition: color 0.3s ease;
-}
-
-.dark-mode form input {
-    background-color: #444;
-    color: #000;
-    border-color: #666;
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-}
-.dark-mode form input:focus {
-    background-color: #555;
-    border-color: #d4a373;
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-}
-
-.dark-mode .footer {
-    background-color: #111;
+    background-color: #222;
     color: #f4f4f4;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
-}
-
 
 .dark-mode .login-container,
 .dark-mode .dashboard-container {
     background-color: #333;
     box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.dark-mode .login-container p{
-    color: #000;
-    transition: color 0.3s ease;
 }
 
 .dark-mode .submit-btn,
@@ -243,65 +55,7 @@ body.dark-mode {
 
 .dark-mode form input {
     background-color: #444;
-    color: #000;
-    border-color: #666;
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-}
-.dark-mode form input:focus {
-    background-color: #555;
-    border-color: #d4a373;
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-}
-
-.dark-mode .footer {
-    background-color: #111;
     color: #f4f4f4;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-}
-
-.dark-mode .login-container,
-.dark-mode .dashboard-container {
-    background-color: #333;
-    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.dark-mode .login-container p{
-    color: #000;
-    transition: color 0.3s ease;
-}
-
-.dark-mode .submit-btn,
-.dark-mode .back-home-btn,
-.dark-mode .logout-btn{
-    background-color: #b5855f;
-    transition: background-color 0.3s ease;
-}
-
-.dark-mode .submit-btn:hover,
-.dark-mode .back-home-btn:hover,
-.dark-mode .logout-btn:hover {
-    background-color: #d4a373;
-}
-
-.dark-mode .dashboard-container h1 {
-    color: #f4f4f4;
-    transition: color 0.3s ease;
-}
-.dark-mode .login-container h2 {
-    color: #f4f4f4;
-    transition: color 0.3s ease;
-}
-
-.dark-mode form label {
-    color: #f4f4f4;
-    transition: color 0.3s ease;
-}
-
-.dark-mode form input {
-    background-color: #444;
-    color: #000;
     border-color: #666;
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
