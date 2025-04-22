@@ -1,4 +1,5 @@
 /* Estilização Geral */
+
 body {
     display: flex;
     flex-direction: column;
@@ -56,16 +57,23 @@ footer {
 }
 
 .footer-section ul li a {
-    color: #d4a373; /* Dourado suave para os links */
+    color: inherit; /* Dourado suave para os links */
     text-decoration: none; /* Remove o sublinhado dos links */
-    color: inherit;
     
 }
 .social-icon{
-    height: 30px;
+    height: 30px; /* Set the height to 30px */
+    width: 30px; /* Set the width to 30px */
     transition: color 0.3s ease;
+    margin-right: 0;
 }
 
+.footer-heading{
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #ffffff; /* Alteração para branco */
+    font-weight: bold; /* Destaca os títulos */
+}
 .footer-section a:hover {
     color: #b5855f; /* Tom de cobre mais escuro ao passar o mouse */
 }
@@ -73,11 +81,16 @@ footer {
 .social-icon{
     height: 30px;
     color: #d4a373;
-    margin-right: 10px;
     transition: opacity 0.3s ease;
 }
 .social-icon:hover{
     opacity: 0.8;
+}
+
+.footer-section ul li a{
+    color: #d4a373;
+    text-decoration: none;
+    transition: color 0.3s ease;
 }
 
 .social-media a {
