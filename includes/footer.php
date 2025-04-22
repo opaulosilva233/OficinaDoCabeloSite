@@ -25,16 +25,21 @@
             </ul>
         </div>
 
-        <!-- Fim da Secção de Links Rápidos -->
+        <!-- Horário de Funcionamento -->
         <div class="opening-hours">
             <p class="footer-heading">Horário de Funcionamento</p>
-            <ul>
-                <li>Segunda a Sexta 9h às 19h</li>
-                <li>Sábado 9h às 13h</li>
-                <li>Domingo Encerrado</li>
+            <ul class="opening-hours-list">
+                <div><li>Segunda a Sexta 9h às 19h</li></div>
+                <div><li>Sábado 9h às 13h</li></div>
+                <div><li>Domingo Encerrado</li></div>
             </ul>
         </div>
+
+        <!-- Fim da Secção de Links Rápidos -->
         <!-- Secção de Redes Sociais -->
+
+
+
         <div class="footer-section social-media">
             <h4>Siga-nos</h4>
             <ul class="social-links">

@@ -77,14 +77,25 @@ footer {
     color: #b5855f; /* Tom de cobre mais escuro ao passar o mouse */
 }
 
-.social-icon {
+.social-icon i {
     height: 30px;
     width: 30px;
     color: #d4a373;
     transition: opacity 0.3s ease;
 }
 
-.social-icon:hover{
+.opening-hours {
+    display: flex;
+    flex-direction: column; /* Empilha os itens verticalmente */
+}
+
+.opening-hours-list {
+    display: flex; /* Exibe os itens da lista horizontalmente */
+}
+.opening-hours-list li{
+    margin-bottom: 10px;
+}
+.social-icon:hover i{
     opacity: 0.8;
 }
 
