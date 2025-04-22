@@ -7,14 +7,6 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Estilos gerais */
-
-body {\n    
-    
-    
-    font-family: Arial, Helvetica, sans-serif;
-}
-
 main {
     flex-grow: 1; /* Garante que o conteúdo principal ocupe todo o espaço disponível */
 }
@@ -76,72 +68,6 @@ footer {
 .social-media a {
     margin: 0 5px;
 }
-/* Dark Mode Toggle */
-/* Estilo do botão de dark mode */
-.darkmode-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.3s ease;
-    margin-bottom: 15px;
-}
-
-.darkmode-container #dark-mode-toggle {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    width: 25px;
-    height: 25px;
-    position: relative; /* Para posicionar os ícones */
-}
-
-.darkmode-container:hover #dark-mode-toggle{
-    transform: scale(1.1);
-}
-
-.darkmode-container #dark-mode-toggle::before,
-.darkmode-container #dark-mode-toggle::after {
-    content: "";
-    display: flex;
-    position: absolute;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-/* Ícone da lua para o dark mode */
-.darkmode-container #dark-mode-toggle::before,
-.darkmode-container #dark-mode-toggle::after {
-    content: "";
-    display: flex;
-    position: absolute;
-    transition: opacity 0.3s ease;
-}
-.darkmode-container #dark-mode-toggle::before {
-    content: "\263D"; /* Código Unicode para a lua crescente */
-    color: #d4a373; /* Cor da lua */
-    font-size: 20px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 1; /* Mostrar por padrão */
-    }
-.darkmode-container #dark-mode-toggle::after {
-    content: "\2600"; /* Código Unicode para o sol */    
-    color: #d4a373; /* Cor do sol */
-    font-size: 18px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);    
-    opacity: 0; /* Esconder por padrão */
-}
-.dark-mode .darkmode-container #dark-mode-toggle::after {
-    opacity: 1;
-}
-.dark-mode .darkmode-container #dark-mode-toggle::before {    
-    opacity: 0;
-}
-
-
 
 .footer-bottom {
     margin-top: 20px;

@@ -10,7 +10,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/footer.css"> <!-- Liga o ficheiro CSS do rodapé -->
-    </head>
+</head>
 <footer>
     <div class="footer-container">
         <!-- Início da Secção de Links Rápidos -->
@@ -47,5 +47,4 @@
             <p>&copy; 2024 Oficina do Cabelo. Todos os direitos reservados.</p>
         </div>
     </div>
-    <script src="./js/darkMode.js"></script>
 </footer>

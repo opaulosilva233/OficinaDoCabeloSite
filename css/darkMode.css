@@ -3,7 +3,7 @@
  * Este ficheiro contém os estilos para o modo escuro da aplicação.
  */
 
- .dark-mode header, .dark-mode nav ul li a {
+.dark-mode header, .dark-mode nav ul li a {
     color: #d4a373;
     transition: color 0.3s ease;
 }
