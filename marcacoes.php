@@ -12,6 +12,35 @@
 <body>
     <header>
     </header>
+    <?php
+    // Check if URL parameters are present
+    if (isset($_GET['date']) && isset($_GET['time']) && isset($_GET['barber']) && isset($_GET['name'])) {
+        $date = htmlspecialchars($_GET['date']);
+        $time = htmlspecialchars($_GET['time']);
+        $barber = htmlspecialchars($_GET['barber']);
+        $name = htmlspecialchars($_GET['name']);
+        ?>
+        <main>
+        <section class="appointment-section">
+            <div class="confirmation-message">
+                <h2>Marcação Confirmada</h2>
+                <p>Olá, <?php echo $name; ?>!</p>
+                <p>A sua marcação foi confirmada com sucesso.</p>
+                <p><strong>Data:</strong> <?php echo $date; ?></p>
+                <p><strong>Hora:</strong> <?php echo $time; ?></p>
+                <p><strong>Barbeiro:</strong> <?php echo $barber; ?></p>
+                <p>Iremos enviar um email com os detalhes da marcação.</p>
+            </div>
+        </section>
+        </main>
+            <footer>
+                <?php include('./includes/footer.php'); ?>
+            </footer>
+        </body>
+        </html>
+        <?php exit; // Stop execution to avoid showing the booking form
+    } ?>
+    </header>
     <main>
         <section class="appointment-section">
             <h1>Agendar uma Marcação</h1>
