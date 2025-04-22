@@ -8,7 +8,7 @@ header {
     justify-content: space-between;
     font-family: Arial, Helvetica, sans-serif;
     position: relative; /* Garante que o menu seja posicionado de forma absoluta em relação ao header */
-    z-index: 1; /* Garante que o header fique acima de outros elementos */
+    z-index: 100; /* Aumentado para ficar acima do slider */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Sombra para dar profundidade */
 }
 
@@ -78,7 +78,7 @@ body.dark-mode #dark-mode-toggle::after {
     color: #d4a373; /* Mantém a cor dourada */
 }
 
-/* Logo */
+/* Logótipo */
 .logo {
     display: flex;
     align-items: center;
@@ -98,10 +98,11 @@ body.dark-mode #dark-mode-toggle::after {
 .logo:hover img {
     transform: scale(1.05); /* Aumenta a imagem em 10% */
 }
-.logo img:hover{
+.logo img:hover {
     margin-right: 0;
     opacity: 0.9;
 }
+
 /* Navbar */
 nav ul {
     list-style: none;
@@ -163,7 +164,7 @@ nav ul li a:hover {
         position: absolute; /* Faz o menu se sobrepor ao conteúdo */
         top: 100%; /* Coloca o menu logo abaixo da navbar */
         left: 0;
-        z-index: 9999; /* Assegura que o menu fique acima de outros conteúdos */
+        z-index: 9999; /* Mantém alto para ficar acima do slider */
         opacity: 0; /* Inicialmente o menu está invisível */
         transform: translateY(-10px); /* Deslocamento inicial para cima */
         transition: opacity 0.3s ease, transform 0.3s ease; /* Animação suave */

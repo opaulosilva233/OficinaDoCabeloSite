@@ -5,12 +5,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const totalSlides = slides.length;
     const sliderContainer = document.querySelector(".slider");
 
-    // Cria um container para os dots de navegação
+    // Cria um contentor para os pontos de navegação
     const dotsContainer = document.createElement("div");
     dotsContainer.classList.add("dots-container");
     sliderContainer.appendChild(dotsContainer);
 
-    // Cria os dots de navegação
+    // Cria os pontos de navegação
     for (let i = 0; i < totalSlides; i++) {
         const dot = document.createElement("span");
         dot.classList.add("dot");
@@ -33,10 +33,13 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         dots[index].classList.add("active");
 
-        slideTexts.forEach((text,i)=>{
+        slideTexts.forEach((text, i) => {
             text.classList.remove("active");
-        })
-        slideTexts[index].classList.add("active");
+        });
+        // Adiciona um pequeno atraso para o texto aparecer
+        setTimeout(() => {
+            slideTexts[index].classList.add("active");
+        }, 300); // Atraso de 300ms para o texto
     }
 
     // Função para ir para um slide específico
@@ -63,18 +66,18 @@ document.addEventListener("DOMContentLoaded", () => {
     // Troca de slide automaticamente a cada 6 segundos
     setInterval(() => {
         nextSlide();
-      }, 6000);
+    }, 6000);
 
-    // Adiciona botões de navegação manual (opcional)
+    // Adiciona botões de navegação manual
     const prevButton = document.createElement("button");
-    prevButton.textContent = "❮"; // Símbolo de seta esquerda
+    prevButton.innerHTML = "❮"; // Ícone de seta esquerda
     prevButton.classList.add("slider-button", "prev");
-    prevButton.addEventListener("click", prevSlide); // Adiciona evento de clique para retroceder
+    prevButton.addEventListener("click", prevSlide);
 
     const nextButton = document.createElement("button");
-    nextButton.textContent = "❯"; // Símbolo de seta direita
+    nextButton.innerHTML = "❯"; // Ícone de seta direita
     nextButton.classList.add("slider-button", "next");
-    nextButton.addEventListener("click", nextSlide); // Adiciona evento de clique para avançar
+    nextButton.addEventListener("click", nextSlide);
 
     // Insere os botões na página
     sliderContainer.appendChild(prevButton);
