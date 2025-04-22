@@ -170,10 +170,10 @@ nav ul li a:hover {
     /* Exibe o hamburger */
     .hamburger {
         display: flex;
-        margin-left: 0;
     }
-
-    /* Efeito de animação ao clicar no hamburger */
+    .dark-mode-toggle {
+        margin-left: 10px;
+    }
     .hamburger.active span:nth-child(1) {
         transform: rotate(-45deg) translate(-5px, 6px);
     }
@@ -184,10 +184,6 @@ nav ul li a:hover {
 
     .hamburger.active span:nth-child(3) {
         transform: rotate(45deg) translate(-5px, -6px);
-    }
-    .dark-mode-toggle {
-        order: -1;
-        margin-right: 10px;
     }
 
 }
