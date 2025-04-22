@@ -13,38 +13,6 @@ header {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Sombra para dar profundidade */
 }
 
-/* Estilo do botão de dark mode */
-.dark-mode-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 10px;
-    transition: transform 0.3s ease; /* Transição suave */
-}
-
-#dark-mode-toggle {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    width: 25px;
-    height: 25px;
-    position: relative; /* Para posicionar os ícones */
-}
-
-.dark-mode-toggle:hover{
-    transform: scale(1.1);
-    position: relative; /* Para posicionar os ícones */
-}
-
-#dark-mode-toggle::before,
-#dark-mode-toggle::after {
-    content: "";
-    display: flex;
-    position: absolute;
-    transition: opacity 0.3s ease, transform 0.3s ease; /* Transição suave */
-}
-
 
 /* Logo */
 .logo {
@@ -65,38 +33,6 @@ header {
     transition: transform 0.3s ease; /* Suaviza a transição da imagem */
 }
 
-.logo:hover img {
-    transform: scale(1.1); /* Aumenta a imagem em 10% */
-}
-/* Ícone da lua para o dark mode */
-#dark-mode-toggle::before {
-    content: "\263D"; /* Código Unicode para a lua crescente */
-    color: #d4a373; /* Cor da lua */
-    font-size: 20px;
-    top: 50%;
-    left: 50%; 
-    transform: translate(-50%, -50%); 
-    opacity: 1; /* Mostrar por padrão */
-}
- 
-body.dark-mode #dark-mode-toggle::before {
-    opacity: 0; /* Esconder quando dark mode está ativo */
-}
-
-/* Ícone do sol para o light mode */
-#dark-mode-toggle::after {
-    content: "\2600"; /* Código Unicode para o sol */    
-    color: #d4a373; /* Cor do sol */
-    font-size: 18px;    
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0; /* Esconder por padrão */
-}
-.dark-mode #dark-mode-toggle::after {
-    opacity: 0;
-    transform: translate(-50%, -50%); /* Aumenta a imagem em 10% */
-}
 
 /* Navbar */
 nav ul {
@@ -141,48 +77,26 @@ nav ul li a:hover {
 /* Responsividade */
 @media (max-width: 768px) {
     /* Oculta o menu principal */
-    nav ul{
-        display: none; /* Esconde o menu */
-    }
+    
     header {
         flex-direction: column;
         align-items: center;
-        padding: 20px 0;
-        width: 100%; /* O menu ocupa toda a largura da tela */
-        background: #2b2b2b; /* Mesma cor de fundo da navbar */
-        position: absolute; /* Faz o menu se sobrepor ao conteúdo */
-        top: 100%; /* Coloca o menu logo abaixo da navbar */
-        left: 0;
-        z-index: 9999; /* Assegura que o menu fique acima de outros conteúdos */
-        opacity: 0; /* Inicialmente o menu está invisível */
-        transform: translateY(-10px); /* Deslocamento inicial para cima */
-        transition: opacity 0.3s ease, transform 0.3s ease; /* Animação suave */
     }
-    nav ul.show {
-        display: flex; /* Exibe o menu */
-    }
-    .dark-mode-toggle {
-        margin: 0;
-    }
-    .logo {
-        margin-bottom: 10px;
-    }
-
     
+     .logo {
+         margin-bottom: 10px;
+     }
+
+
     nav ul li {
         margin: 10px 0; /* Espaçamento entre os itens */
     }
-
-    /* Exibe o hamburger */
     .hamburger {
         display: flex;
-    .dark-mode-toggle {
-        margin-left: 10px;
-    }
+
     .hamburger.active span:nth-child(1) {
         transform: rotate(-45deg) translate(-5px, 6px);
     }
-
     .hamburger.active span:nth-child(2) {
         opacity: 0;
     }
@@ -191,8 +105,4 @@ nav ul li a:hover {
         transform: rotate(45deg) translate(-5px, -6px);
     }
     }
-}
-
-.dark-mode #dark-mode-toggle::after {
-    opacity: 1; /* Mostrar quando dark mode está ativo */
 }

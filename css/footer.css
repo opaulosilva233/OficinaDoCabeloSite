@@ -69,6 +69,23 @@ footer {
     margin: 0 5px;
 }
 
+.dark-mode-toggle-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease; /* Transição suave */
+}
+
+#dark-mode-toggle-footer {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    width: 25px;
+    height: 25px;
+    position: relative; /* Para posicionar os ícones */
+}
+
 .footer-bottom {
     margin-top: 20px;
     text-align: center;
