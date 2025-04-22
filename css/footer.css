@@ -55,14 +55,29 @@ footer {
     margin: 5px 0;
 }
 
-.footer-section a {
+.footer-section ul li a {
     color: #d4a373; /* Dourado suave para os links */
-    text-decoration: none;
+    text-decoration: none; /* Remove o sublinhado dos links */
+    color: inherit;
+    
+}
+.social-icon{
+    height: 30px;
     transition: color 0.3s ease;
 }
 
 .footer-section a:hover {
     color: #b5855f; /* Tom de cobre mais escuro ao passar o mouse */
+}
+
+.social-icon{
+    height: 30px;
+    color: #d4a373;
+    margin-right: 10px;
+    transition: opacity 0.3s ease;
+}
+.social-icon:hover{
+    opacity: 0.8;
 }
 
 .social-media a {
