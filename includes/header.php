@@ -1,11 +1,11 @@
 <?php
-
 // Include config file
 include('config.php');
 // Start the session
 session_start();
+
 /**
- * Este ficheiro contém o código HTML para o cabeçalho (header) da página web.
+ * This file contains the HTML code for the header.
  * O cabeçalho inclui a logo, menu de navegação e ligação ao script JavaScript para o menu hamburger.
  */
 ?>
@@ -52,6 +52,5 @@ session_start();
         </div>
     </header>
     <!-- Inclusão do script JavaScript para o menu de navegação -->
-    <script src="./js/navMenu.js"></script> <!-- Liga o ficheiro JavaScript para funcionalidades do menu -->
+    <script src="./js/navMenu.js"></script> 
 </body>
-</html>
