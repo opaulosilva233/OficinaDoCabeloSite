@@ -229,6 +229,10 @@ main {
     padding: 40px 20px; /* Espaçamento maior para dar ar de "respiração" */
 }
 
+main.menu-open {
+    opacity: 0.5;
+}
+
 /* Estilo geral para seções */
 section {
     margin-bottom: 60px; /* Espaçamento generoso entre as seções */
