@@ -18,6 +18,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: transform 0.3s ease; /* Transição suave */
 }
 
 #dark-mode-toggle {
@@ -27,6 +28,11 @@ header {
     padding: 0;
     width: 25px;
     height: 25px;
+    position: relative; /* Para posicionar os ícones */
+}
+
+.dark-mode-toggle:hover{
+    transform: scale(1.1);
     position: relative; /* Para posicionar os ícones */
 }
 
@@ -164,6 +170,7 @@ nav ul li a:hover {
     /* Exibe o hamburger */
     .hamburger {
         display: flex;
+        margin-left: 0;
     }
 
     /* Efeito de animação ao clicar no hamburger */
@@ -178,6 +185,11 @@ nav ul li a:hover {
     .hamburger.active span:nth-child(3) {
         transform: rotate(45deg) translate(-5px, -6px);
     }
+    .dark-mode-toggle {
+        order: -1;
+        margin-right: 10px;
+    }
+
 }
 
 .dark-mode #dark-mode-toggle::after {
