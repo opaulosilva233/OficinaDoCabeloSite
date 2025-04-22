@@ -91,8 +91,7 @@ body.dark-mode #dark-mode-toggle::after {
 }
 
 .logo img {
-    height: 40px; /* Ajuste o tamanho da imagem conforme necessário */
-    height: 35px;
+    height: 70px;
     transition: transform 0.3s ease; /* Suaviza a transição da imagem */
 }
 
