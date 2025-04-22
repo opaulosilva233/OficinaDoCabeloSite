@@ -11,13 +11,15 @@ function closeMenu() {
     menu.classList.remove('show');
     hamburger.classList.remove('active');
     overlay.style.display = 'none';
+    document.body.classList.remove('menu-open');
 }
-
-overlay.addEventListener('click', closeMenu);
-
 // Adiciona um ouvinte de evento ao ícone do hamburger
 hamburger.addEventListener('click', () => {
+    overlay.addEventListener('click', closeMenu);
+
+
     // Alterna a classe 'show' no menu para exibir/ocultar
+    document.body.classList.toggle('menu-open');
     menu.classList.toggle('show');
     // Alterna a classe 'active' no ícone do hamburger para animação
     hamburger.classList.toggle('active');

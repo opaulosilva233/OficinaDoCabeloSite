@@ -113,6 +113,10 @@ body.dark-mode #dark-mode-toggle::after {
     display: none;
     transition: opacity 0.3s ease;
 }
+
+body.menu-open{
+    opacity: 0.5;
+}
 /* Navbar */
 nav ul {
     list-style: none;
