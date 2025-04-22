@@ -89,11 +89,10 @@ body.dark-mode #dark-mode-toggle::before {
 .dark-mode #dark-mode-toggle::after {
     opacity: 0;
     transform: translate(-50%, -50%); /* Aumenta a imagem em 10% */
-}
 
 /* Navbar */
 .darkmode-container{
-    margin-right: 15px;
+    margin-right: 0;
 }
 
 nav ul {
@@ -101,6 +100,7 @@ nav ul {
     display: flex;
     margin: 0;
     padding: 0;
+    align-items: center;
     justify-content: flex-end;
 }
 
