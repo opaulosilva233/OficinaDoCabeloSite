@@ -4,10 +4,10 @@ include('./db.php'); // Caminho atualizado com './'
 
 // Verificar se os parâmetros 'barber' (barbeiro) e 'date' (data) foram enviados através do método GET.
 if (isset($_GET['barber']) && isset($_GET['date'])) {
-    // Obter o barbeiro selecionado a partir do parâmetro GET 'barber'.
-    $barber = $_GET['barber']; 
-    // Obter a data selecionada a partir do parâmetro GET 'date'.
-    $date = $_GET['date']; 
+    // Sanitize the barber input
+    $barber = filter_var($_GET['barber'], FILTER_SANITIZE_STRING);
+    // Sanitize the date input
+    $date = filter_var($_GET['date'], FILTER_SANITIZE_STRING);
 
     // Registar (log) os parâmetros recebidos para fins de depuração.
     error_log("Parâmetros recebidos: barber=$barber, date=$date");

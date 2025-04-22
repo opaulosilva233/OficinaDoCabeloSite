@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
+     //Include config file to get the constants
+     const script = document.createElement('script');
+        script.src = 'includes/config.php'; // Replace with the actual path to your config.php file
     // Início do bloco que executa quando o DOM estiver completamente carregado.
     // Seleção de elementos do DOM
     const buttons = document.querySelectorAll('.option-btn');
@@ -13,8 +16,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const body = document.body;
     const modalContainer = modal ? modal.querySelector('.modal-container') : null;
     const serviceDisplay = document.getElementById('selected-service');
-    const userName = document.getElementById('name');
-    const userPhone = document.getElementById('phone');
+        const userName = document.getElementById('name');
+        const userPhone = document.getElementById('phone');
+        
+    
     const userEmail = document.getElementById('email');
     const form = document.getElementById('appointment-form');
     let selectedBarber = null;
@@ -144,15 +149,23 @@ document.addEventListener('DOMContentLoaded', function () {
         const nameValue = userName.value.trim();
         const errorSpan = document.getElementById('name-error');
 
+
+        const nameRegex = /^[a-zA-Z\s]+$/;
+
         if (!errorSpan){
-             const errorSpan = document.createElement('span');
+            const errorSpan = document.createElement('span');
             errorSpan.id = 'name-error';
             errorSpan.style.color = 'red';
-            userName.parentNode.insertBefore(errorSpan, userName.nextSibling);
+            userName.parentNode.insertBefore(errorSpan, userName.nextSibling); // Insere a mensagem de erro logo após o campo do nome
         }
 
         if (nameValue === '') {
-            document.getElementById('name-error').textContent = 'O nome é obrigatório.';
+            document.getElementById('name-error').textContent = 'O nome é obrigatório';
+            return false;
+        } else if (nameValue.length < 3 || !nameRegex.test(nameValue)) {
+           // Verifica se o nome tem menos de 3 caracteres ou contém caracteres inválidos
+           document.getElementById('name-error').textContent = 'O nome deve ter no mínimo 3 caracteres e conter apenas letras e espaços.';
+
             return false;
         } else {
             document.getElementById('name-error').textContent = '';
@@ -171,7 +184,7 @@ document.addEventListener('DOMContentLoaded', function () {
             userPhone.parentNode.insertBefore(errorSpan, userPhone.nextSibling);
         }
 
-        if (phoneValue.length !== 9 || isNaN(phoneValue)) {
+        if (phoneValue.length !== PHONE_NUMBER_SIZE || isNaN(phoneValue)) {
             document.getElementById('phone-error').textContent = 'O telemóvel deve ter 9 digitos.';
             return false;
         } else {

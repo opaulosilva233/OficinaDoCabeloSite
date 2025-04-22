@@ -7,17 +7,14 @@ include('./db.php'); // Caminho atualizado com './'
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Receber os dados do formulário. Os dados enviados pelo formulário são recebidos através do array $_POST.
     // O operador de coalescência nula (??) é usado para definir valores padrão se os campos não forem definidos.
-    $service = isset($_POST['service']) ? $_POST['service'] : null;
-    $barber = isset($_POST['barber']) ? $_POST['barber'] : null;
-    $date = isset($_POST['date']) ? $_POST['date'] : null;
-
-    
-    
-    // O operador ternário (condição ? valor_se_verdadeiro : valor_se_falso) é usado para simplificar a lógica.
-    $time = isset($_POST['time']) ? $_POST['time'] : null;
-    $name = isset($_POST['name']) ? $_POST['name'] : null;
-    $phone = isset($_POST['phone']) ? $_POST['phone'] : null;
-    $email = isset($_POST['email']) ? $_POST['email'] : null;
+    $service = isset($_POST['service']) ? filter_var($_POST['service'], FILTER_SANITIZE_STRING) : null;
+    $barber = isset($_POST['barber']) ? filter_var($_POST['barber'], FILTER_SANITIZE_STRING) : null;
+    $date = isset($_POST['date']) ? filter_var($_POST['date'], FILTER_SANITIZE_STRING) : null;
+    $time = isset($_POST['time']) ? filter_var($_POST['time'], FILTER_SANITIZE_STRING) : null;
+    // Sanitize name to only allow letters and spaces
+    $name = isset($_POST['name']) ? filter_var($_POST['name'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH) : null;
+    $phone = isset($_POST['phone']) ? filter_var($_POST['phone'], FILTER_SANITIZE_NUMBER_INT) : null;
+    $email = isset($_POST['email']) ? filter_var($_POST['email'], FILTER_SANITIZE_EMAIL) : null;
 
     $emailSent = true;
     $emailError = "";
@@ -107,6 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $updated_at = $created_at; // Data e hora de atualização (inicialmente igual à criação).
 
     // Vincular os parâmetros. Isto associa os valores recebidos aos parâmetros da consulta SQL.
+
     $stmt->bindParam(':name', $name);
     $stmt->bindParam(':phone', $phone);
     $stmt->bindParam(':email', $email);

@@ -1,6 +1,8 @@
 php
 <?php
 date_default_timezone_set('Europe/Lisbon');
+// Include the config file
+include('config.php');
 /**
  * Este ficheiro tem como objetivo enviar um email de confirmação para o cliente
  * Este ficheiro é responsável por enviar um email de confirmação de marcação para o cliente.
@@ -50,8 +52,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $headers = "MIME-Version: 1.0" . "\r\n";
     // Content-type: Define o tipo de conteúdo como HTML e o charset como UTF-8.
     $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-    // From: Define o remetente do email. Substitua <your-email@example.com> pelo seu email.
-    $headers .= 'From: <your-email@example.com>' . "\r\n"; 
+    // From: Define o remetente do email using the EMAIL constant from config.php
+    $headers .= 'From: <' . EMAIL . '>' . "\r\n";
 
     if (mail($to, $subject, $message, $headers)) {
         error_log(date('[Y-m-d H:i:s] ') . "Email enviado com sucesso para: $email");
