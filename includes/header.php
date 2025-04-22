@@ -3,8 +3,7 @@
 include('config.php');
 // Start the session
 session_start();
-
-/**
+?><!-- Início do cabeçalho HTML -->
 <!DOCTYPE html>
 <html lang="pt-PT"> <!-- Especifica que o idioma da página é português de Portugal -->
 <head>

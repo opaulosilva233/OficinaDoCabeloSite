@@ -1,4 +1,4 @@
-php
+
 <?php
 date_default_timezone_set('Europe/Lisbon');
 // Include the config file

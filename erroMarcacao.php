@@ -1,4 +1,4 @@
-php
+
 <?php
 /**
  * Este ficheiro é a página de erro para marcações da barbearia.
