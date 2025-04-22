@@ -1,6 +1,8 @@
 php
 <?php
+date_default_timezone_set('Europe/Lisbon');
 /**
+ * Este ficheiro tem como objetivo enviar um email de confirmação para o cliente
  * Este ficheiro é responsável por enviar um email de confirmação de marcação para o cliente.
  * O email é enviado usando a função mail() do PHP.
  */
@@ -14,6 +16,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $time = $_POST['time'];
     $barber = $_POST['barber'];
     $service = $_POST['service'];
+    
+     // Log dos dados do email com timestamp.
+    error_log(date('[Y-m-d H:i:s] ') . "Tentando enviar email para: $email, nome: $name, data: $date, hora: $time, barbeiro: $barber, servico: $service");
     
     // Define o destinatário do email. O email será enviado para o email do cliente.
     $to = $email;
@@ -49,9 +54,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $headers .= 'From: <your-email@example.com>' . "\r\n"; 
 
     if (mail($to, $subject, $message, $headers)) {
-        echo json_encode(['success' => true, 'message' => 'Email enviado com sucesso.']);
+        error_log(date('[Y-m-d H:i:s] ') . "Email enviado com sucesso para: $email");
+        echo json_encode(['success' => true, 'message' => 'Email enviado com sucesso para ' . $email]);
     } else {
-        echo json_encode(['success' => false, 'message' => 'Erro ao enviar o email.']);
+         $errorMessage = error_get_last()['message'];
+        error_log(date('[Y-m-d H:i:s] ') . "Erro ao enviar o email para: $email. Erro: $errorMessage");
+        echo json_encode(['success' => false, 'message' => "Erro ao enviar o email para " . $email . ". Detalhe: " . $errorMessage]);
     }
 }
 ?>

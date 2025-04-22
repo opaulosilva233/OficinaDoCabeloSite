@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('Europe/Lisbon');
 // Incluir o ficheiro de ligação à base de dados. Este arquivo estabelece a ligação com a base de dados MySQL.
 include('./db.php'); // Caminho atualizado com './'
 
@@ -20,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $emailSent = true;
     $emailError = "";
-    // Registo dos dados recebidos para fins de depuração.
+    // Registo dos dados recebidos para fins de depuração com timestamp.
     error_log("Dados recebidos: service=$service, barber=$barber, date=$date, time=$time, name=$name, phone=$phone, email=$email");
 
     // Inicializar um array para armazenar mensagens de erro. Se houver erros de validação, eles serão armazenados aqui.
@@ -52,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Verificar se há erros de validação
     if (!empty($errors)) {
         $errorMessage = implode(' ', $errors);
-        error_log("Erros de validação: " . $errorMessage);
+        error_log(date('[Y-m-d H:i:s] ') . "Erros de validação: " . $errorMessage);
         echo json_encode(['success' => false, 'message' => $errorMessage]); // Enviar os erros de validação em formato JSON.
         exit;
     }
@@ -65,13 +66,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
              // Reorganizar a data para o formato "YYYY-MM-DD".
             $formattedDate = $dateParts[2] . '-' . $dateParts[1] . '-' . $dateParts[0]; // "YYYY-MM-DD"
         } else {
-            $errorMessage = 'Formato de data inválido.';
-            error_log("Erro de formato de data: $date");
+            $errorMessage = 'O formato de data é inválido. Por favor utilize o formato DD-MM-YYYY.';
+            error_log(date('[Y-m-d H:i:s] ') . "Erro de formato de data: $date");
             echo json_encode(['success' => false, 'message' => $errorMessage]);
             exit;
         }
     }
-
+    // Verificar se já existe uma marcação com o mesmo email, data, hora e barbeiro.
+    $checkSql = "SELECT * FROM marcacoes WHERE email_utilizador = :email AND data_marcacao = :date AND horario_marcacao = :time AND barbeiro = :barber";
+    $checkStmt = $pdo->prepare($checkSql);
+    $checkStmt->bindParam(':email', $email);
+    $checkStmt->bindParam(':date', $formattedDate);
+    $checkStmt->bindParam(':time', $time);
+    $checkStmt->bindParam(':barber', $barber);
+    $checkStmt->execute();
+    
+    if ($checkStmt->rowCount() > 0) {
+        $errorMessage = 'Já existe uma marcação com o mesmo email, data, hora e barbeiro.';
+        error_log(date('[Y-m-d H:i:s] ') . "Erro: $errorMessage - email=$email, date=$formattedDate, time=$time, barber=$barber");
+        echo json_encode(['success' => false, 'message' => $errorMessage]);
+        exit;
+    }
+    
     // Preparar a consulta SQL com prepared statements. Isso ajuda a evitar ataques de SQL injection.
     $sql = "INSERT INTO marcacoes (nome_utilizador, telefone_utilizador, email_utilizador, barbeiro, servico, data_marcacao, horario_marcacao, estado, criado_em, atualizado_em)
             VALUES (:name, :phone, :email, :barber, :service, :date, :time, :status, :created_at, :updated_at)";
@@ -79,8 +95,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Verificar se a consulta foi preparada corretamente
     if ($stmt === false) {
-        $errorMessage = 'Ocorreu um erro ao preparar a consulta SQL.';
-        error_log("Erro ao preparar a consulta SQL: " . implode(' ', $pdo->errorInfo()));
+        $errorMessage = 'Ocorreu um erro ao preparar a consulta para a base de dados.';
+        error_log(date('[Y-m-d H:i:s] ') ."Erro ao preparar a consulta SQL: " . implode(' ', $pdo->errorInfo()));
         echo json_encode(['success' => false, 'message' => $errorMessage]);
         exit;
     }
@@ -104,7 +120,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Executar a consulta. Aqui a consulta é executada com os valores fornecidos.
     if ($stmt->execute()) {
-        error_log("Reserva realizada com sucesso para: service=$service, barber=$barber, date=$formattedDate, time=$time, name=$name, phone=$phone, email=$email");
+        error_log(date('[Y-m-d H:i:s] ')."Reserva realizada com sucesso para: service=$service, barber=$barber, date=$formattedDate, time=$time, name=$name, phone=$phone, email=$email");
         
         //Send email to the client. Esta secção envia um email de confirmação ao cliente.
         $emailData = array(
@@ -139,13 +155,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
 
     } else {
-        $errorMessage = 'Ocorreu um erro ao guardar a reserva: ' . implode(' ', $stmt->errorInfo());
-        error_log("Erro ao guardar a reserva: " . implode(' ', $stmt->errorInfo()));
+        $errorMessage = 'Ocorreu um erro ao guardar a reserva na base de dados: ' . implode(' ', $stmt->errorInfo());
+        error_log(date('[Y-m-d H:i:s] ')."Erro ao guardar a reserva: " . implode(' ', $stmt->errorInfo()));
         echo json_encode(['success' => false, 'message' => $errorMessage]);
     }
 } else {
-    $errorMessage = 'Método de requisição inválido.';
-    error_log("Método de requisição inválido: " . $_SERVER["REQUEST_METHOD"]);
+    $errorMessage = 'Método de requisição inválido. Apenas requisições POST são permitidas.';
+    error_log(date('[Y-m-d H:i:s] ')."Método de requisição inválido: " . $_SERVER["REQUEST_METHOD"]);
     echo json_encode(['success' => false, 'message' => $errorMessage]);
 } // Fim da condição para verificar o método da requisição.
 ?>
