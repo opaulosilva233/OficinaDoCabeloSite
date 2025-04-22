@@ -1,22 +1,72 @@
+<?php
+/**
+ * Este ficheiro é a página principal de marcações da barbearia.
+ * Ele permite aos utilizadores selecionar um tipo de serviço, escolher um barbeiro,
+ * uma data e hora para a marcação, e preencher as suas informações pessoais.
+ * Se a marcação for confirmada com sucesso, mostra uma mensagem de confirmação.
+ */
+?>
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marcações</title>
-    <link rel="stylesheet" href="./css/marcacoes.css">
-    <link rel="icon" href="./img/logotipo2.png" type="image/x-icon">
-    <script src="./js/marcacao.js" defer></script>
-    <?php include('./includes/header.php'); ?>
+    <link rel="stylesheet" href="./css/marcacoes.css"> <!-- Liga o CSS da página de marcações -->
+    <link rel="icon" href="./img/logotipo2.png" type="image/x-icon"> <!-- Define o favicon da página -->
+    <script src="./js/marcacao.js" defer></script> <!-- Liga o JavaScript para a lógica de marcações -->
+    <?php include('./includes/header.php'); ?> <!-- Inclui o cabeçalho da página -->
 </head>
 <body>
+    <?php
+        // Verifica se há um erro nos parâmetros da URL. Se houver, exibe uma mensagem de erro.
+        if (isset($_GET['error'])) {
+            $error = htmlspecialchars($_GET['error']);
+            echo "<div class='error-message'>Erro: $error</div>";
+        }
+    ?>
+
     <header>
     </header>
+    <?php
+    // Verifica se os parâmetros da URL (date, time, barber, name) estão presentes.
+    // Se estiverem, significa que a marcação foi confirmada e deve ser exibida uma mensagem de confirmação.
+    if (isset($_GET['date']) && isset($_GET['time']) && isset($_GET['barber']) && isset($_GET['name']) && isset($_GET['service'])) {
+        $date = htmlspecialchars($_GET['date']);
+        $time = htmlspecialchars($_GET['time']);
+        $barber = htmlspecialchars($_GET['barber']);
+        $name = htmlspecialchars($_GET['name']);
+        $service = htmlspecialchars($_GET['service']);
+        ?>
+
+        <main>
+        <section class="appointment-section">
+            <div class="confirmation-message">
+                <h2>Marcação Confirmada</h2> <!-- Título da mensagem de confirmação -->
+                <p>Olá, <?php echo $name; ?>!</p> <!-- Mensagem de boas-vindas com o nome do utilizador -->
+                <p>A sua marcação foi confirmada com sucesso.</p> <!-- Mensagem de confirmação -->
+                <p><strong>Data:</strong> <?php echo $date; ?></p> <!-- Exibe a data da marcação -->
+                <p><strong>Hora:</strong> <?php echo $time; ?></p> <!-- Exibe a hora da marcação -->
+                <p><strong>Barbeiro:</strong> <?php echo $barber; ?></p> <!-- Exibe o nome do barbeiro selecionado -->
+                <p><strong>Serviço:</strong> <?php echo $service; ?></p> <!-- Exibe o serviço selecionado -->
+                <p>Iremos enviar um email com os detalhes da marcação.</p> <!-- Informa que um email será enviado -->
+            </div>
+        </section>
+        <!-- Inclui o conteúdo do main caso a reserva esteja completa. -->
+        </main>
+            <footer>
+                <?php include('./includes/footer.php'); ?>
+            </footer>
+        </body>
+        </html><?php exit; // Stop execution to avoid showing the booking form
+    } ?>
+    </header>
+    <!-- Caso não exista um reserva, irá aparecer esta página para fazer a reserva. -->
     <main>
         <section class="appointment-section">
-            <h1>Agendar uma Marcação</h1>
-            <p>Escolha o tipo de corte desejado e preencha as suas informações para confirmar a sua marcação.</p>
-            <!-- Etapa 1: Seleção do Tipo de Corte -->
+            <h1>Agendar uma Marcação</h1> <!-- Título principal da página de marcações -->
+            <p>Escolha o tipo de corte desejado e preencha as suas informações para confirmar a sua marcação.</p> <!-- Instruções para o utilizador -->
+            <!-- Início da Etapa 1: Seleção do Tipo de Corte -->
             <div class="step step-1">
                 <h2>Selecione o Tipo de Corte</h2>
                 <div class="categories">
@@ -77,11 +127,12 @@
                     </div>
                 </div>
             </div>
-            <div id="modal-backdrop" class="hidden"></div>
-            <!-- Modal -->
+            <!-- Fim da Etapa 1: Seleção do Tipo de Corte -->
+            <div id="modal-backdrop" class="hidden"></div> <!-- Fundo semitransparente para o modal -->
+            <!-- Início do Modal -->
             <div class="modal hidden" id="modal">
                 <div class="modal-content">
-                    <span class="close" id="modal-close">&times;</span>
+                    <span class="close" id="modal-close">&times;</span> <!-- Botão para fechar o modal -->
                     <p id="selected-service" class="selected-service">Corte Selecionado: Nenhum</p>
                     <h3>Selecione o Barbeiro</h3>
                     <div class="barbers">
@@ -97,12 +148,12 @@
                     <h3>Selecione a Data</h3>
                     <input type="date" id="date" name="date" required>
                     <h3>Selecione o Horário</h3>
-                    <select id="time" name="time" required></select>
+                    <select id="time" name="time" required></select> <!-- Select para escolher o horário -->
                     <h3>Preencha as Suas Informações</h3>
-                    <!-- Formulário de Marcação -->
-                    <form id="appointment-form" action="./includes/saveBooking.php" method="POST">
-                        <!-- Campos ocultos que serão preenchidos via JavaScript -->
-                        <input type="hidden" name="service" id="service-selected">
+                    <!-- Início do Formulário de Marcação -->
+                    <form id="appointment-form" action="./includes/saveBooking.php" method="POST"> <!-- Formulário para enviar os dados da marcação -->
+                        <!-- Campos ocultos que serão preenchidos via JavaScript e enviados ao servidor -->
+                        <input type="hidden" name="service" id="service-selected"> <!-- Campo oculto para o serviço -->
                         <input type="hidden" name="barber" id="barber-selected">
                         <input type="hidden" name="date" id="date-selected">
                         <input type="hidden" name="time" id="time-selected">
@@ -124,11 +175,12 @@
                             pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
                             title="Insira um endereço de email válido">
                         <button type="submit" id="confirm-selection" class="btn-confirm">Confirmar Marcação</button>
-                    </form>
+                    </form> <!-- Fim do Formulário de Marcação -->
                 </div>
-            </div>
+            </div> <!-- Fim do Modal -->
         </section>
-    </main>
+    </main> <!-- Fim do conteúdo principal -->
+    <!-- Inclui o footer na página -->
     <footer>
         <?php include('./includes/footer.php'); ?>
     </footer>

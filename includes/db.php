@@ -1,20 +1,26 @@
 <?php
-// Configurações de ligação à base de dados
+/**
+ * Este ficheiro contém a configuração para a ligação à base de dados.
+ */
+
+// Definição das variáveis para a ligação à base de dados
 $host = "localhost";
 $username = "paulo2";
 $password = "paulo2";
 $dbname = "db_oficina_cabelo";
 
-// Tente criar a ligação PDO
+// Tenta criar a ligação à base de dados usando PDO
 try {
-    // Ligando à base de dados usando PDO
+    // Criação de uma nova instância PDO para ligar à base de dados MySQL
+    // A string de conexão inclui o tipo de base de dados, o host, o nome da base de dados e o conjunto de caracteres
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
     
-    // Configurando o modo de erro do PDO para excepções
+    // Define o modo de erro do PDO para lançar exceções em caso de erros
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    // Caso a ligação seja bem-sucedida, pode realizar operações na base de dados
+    // Se a ligação for bem-sucedida, o script continua e as operações na base de dados podem ser realizadas
 } catch (PDOException $e) {
-    // Caso ocorra algum erro na ligação, exibe uma mensagem
+    // Em caso de erro na ligação, uma exceção PDOException é lançada
+    // O script para e exibe uma mensagem de erro
     die("Erro ao ligar à base de dados: " . $e->getMessage());
 }
 ?>

@@ -12,6 +12,72 @@ header {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Sombra para dar profundidade */
 }
 
+/* Estilo do botão de dark mode */
+.dark-mode-toggle {
+    display: flex;
+    align-items: center; /* Alinha verticalmente o botão com os outros itens da navbar */
+    justify-content: center;
+}
+
+#dark-mode-toggle {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    width: 25px;
+    height: 25px;
+    color: #d4a373;
+    font-size: 20px; /* Tamanho fixo para o botão */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative; /* Para posicionar os ícones */
+}
+
+/* Ícone da lua para o dark mode */
+#dark-mode-toggle::before {
+    content: "\263D"; /* Código Unicode para a lua crescente */
+    color: #d4a373;
+    font-size: 20px; /* Mesmo tamanho para ambos os ícones */
+    position: absolute;
+    opacity: 1; /* Mostrar por padrão */
+    transition: opacity 0.3s ease; /* Transição suave */
+}
+
+body.dark-mode #dark-mode-toggle::before {
+    opacity: 0; /* Esconder quando dark mode está ativo */
+    transition: opacity 0.3s ease 0.15s; /* Pequeno atraso para desaparecer */
+}
+
+/* Ícone do sol para o light mode */
+#dark-mode-toggle::after {
+    content: "\2600"; /* Código Unicode para o sol */
+    color: #d4a373;
+    font-size: 20px; /* Mesmo tamanho para ambos os ícones */
+    position: absolute;
+    opacity: 0; /* Esconder por padrão */
+    transition: opacity 0.3s ease 0.15s; /* Pequeno atraso para aparecer */
+}
+
+body.dark-mode #dark-mode-toggle::after {
+    opacity: 1; /* Mostrar quando dark mode está ativo */
+    transition: opacity 0.3s ease; /* Aparece imediatamente */
+}
+
+/* Ajuste no darkmode-container para garantir alinhamento */
+.darkmode-container {
+    display: flex;
+    align-items: center; /* Garante que o botão fique centralizado verticalmente */
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background 0.3s, color 0.3s;
+}
+
+.darkmode-container:hover {
+    background: #3e3e3e; /* Cinza escuro ao passar o mouse */
+    color: #d4a373; /* Mantém a cor dourada */
+}
+
 /* Logo */
 .logo {
     display: flex;
@@ -20,30 +86,36 @@ header {
     text-decoration: none;
     font-size: 24px;
     font-weight: bold;
+    color: #d4a373;
     transition: transform 0.3s ease;
 }
 
 .logo img {
-    height: 40px; /* Ajuste o tamanho da imagem conforme necessário */
-    width: auto;
-    margin-right: 10px;
+    height: 70px;
     transition: transform 0.3s ease; /* Suaviza a transição da imagem */
 }
 
 .logo:hover img {
-    transform: scale(1.1); /* Aumenta a imagem em 10% */
+    transform: scale(1.05); /* Aumenta a imagem em 10% */
 }
-
+.logo img:hover{
+    margin-right: 0;
+    opacity: 0.9;
+}
 /* Navbar */
 nav ul {
     list-style: none;
     display: flex;
     margin: 0;
     padding: 0;
+    justify-content: flex-end;
+    align-items: center; /* Garante que os itens da navbar estejam alinhados verticalmente */
 }
 
 nav ul li {
     margin: 0 15px;
+    display: flex;
+    align-items: center; /* Alinha cada item da navbar verticalmente */
 }
 
 nav ul li a {
@@ -52,11 +124,14 @@ nav ul li a {
     padding: 10px 15px;
     border-radius: 5px;
     transition: background 0.3s, color 0.3s;
+    display: flex;
+    align-items: center; /* Garante que o texto fique centralizado verticalmente */
 }
 
 nav ul li a:hover {
     background: #3e3e3e; /* Cinza escuro ao passar o mouse */
     color: #d4a373; /* Mantém a cor dourada */
+    border-bottom: 2px solid #d4a373;
 }
 
 /* Estilo do menu hamburger */

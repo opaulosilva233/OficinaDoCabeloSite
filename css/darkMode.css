@@ -1,0 +1,90 @@
+/**
+ * darkMode.css
+ * Este ficheiro contém os estilos para o modo escuro da aplicação.
+ */
+
+.dark-mode header, .dark-mode nav ul li a {
+    color: #d4a373;
+    transition: color 0.3s ease;
+}
+
+body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+
+}
+
+body.dark-mode {
+    background-color: #222;
+    color: #f4f4f4;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dark-mode .barber {
+    background-color: #f7f7f7; /* Keep light background */
+}
+
+.dark-mode .barber span,
+.dark-mode .barber p {
+    color: #333; /* Keep dark text */
+}
+
+.dark-mode .contact p {
+    color: #333; /* Keep the text dark in dark mode */
+}
+
+.dark-mode .about-us p {
+    color: #333; /* Keep the text dark in dark mode */
+}
+
+
+.dark-mode .login-container,
+.dark-mode .dashboard-container {
+    background-color: #333;
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dark-mode .submit-btn,
+.dark-mode .back-home-btn,
+.dark-mode .logout-btn{
+    background-color: #b5855f;
+    transition: background-color 0.3s ease;
+}
+
+.dark-mode .submit-btn:hover,
+.dark-mode .back-home-btn:hover,
+.dark-mode .logout-btn:hover {
+    background-color: #d4a373;
+}
+
+.dark-mode .dashboard-container h1 {
+    color: #f4f4f4;
+    transition: color 0.3s ease;
+}
+.dark-mode .login-container h2 {
+    color: #f4f4f4;
+    transition: color 0.3s ease;
+}
+
+.dark-mode form label {
+    color: #f4f4f4;
+    transition: color 0.3s ease;
+}
+
+.dark-mode form input {
+    background-color: #444;
+    color: #f4f4f4;
+    border-color: #666;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+.dark-mode form input:focus {
+    background-color: #555;
+    border-color: #d4a373;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.dark-mode .footer {
+    background-color: #111;
+    color: #f4f4f4;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}

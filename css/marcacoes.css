@@ -333,3 +333,15 @@ form input, form select {
 .hidden {
     display: none;
 }
+
+/* Estilos para a mensagem de erro */
+.error-message {
+    background-color: #ffebee; /* Um vermelho bem mais claro para o fundo */
+    color: #b71c1c; /* Um vermelho escuro para o texto */
+    border: 2px solid #f44336; /* Uma borda vermelha mais forte */
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 10px; /* Bordas mais arredondadas */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Uma sombra um pouco mais evidente */
+    text-align: center; /* Centralizar o texto */
+}

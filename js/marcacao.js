@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
+     //Include config file to get the constants
+     const script = document.createElement('script');
+        script.src = 'includes/config.php'; // Replace with the actual path to your config.php file
+    // Início do bloco que executa quando o DOM estiver completamente carregado.
     // Seleção de elementos do DOM
     const buttons = document.querySelectorAll('.option-btn');
     const modal = document.getElementById('modal');
@@ -12,31 +16,57 @@ document.addEventListener('DOMContentLoaded', function () {
     const body = document.body;
     const modalContainer = modal ? modal.querySelector('.modal-container') : null;
     const serviceDisplay = document.getElementById('selected-service');
-    const userName = document.getElementById('name');
-    const userPhone = document.getElementById('phone');
+        const userName = document.getElementById('name');
+        const userPhone = document.getElementById('phone');
+        
+    
     const userEmail = document.getElementById('email');
+    const form = document.getElementById('appointment-form');
     let selectedBarber = null;
-
+    // Loading element
+    const loadingIndicator = document.createElement('div');
+    // Fim da seleção dos elementos do dom.
     // Abrir modal ao selecionar um tipo de corte
     buttons.forEach(button => button.addEventListener('click', openModal));
 
-    // Fechar modal
+    // Fechar modal ao clicar no botão de fechar
     if (closeModal) {
         closeModal.addEventListener('click', closeModalWindow);
     }
 
-    // Selecionar barbeiro e ativar campo de data
+    // Selecionar barbeiro e ativar campo de data ao clicar no elemento do barbeiro.
     barbers.forEach(barber => barber.addEventListener('click', selectBarber));
 
-    // Alterar data e buscar horários disponíveis
+    // Adicionar event listeners para cada campo do formulario para validar em tempo real.
+    userName.addEventListener('input', validateName);
+    userName.addEventListener('blur', validateName);
+
+    userPhone.addEventListener('input', validatePhone);
+    userPhone.addEventListener('blur', validatePhone);
+
+    userEmail.addEventListener('input', validateEmail);
+    userEmail.addEventListener('blur', validateEmail);
+
+    
+    // Alterar data e buscar horários disponíveis ao alterar a data.
     dateField.addEventListener('change', handleDateChange);
 
-    // Confirmar seleção
+    // Confirmar seleção e guardar dados para enviar para a base de dados.
     confirmSelection.addEventListener('click', confirmBooking);
 
-    // Funções
+    // Configurar o elemento para mostrar o loading.
+    // Create loading element
+    loadingIndicator.id = 'loading-indicator';
+    loadingIndicator.style.display = 'none';
+    loadingIndicator.style.textAlign = 'center';
+    loadingIndicator.style.fontSize = '24px';
+    loadingIndicator.textContent = 'A carregar...'; // Mensagem de carregamento
+    modal.insertBefore(loadingIndicator, timeSelect); // Insere o elemento de loading acima do select de tempo
 
-    // Função para abrir o modal ao clicar em um tipo de serviço
+
+    // Funções.
+
+    // Função para abrir o modal ao clicar em um tipo de serviço.
     function openModal() {
         const selectedService = this.getAttribute('data-option');
         if (serviceInput && serviceDisplay) {
@@ -49,8 +79,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         resetModal(); // Reseta os campos do modal
     }
-
-    // Função para mostrar o modal
+    
+    // Função para mostrar o modal.
     function showModal() {
         if (modal && document.getElementById('modal-backdrop')) {
             modal.style.display = 'flex'; // Exibe o modal
@@ -60,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Função para fechar o modal
+    // Função para fechar o modal.
     function closeModalWindow() {
         if (modal && document.getElementById('modal-backdrop')) {
             modal.style.display = 'none'; // Esconde o modal
@@ -71,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function () {
         resetModal(); // Reseta os campos do modal
     }
 
-    // Função para resetar o modal (limpar campos)
+    // Função para resetar o modal (limpar campos).
     function resetModal() {
         barbers.forEach(b => b.classList.remove('selected')); // Remove a seleção do barbeiro
         dateField.value = ''; // Limpa a data
@@ -80,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function () {
         timeSelect.disabled = true; // Desabilita o campo de horário
     }
 
-    // Função para selecionar o barbeiro
+    // Função para selecionar o barbeiro.
     function selectBarber() {
         barbers.forEach(b => b.classList.remove('selected')); // Remove a seleção dos barbeiros
         this.classList.add('selected'); // Adiciona a seleção ao barbeiro clicado
@@ -92,12 +122,12 @@ document.addEventListener('DOMContentLoaded', function () {
         configureDateField(); // Configura o campo de data (se necessário)
     }
 
-    // Função para configurar o campo de data (pode ser personalizada conforme necessário)
+    // Função para configurar o campo de data (pode ser personalizada conforme necessário).
     function configureDateField() {
         // Lógica de configuração do campo de data (se necessário)
     }
 
-    // Função chamada quando a data é alterada
+    // Função chamada quando a data é alterada.
     function handleDateChange() {
         const selectedDate = formatDate(new Date(dateField.value)); // Formata a data selecionada
         if (selectedBarber && selectedDate) {
@@ -105,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Função para formatar a data no formato "DD-MM-YYYY"
+    // Função para formatar a data no formato "DD-MM-YYYY".
     function formatDate(date) {
         const day = String(date.getDate()).padStart(2, '0'); // Adiciona zero à esquerda se necessário
         const month = String(date.getMonth() + 1).padStart(2, '0'); // Adiciona zero à esquerda se necessário
@@ -113,17 +143,112 @@ document.addEventListener('DOMContentLoaded', function () {
         return `${day}-${month}-${year}`; // Retorna a data formatada
     }
 
+    // Funções de validação dos campos.
+    // Validation functions
+    function validateName() {
+        const nameValue = userName.value.trim();
+        const errorSpan = document.getElementById('name-error');
+
+
+        const nameRegex = /^[a-zA-Z\s]+$/;
+
+        if (!errorSpan){
+            const errorSpan = document.createElement('span');
+            errorSpan.id = 'name-error';
+            errorSpan.style.color = 'red';
+            userName.parentNode.insertBefore(errorSpan, userName.nextSibling); // Insere a mensagem de erro logo após o campo do nome
+        }
+
+        if (nameValue === '') {
+            document.getElementById('name-error').textContent = 'O nome é obrigatório';
+            return false;
+        } else if (nameValue.length < 3 || !nameRegex.test(nameValue)) {
+           // Verifica se o nome tem menos de 3 caracteres ou contém caracteres inválidos
+           document.getElementById('name-error').textContent = 'O nome deve ter no mínimo 3 caracteres e conter apenas letras e espaços.';
+
+            return false;
+        } else {
+            document.getElementById('name-error').textContent = '';
+            return true;
+        }
+    }
+
+    function validatePhone() {
+        const phoneValue = userPhone.value.trim();
+        const errorSpan = document.getElementById('phone-error');
+        
+        if (!errorSpan){
+             const errorSpan = document.createElement('span');
+            errorSpan.id = 'phone-error';
+            errorSpan.style.color = 'red';
+            userPhone.parentNode.insertBefore(errorSpan, userPhone.nextSibling);
+        }
+
+        if (phoneValue.length !== PHONE_NUMBER_SIZE || isNaN(phoneValue)) {
+            document.getElementById('phone-error').textContent = 'O telemóvel deve ter 9 digitos.';
+            return false;
+        } else {
+            document.getElementById('phone-error').textContent = '';
+            return true;
+        }
+    }
+
+    function validateEmail() {
+        const emailValue = userEmail.value.trim();
+        const errorSpan = document.getElementById('email-error');
+
+        if (!errorSpan){
+             const errorSpan = document.createElement('span');
+            errorSpan.id = 'email-error';
+            errorSpan.style.color = 'red';
+            userEmail.parentNode.insertBefore(errorSpan, userEmail.nextSibling);
+        }
+
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(emailValue)) {
+            document.getElementById('email-error').textContent = 'O e-mail é inválido.';
+            return false;
+        } else {
+            document.getElementById('email-error').textContent = '';
+            return true;
+        }
+    }
+
+    // Função que valida os campos e impede que o formulario seja enviado se estiverem incorretos.
+    form.addEventListener('submit', (event) => {
+        if (!validateName() || !validatePhone() || !validateEmail()) {
+            event.preventDefault();
+        }
+    });
+
     // Função para buscar os horários disponíveis via AJAX
-    function fetchAvailableTimes(barber, date) {
+    // Esta função envia uma requisição para o servidor para obter os horários disponíveis.
+    function fetchAvailableTimes(barber, date){
+        showLoadingIndicator();
         fetch(`includes/getAvailableTimes.php?barber=${barber}&date=${date}`)
             .then(response => response.json())
             .then(data => {
                 updateTimeSelect(data.slots); // Atualiza os horários no select
+                hideLoadingIndicator();
             })
-            .catch(() => updateTimeSelect([], 'Erro ao buscar horários')); // Exibe erro se falhar
+            .catch(() => {
+                updateTimeSelect([], 'Erro ao buscar horários'); // Exibe erro se falhar
+                hideLoadingIndicator();
+            });
     }
 
-    // Função para atualizar a lista de horários no select
+    // Função para mostrar o elemento de loading.
+    function showLoadingIndicator() {
+        loadingIndicator.style.display = 'block';
+    }
+
+    // Função para esconder o elemento de loading.
+    function hideLoadingIndicator() {
+        loadingIndicator.style.display = 'none';
+    }
+
+    // Função para atualizar a lista de horários no select.
+    // Esta função recebe a lista de horários e atualiza o select.
     function updateTimeSelect(slots, errorMessage = '') {
         timeSelect.innerHTML = ''; // Limpa as opções anteriores
         if (slots.length > 0) {
@@ -145,15 +270,16 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Função chamada ao confirmar a marcação
+    // Função chamada ao confirmar a marcação.
     function confirmBooking() {
         const selectedDate = formatDate(new Date(dateField.value)); // Formata a data selecionada
-        const selectedTime = timeSelect.value; // Obtém o horário selecionado
+        const selectedTime = timeSelect.value; 
+
 
         // Validação dos campos obrigatórios
         if (!selectedBarber || !selectedDate || !selectedTime) {
             alert('Por favor, preencha todos os campos.');
-            return;
+           return;
         }
 
         const bookingData = {
@@ -170,7 +296,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const validationResult = validateBookingForm(bookingData);
 
         if (!validationResult.isValid) {
-            alert(validationResult.errors.join('\n')); // Exibe os erros de validação
+            alert(validationResult.errors); 
             return;
         }
 
@@ -181,21 +307,25 @@ document.addEventListener('DOMContentLoaded', function () {
         sendBookingData();
     }
 
-    // Função para validar os dados do formulário
+    // Função para validar os dados do formulário antes de guardar na base de dados.
     function validateBookingForm(data) {
         const errors = [];
-        if (!data.name) errors.push('Nome é obrigatório.');
-        if (!data.phone) errors.push('Telefone é obrigatório.');
-        if (!data.email) errors.push('E-mail é obrigatório.');
-        if (!data.service) errors.push('Serviço é obrigatório.');
-        if (!data.barber) errors.push('Barbeiro é obrigatório.');
-        if (!data.date) errors.push('Data é obrigatória.');
-        if (!data.time) errors.push('Hora é obrigatória.');
+        if (!data.name) errors.push('O nome é obrigatório.');
+        if (!data.phone) errors.push('O telemóvel é obrigatório.');
+        if (!data.email) errors.push('O e-mail é obrigatório.');
+        if (!data.service) errors.push('O serviço é obrigatório.');
+        if (!data.barber) errors.push('O barbeiro é obrigatório.');
+        if (!data.date) errors.push('A data é obrigatória.');
+        if (!data.time) errors.push('A hora é obrigatória.');
 
+        if (errors.length > 0){
+            return { isValid: false, errors: errors[0] };
+        }
+        
         return { isValid: errors.length === 0, errors }; // Retorna a validação
     }
 
-    // Função para enviar os dados ao backend
+    // Função para enviar os dados ao backend.
     function sendBookingData() {
         const storedData = localStorage.getItem('bookingData');
         if (storedData) {
@@ -215,18 +345,23 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Função para tratar a resposta do backend após tentar salvar a marcação
+    // Função para tratar a resposta do backend após tentar salvar a marcação.
     function handleBookingResponse(responseData) {
         if (responseData.success) {
             alert('Reserva realizada com sucesso!');
             localStorage.removeItem('bookingData'); // Limpa os dados armazenados
-            window.location.href = "marcacoes.php"; // Redireciona para a página de marcações
+            window.location.href = "marcacoes.php"; 
+        }else {
+            const errorMessage = encodeURIComponent(responseData.message);
+            const redirectUrl = `marcacoes.php?error=${errorMessage}`;
+            window.location.href = redirectUrl; 
+            
         } else {
             redirectToErrorPage(responseData.message); // Redireciona em caso de erro
         }
     }
 
-    // Função para redirecionar para uma página de erro
+    // Função para redirecionar para uma página de erro.
     function redirectToErrorPage(message) {
         const errorMessage = encodeURIComponent(message);
         window.location.href = `erroMarcacao.php?error=${errorMessage}`; // Redireciona para a página de erro

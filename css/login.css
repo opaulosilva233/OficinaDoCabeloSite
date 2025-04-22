@@ -1,10 +1,10 @@
 /* Estilização geral */
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #2b2b2b; /* Cor escura de fundo */
-    color: #fff;
+    background-color: #333; /* Cor escura de fundo */
+    color: #f5f5f5;
 }
 
 /* Animação de zoom-in no conteúdo da página */
@@ -27,26 +27,26 @@ main {
 
 /* Centralização do container */
 .login-container {
-    max-width: 420px;
-    margin: 80px auto;
-    background: #fff;
-    padding: 40px;
+    max-width: 400px;
+    margin: 60px auto;
+    background: #444; /* Fundo ligeiramente mais claro para contrastar com o body */
+    padding: 30px;
     border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Sombra mais suave */
     text-align: center;
     overflow: hidden; /* Evita que o conteúdo ultrapasse os limites */
 }
 
 /* Título da página */
 .login-container h2 {
-    font-size: 28px;
-    margin-bottom: 20px;
-    color: #333;
-    font-weight: 600;
+    font-size: 26px;
+    margin-bottom: 15px;
+    color: #f5f5f5; /* Texto mais claro para boa legibilidade */
+    font-weight: 500;
     letter-spacing: 0.5px;
 }
 
-/* Estilização do formulário */
+/* Estilização dos labels do formulário */
 form label {
     display: block;
     margin-bottom: 10px;
@@ -56,21 +56,22 @@ form label {
     font-weight: 500;
 }
 
+/* Estilização dos inputs do formulário */
 form input {
     width: 100%;
     padding: 12px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
+    margin-bottom: 15px;
+    border: 1px solid #666; /* Borda mais escura para contraste */
     border-radius: 6px;
     font-size: 16px;
-    color: #333;
-    background-color: #f9f9f9;
+    color: #333; /* Cor do texto mais escura */
+    background-color: #eee; /* Cor de fundo mais clara */
     box-sizing: border-box;
     transition: border-color 0.3s ease;
 }
 
 /* Foco nos campos de input */
-form input:focus {
+form input:focus {   
     border-color: #d4a373;
     outline: none;
     background-color: #fff;
@@ -90,10 +91,9 @@ form input:focus {
     cursor: pointer;
     text-align: center;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    margin-top: 10px;
-    box-sizing: border-box; /* Certifica-se que o padding não afeta a largura */
+    box-sizing: border-box;
     text-decoration: none;
-}
+    }
 
 /* Efeito de hover */
 .submit-btn:hover,
@@ -101,7 +101,7 @@ form input:focus {
     background-color: #b5855f;
     transform: translateY(-2px);
 }
-
+   
 /* Efeito de focus no botão */
 .submit-btn:focus,
 .back-home-btn:focus {
@@ -111,34 +111,34 @@ form input:focus {
 
 /* Nota de segurança */
 .login-note {
-    font-size: 14px;
-    color: #777;
-    margin-top: 20px;
+    font-size: 13px;
+    color: #bbb;
+    margin-top: 15px;
     text-align: center;
-    font-weight: 400;
+    font-weight: 300;
 }
 
 /* Estilização do erro */
 .error {
     color: red;
-    font-size: 14px;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
- /* Estilo para a nota */
- .login-note {
-    font-size: 14px;
-    color: #777;
-    margin-top: 10px;
+    font-size: 13px;
+    margin-bottom: 15px;
     text-align: center;
 }
 
 /* Estilo para o rodapé */
 .footer {
-    position: absolute;
-    bottom: 10px; /* Posiciona na parte inferior da página */
-    left: 50%; /* Centraliza horizontalmente */
+    width: 100%; /* Garante que o rodapé ocupa toda a largura */
+    position: fixed; /* Mantém o rodapé na parte inferior da janela do navegador */
+    bottom: 0; /* Posiciona na parte inferior */
+    left: 0; /* Posiciona na extremidade esquerda */
+    background-color: #222; /* Fundo mais escuro */
+    padding: 10px 0; /* Adiciona algum espaço interno */
+    text-align: center; /* Centraliza o texto */
+    z-index: 1000; /* Garante que o rodapé fique em cima de outros elementos */
+}
+/* Estilo para o rodapé */
+.footer {
     transform: translateX(-50%); /* Ajusta para centralizar perfeitamente */
     text-align: center;
     width: 100%;
@@ -156,4 +156,37 @@ form input:focus {
 .credit:hover {
     color: rgba(255, 255, 255, 1); /* Aumenta a opacidade ao passar o mouse */
     transition: color 0.3s ease; /* Transição suave */
+}
+
+
+/* Media queries para responsividade */
+@media (max-width: 768px) {
+    .login-container {
+        max-width: 90%;
+        padding: 20px;
+    }
+    
+    .login-container h2 {
+        font-size: 24px;
+    }
+    
+    form label {
+        font-size: 15px;
+        margin-bottom: 8px;
+    }
+    
+    form input {
+        padding: 10px;
+        margin-bottom: 15px;
+        font-size: 15px;
+    }
+    
+    .submit-btn, .back-home-btn {
+        padding: 10px;
+        font-size: 15px;
+    }
+    
+    .login-note {
+        font-size: 12px;
+    }
 }
