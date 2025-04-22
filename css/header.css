@@ -93,14 +93,16 @@ body.dark-mode #dark-mode-toggle::after {
 .logo img {
     height: 40px; /* Ajuste o tamanho da imagem conforme necessário */
     width: auto;
-    margin-right: 10px;
+    width: 35px;
     transition: transform 0.3s ease; /* Suaviza a transição da imagem */
 }
 
 .logo:hover img {
-    transform: scale(1.1); /* Aumenta a imagem em 10% */
+    transform: scale(1.05); /* Aumenta a imagem em 10% */
 }
-
+.logo img:hover{
+    opacity: 0.9;
+}
 /* Navbar */
 nav ul {
     list-style: none;
@@ -130,6 +132,7 @@ nav ul li a {
 nav ul li a:hover {
     background: #3e3e3e; /* Cinza escuro ao passar o mouse */
     color: #d4a373; /* Mantém a cor dourada */
+    border-bottom: 2px solid #d4a373;
 }
 
 /* Estilo do menu hamburger */
