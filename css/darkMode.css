@@ -28,6 +28,10 @@ body.dark-mode {
     color: #333; /* Keep dark text */
 }
 
+.dark-mode .contact p {
+    color: #333; /* Keep the text dark in dark mode */
+}
+
 .dark-mode .about-us p {
     color: #333; /* Keep the text dark in dark mode */
 }
