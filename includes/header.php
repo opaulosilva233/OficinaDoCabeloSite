@@ -36,6 +36,7 @@ session_start();
             </div>
             <!-- Menu principal -->
             <ul id="menu" class="menu">
+                <li><a href="./index.php">Início</a></li> <!-- Caminho atualizado com './' -->
                 <li><a href="./sobre.php">Sobre Nós</a></li> <!-- Caminho atualizado com './' -->
                 <li><a href="./contacto.php">Contactos</a></li> <!-- Caminho atualizado com './' -->
                 <li><a href="./marcacoes.php">Marcações</a></li> <!-- Caminho atualizado com './' -->
