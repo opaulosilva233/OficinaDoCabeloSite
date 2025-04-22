@@ -24,15 +24,25 @@
                 <li><a href="./rgpd.php">Política de Privacidade</a></li> <!-- Caminho atualizado e correção de 'rgdp' para 'rgpd' -->
             </ul>
         </div>
+
         <!-- Fim da Secção de Links Rápidos -->
+        <div class="opening-hours">
+            <p class="footer-heading">Horário de Funcionamento</p>
+            <ul>
+                <li>Segunda a Sexta 9h às 19h</li>
+                <li>Sábado 9h às 13h</li>
+                <li>Domingo Encerrado</li>
+            </ul>
+        </div>
         <!-- Secção de Redes Sociais -->
         <div class="footer-section social-media">
             <h4>Siga-nos</h4>
-            <ul>
-                <li><a href="https://www.instagram.com/boficinadocabelo/" target="_blank">Instagram</a></li>
-                <li><a href="https://www.facebook.com/BOficinadoCabelo/" target="_blank">Facebook</a></li>
+            <ul class="social-links">
+                <div><li><a href="https://www.instagram.com/boficinadocabelo/" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a></li></div>
+                <div><li><a href="https://www.facebook.com/BOficinadoCabelo/" target="_blank" class="social-icon"><i class="fab fa-facebook-f"></i></a></li></div>
             </ul>
         </div>
+
         <!-- Fim da Secção de Redes Sociais -->
         <!-- Secção de Login -->
         <div class="footer-section login">
@@ -43,8 +53,8 @@
         </div><!-- Fim da Secção de Login -->
 
         <!-- Rodapé Inferior com Informação de Direitos Reservados -->
-        <div class="footer-bottom">
-            <p>&copy; 2024 Oficina do Cabelo. Todos os direitos reservados.</p>
+            <div class="footer-bottom">
+                <p>&copy; <?php echo date("Y"); ?> Oficina do Cabelo. Todos os direitos reservados.</p>
         </div>
     </div>
 </footer>
