@@ -5,10 +5,6 @@ include('config.php');
 session_start();
 
 /**
- * This file contains the HTML code for the header.
- * O cabeçalho inclui a logo, menu de navegação e ligação ao script JavaScript para o menu hamburger.
- */
-?>
 <!DOCTYPE html>
 <html lang="pt-PT"> <!-- Especifica que o idioma da página é português de Portugal -->
 <head>
