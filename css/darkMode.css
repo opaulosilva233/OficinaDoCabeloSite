@@ -19,6 +19,16 @@ body.dark-mode {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+.dark-mode .barber {
+    background-color: #f7f7f7; /* Keep light background */
+}
+
+.dark-mode .barber span,
+.dark-mode .barber p {
+    color: #333; /* Keep dark text */
+}
+
+
 .dark-mode .login-container,
 .dark-mode .dashboard-container {
     background-color: #333;
