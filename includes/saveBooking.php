@@ -97,15 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Executar a consulta
     if ($stmt->execute()) {
         error_log("Reserva realizada com sucesso para: service=$service, barber=$barber, date=$formattedDate, time=$time, name=$name, phone=$phone, email=$email");
-        // Construct the URL with parameters
-        $redirectUrl = "marcacoes.php?date=" . urlencode($date) . "&time=" . urlencode($time) . "&barber=" . urlencode($barber) . "&name=" . urlencode($name);
-        
-        // Send JavaScript to redirect
-        echo "<script>";
-        echo "window.location.href = '" . $redirectUrl . "';";
-        echo "</script>";
-        exit;
-
+        echo json_encode(['success' => true, 'message' => 'Reserva realizada com sucesso!']);
     } else {
         $errorMessage = 'Ocorreu um erro ao guardar a reserva: ' . implode(' ', $stmt->errorInfo());
         error_log("Erro ao guardar a reserva: " . implode(' ', $stmt->errorInfo()));
