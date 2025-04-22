@@ -40,9 +40,8 @@
                 <li><a href="./marcacoes.php">Marcações</a></li> <!-- Caminho atualizado com './' -->
             </ul>
         </nav>
-        <div class="darkmode-container">
-            <input type="checkbox" id="dark-mode-toggle">
-            <label for="dark-mode-toggle"></label>
+         <div class="darkmode-container">
+            <button id="dark-mode-toggle"></button>
         </div>
     </header>
     <!-- Inclusão do script JavaScript para o menu de navegação -->
