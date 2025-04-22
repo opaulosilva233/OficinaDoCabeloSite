@@ -16,6 +16,7 @@ function closeMenu() {
 }
 // Adiciona um ouvinte de evento ao ícone do hamburger
 hamburger.addEventListener('click', () => {
+
     overlay.addEventListener('click', closeMenu);
 
 
@@ -28,7 +29,9 @@ hamburger.addEventListener('click', () => {
     //mostra o overlay quando o menu é aberto
     if (menu.classList.contains('show')) {
         overlay.style.display = 'block';
+        
     } else {
         overlay.style.display = 'none';
+        overlay.removeEventListener('click', closeMenu);
     }
 });
