@@ -92,8 +92,7 @@ body.dark-mode #dark-mode-toggle::after {
 
 .logo img {
     height: 40px; /* Ajuste o tamanho da imagem conforme necessário */
-    width: auto;
-    width: 35px;
+    height: 35px;
     transition: transform 0.3s ease; /* Suaviza a transição da imagem */
 }
 
@@ -101,6 +100,7 @@ body.dark-mode #dark-mode-toggle::after {
     transform: scale(1.05); /* Aumenta a imagem em 10% */
 }
 .logo img:hover{
+    margin-right: 0;
     opacity: 0.9;
 }
 /* Navbar */
