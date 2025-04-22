@@ -13,6 +13,8 @@ function closeMenu() {
     overlay.style.display = 'none';
 }
 
+overlay.addEventListener('click', closeMenu);
+
 // Adiciona um ouvinte de evento ao ícone do hamburger
 hamburger.addEventListener('click', () => {
     // Alterna a classe 'show' no menu para exibir/ocultar
@@ -27,4 +29,3 @@ hamburger.addEventListener('click', () => {
         overlay.style.display = 'none';
     }
 });
-menu.addEventListener('click', closeMenu);
