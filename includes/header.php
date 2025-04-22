@@ -1,21 +1,27 @@
+
 <?php
+<<<<<<< HEAD
 
 // Include config file
 include('config.php');
 // Start the session
 session_start();
 ?><!-- Início do cabeçalho HTML -->
+=======
+/**
+ * Este ficheiro contém o código HTML para o cabeçalho (header) da página web.
+ * O cabeçalho inclui a logo, menu de navegação e ligação ao script JavaScript para o menu hamburger.
+ */
+?>
+>>>>>>> 1ffcd0cd5885413e228bcc3484ea7f6983cfabb8
 <!DOCTYPE html>
 <html lang="pt-PT"> <!-- Especifica que o idioma da página é português de Portugal -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/header.css"> <!-- Liga o ficheiro CSS do cabeçalho -->
-    <link rel="stylesheet" href="./css/darkMode.css">
     <link rel="icon" href="./img/logotipo.png" type="image/x-icon"> <!-- Define o ícone da página (favicon) -->
     <title>Oficina do Cabelo</title>
-    <script src="./js/darkMode.js"></script>
-
 </head>
 <body>
     <!-- Início do cabeçalho -->
@@ -43,10 +49,11 @@ session_start();
                 <li><a href="./marcacoes.php">Marcações</a></li> <!-- Caminho atualizado com './' -->
             </ul>
         </nav>
-        <div class="dark-mode-toggle">
+         <div class="darkmode-container">
             <button id="dark-mode-toggle"></button>
         </div>
     </header>
     <!-- Inclusão do script JavaScript para o menu de navegação -->
-    <script src="./js/navMenu.js"></script> 
+    <script src="./js/navMenu.js"></script> <!-- Liga o ficheiro JavaScript para funcionalidades do menu -->
 </body>
+</html>

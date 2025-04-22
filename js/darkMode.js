@@ -5,7 +5,7 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     const body = document.body;
-    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const darkModeButton = document.getElementById('dark-mode-toggle');
 
     // Verifica se o tema está guardado no LocalStorage
     const currentTheme = localStorage.getItem('theme');
@@ -14,11 +14,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Adiciona um event listener para o botão
-    if (darkModeToggle) {
-        darkModeToggle.addEventListener('click', toggleDarkMode);
+    if (darkModeButton) {
+        darkModeButton.addEventListener('click', toggleDarkMode);
     }
 
     function toggleDarkMode() {
+
         // Toggle na classe dark-mode no body
         body.classList.toggle('dark-mode');
 
