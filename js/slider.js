@@ -70,12 +70,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Adiciona botões de navegação manual
     const prevButton = document.createElement("button");
-    prevButton.innerHTML = "❮"; // Ícone de seta esquerda
+    prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>'; // Ícone do Font Awesome
     prevButton.classList.add("slider-button", "prev");
     prevButton.addEventListener("click", prevSlide);
 
     const nextButton = document.createElement("button");
-    nextButton.innerHTML = "❯"; // Ícone de seta direita
+    nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>'; // Ícone do Font Awesome
     nextButton.classList.add("slider-button", "next");
     nextButton.addEventListener("click", nextSlide);
 

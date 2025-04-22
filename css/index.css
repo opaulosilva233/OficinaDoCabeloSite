@@ -6,84 +6,13 @@ body {
     background-color: #b9b9b9;
 }
 
-header {
-    background-color: #333;
-    color: #fff;
-    padding: 10px 20px;
-    position: relative; /* Garante que o z-index funcione */
-    z-index: 50; /* Valor inicial para o header */
-}
-
-.navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-    color: #fff;
-    text-decoration: none;
-    font-size: 24px;
-    font-weight: bold;
-    transition: transform 0.3s ease;
-}
-
-.logo img {
-    height: 40px;
-    width: auto;
-    margin-right: 10px;
-    transition: transform 0.3s ease;
-}
-
-.logo:hover img {
-    transform: scale(1.1);
-}
-
-.nav-links {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-}
-
-/* Estilo do menu hamburger quando aberto */
-.nav-links.menu-open {
-    display: block; /* Garante que o menu seja visível */
-    position: fixed; /* Fixa o menu para cobrir a tela */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #333; /* Fundo do menu */
-    z-index: 100; /* Valor alto para ficar acima do slider */
-    flex-direction: column; /* Alinha os itens verticalmente */
-    justify-content: center;
-    align-items: center;
-}
-
-.nav-links li {
-    margin: 20px 0; /* Ajusta o espaçamento dos itens do menu */
-}
-
-.nav-links li a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 20px; /* Tamanho maior para itens do menu */
-}
-
-.nav-links li a:hover {
-    color: #ddd;
-}
-
 /* Estilo geral para o slider */
 .slider {
     position: relative;
     width: 100%;
     height: 80vh;
     overflow: hidden;
-    z-index: 1; /* Valor baixo para ficar abaixo do menu */
+    z-index: 1;
 }
 
 /* Estilo dos slides */
@@ -183,7 +112,13 @@ header {
     font-size: 1.1rem;
     border-radius: 8px;
     transition: background 0.3s ease, transform 0.3s ease;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px; /* Espaçamento entre o ícone e o texto */
+}
+
+.button i {
+    font-size: 1.2rem;
 }
 
 .button:hover {
@@ -199,13 +134,17 @@ header {
     background-color: #2b2b2b;
     color: #d4a373;
     border: none;
-    font-size: 28px;
+    font-size: 24px;
     padding: 15px;
     cursor: pointer;
-    z-index: 5; /* Reduzido para ficar abaixo do menu */
+    z-index: 2;
     border-radius: 50%;
     transition: background-color 0.3s ease, transform 0.3s ease;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.slider-button i {
+    font-size: 1.5rem;
 }
 
 .slider-button:hover {
@@ -228,7 +167,7 @@ header {
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    z-index: 5; /* Reduzido para ficar abaixo do menu */
+    z-index: 2;
 }
 
 .dot {
@@ -280,9 +219,17 @@ header {
         font-size: 1rem;
     }
 
+    .button i {
+        font-size: 1rem;
+    }
+
     .slider-button {
         font-size: 20px;
         padding: 10px;
+    }
+
+    .slider-button i {
+        font-size: 1.2rem;
     }
 
     .slider-button.prev {
@@ -297,14 +244,6 @@ header {
         width: 10px;
         height: 10px;
         margin: 0 6px;
-    }
-
-    .nav-links {
-        display: none; /* Esconde o menu por padrão em telas pequenas */
-    }
-
-    .nav-links.menu-open {
-        display: flex; /* Exibe o menu quando aberto */
     }
 }
 
@@ -355,6 +294,15 @@ section h2 {
     margin-bottom: 20px;
     color: #333;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+section h2 i {
+    color: #d4a373;
+    font-size: 1.8rem;
 }
 
 /* Parágrafos nas secções */
@@ -375,6 +323,13 @@ section .button {
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+section .button i {
+    font-size: 1.2rem;
 }
 
 section .button:hover {
@@ -474,6 +429,15 @@ section .button:hover {
     font-size: 1rem;
     margin-bottom: 15px;
     color: #555;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.contact ul li i {
+    color: #d4a373;
+    font-size: 1.2rem;
 }
 
 .contact ul li strong {
@@ -486,8 +450,16 @@ section .button:hover {
         font-size: 1.8rem;
     }
 
+    section h2 i {
+        font-size: 1.5rem;
+    }
+
     section p {
         font-size: 0.9rem;
+    }
+
+    section .button i {
+        font-size: 1rem;
     }
 
     .about-us {
@@ -507,5 +479,9 @@ section .button:hover {
     .service-item {
         width: 100%;
         padding: 20px;
+    }
+
+    .contact ul li i {
+        font-size: 1rem;
     }
 }
