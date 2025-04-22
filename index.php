@@ -21,7 +21,7 @@
                 <div class="text">
                     <h2>Bem-vindo à Oficina do Cabelo</h2>
                     <div class="logo-slider">
-                        <img src="./img/logotipo2.png" alt="Logótipo" class="logo">
+                        <img src="./img/logotipo.png" alt="Logótipo" class="logo">
                     </div>
                     <p>Os melhores cortes que pode imaginar!</p>
                     <a href="./marcacoes.php" class="button"><i class="fas fa-calendar-alt"></i> Agende a Sua Marcação</a>
@@ -33,7 +33,7 @@
                 <div class="text">
                     <h2>Experiência Única</h2>
                     <div class="logo-slider">
-                        <img src="./img/logotipo2.png" alt="Logótipo" class="logo">
+                        <img src="./img/logotipo.png" alt="Logótipo" class="logo">
                     </div>
                     <p>Profissionais qualificados para transformar o seu visual.</p>
                     <a href="./marcacoes.php" class="button"><i class="fas fa-calendar-alt"></i> Agende a Sua Marcação</a>
@@ -45,7 +45,7 @@
                 <div class="text">
                     <h2>Estilo Personalizado</h2>
                     <div class="logo-slider">
-                        <img src="./img/logotipo2.png" alt="Logótipo" class="logo">
+                        <img src="./img/logotipo.png" alt="Logótipo" class="logo">
                     </div>
                     <p>Cada corte é feito à medida para si.</p>
                     <a href="./marcacoes.php" class="button"><i class="fas fa-calendar-alt"></i> Agende a Sua Marcação</a>
@@ -84,11 +84,23 @@
     <section class="contact">
         <h2><i class="fas fa-phone"></i> Fale Connosco</h2>
         <p>Entre em contacto para agendar a sua visita ou tirar dúvidas:</p>
-        <ul>
-            <li><i class="fas fa-map-marker-alt"></i> <strong>Morada:</strong> R. Eng. Armando de Magalhães 257, 4445-416 Ermesinde</li>
-            <li><i class="fas fa-phone-alt"></i> <strong>Telefone:</strong> +351 912 345 678</li>
-            <li><i class="fas fa-envelope"></i> <strong>Email:</strong> oficinadocabelo@gmail.com</li>
-        </ul>
+        <div class="contact-list">
+            <div class="contact-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <h3>Morada</h3>
+                <p>R. Eng. Armando de Magalhães 257, 4445-416 Ermesinde</p>
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-phone-alt"></i>
+                <h3>Telefone</h3>
+                <p>+351 912 345 678</p>
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-envelope"></i>
+                <h3>Email</h3>
+                <p>oficinadocabelo@gmail.com</p>
+            </div>
+        </div>
         <a href="./contacto.php" class="button">Mais Informações <i class="fas fa-arrow-right"></i></a>
     </section>
 </main>

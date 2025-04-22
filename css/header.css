@@ -88,6 +88,7 @@ body.dark-mode #dark-mode-toggle::after {
     font-weight: bold;
     color: #d4a373;
     transition: transform 0.3s ease;
+    gap: 10px; /* Adiciona espaçamento entre a imagem e o texto */
 }
 
 .logo img {
@@ -98,8 +99,8 @@ body.dark-mode #dark-mode-toggle::after {
 .logo:hover img {
     transform: scale(1.05); /* Aumenta a imagem em 10% */
 }
+
 .logo img:hover {
-    margin-right: 0;
     opacity: 0.9;
 }
 
