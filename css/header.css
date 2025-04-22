@@ -24,7 +24,7 @@ header {
     background-color: transparent;
     border: none;
     cursor: pointer;
-    padding: 10px 15px;
+    padding: 0;
     width: 25px;
     height: 25px;
     position: relative; /* Para posicionar os ícones */
@@ -89,10 +89,11 @@ body.dark-mode #dark-mode-toggle::before {
 .dark-mode #dark-mode-toggle::after {
     opacity: 0;
     transform: translate(-50%, -50%); /* Aumenta a imagem em 10% */
+}
 
 /* Navbar */
 .darkmode-container{
-    margin-right: 0;
+    margin-right: 15px;
 }
 
 nav ul {
@@ -100,7 +101,6 @@ nav ul {
     display: flex;
     margin: 0;
     padding: 0;
-    align-items: center;
     justify-content: flex-end;
 }
 
