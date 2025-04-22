@@ -24,42 +24,27 @@
                 <li><a href="./rgpd.php">Política de Privacidade</a></li> <!-- Caminho atualizado e correção de 'rgdp' para 'rgpd' -->
             </ul>
         </div>
+        <!-- Fim da Secção de Links Rápidos -->
         <!-- Secção de Redes Sociais -->
         <div class="footer-section social-media">
             <h4>Siga-nos</h4>
-            <ul class="social-media">
-                <div>
-                    <li><a href="https://www.instagram.com/boficinadocabelo/" target="_blank" class="social-icon"><img src="./img/instagram.png" alt="Instagram"></a></li>
-                </div>
-                <div>
-                    <li><a href="https://www.facebook.com/BOficinadoCabelo/" target="_blank" class="social-icon"><img src="./img/facebook.png" alt="Facebook"></a></li>
-                </div>
-
-
-
-            </ul>
-        </div>
-        <div class="opening-hours">
-            <p>Horário de Funcionamento</p>
             <ul>
-                <li>Segunda a Sexta: 9h às 19h</li>
-                <li>Sábado: 9h às 13h</li>
-                <li>Domingo: Encerrado</li> 
+                <li><a href="https://www.instagram.com/boficinadocabelo/" target="_blank">Instagram</a></li>
+                <li><a href="https://www.facebook.com/BOficinadoCabelo/" target="_blank">Facebook</a></li>
             </ul>
         </div>
         <!-- Fim da Secção de Redes Sociais -->
-
         <!-- Secção de Login -->
         <div class="footer-section login">
-            <h4>Login</h4> 
+            <h4>Login</h4>
             <ul>
                 <li><a href="./login.php">Área dos Barbeiros</a></li> <!-- Caminho atualizado -->
             </ul>
         </div><!-- Fim da Secção de Login -->
 
         <!-- Rodapé Inferior com Informação de Direitos Reservados -->
-        <div class="footer-bottom"> 
-            <p>&copy; <?php echo date("Y"); ?> Oficina do Cabelo. Todos os direitos reservados.</p>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Oficina do Cabelo. Todos os direitos reservados.</p>
         </div>
     </div>
 </footer>
