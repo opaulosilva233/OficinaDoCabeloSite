@@ -16,7 +16,9 @@
                 <h1><i class="fas fa-info-circle"></i> Sobre Nós</h1>
             </div>
             <div class="section-content">
-                <p>A Oficina do Cabelo, localizada em Ermesinde, é mais do que uma barbearia: é um espaço onde estilo e tradição se encontram. Desde 2019, oferecemos cortes personalizados, cuidados com a barba e um ambiente acolhedor para os nossos clientes. Venha visitar-nos e experimente o verdadeiro espírito da barbearia moderna!</p>
+                <p>A Oficina do Cabelo nasceu em 2019 em Ermesinde, fundada por dois amigos apaixonados pela arte de barbear: Bruno Martins e Hugo Alves. Inspirados pela tradição das barbearias clássicas e pela energia das tendências modernas, eles decidiram criar um espaço onde os clientes pudessem relaxar, cuidar do visual e se sentir em casa. Hoje, após 6 anos, já atendemos mais de 5.000 clientes, sempre com o mesmo cuidado e dedicação.</p>
+                <p>Nossa missão é simples: proporcionar um momento de cuidado e estilo com atendimento personalizado, onde cada cliente se sinta único. Valorizamos a confiança que você deposita em nós e trabalhamos para transformar cada visita em uma experiência memorável.</p>
+                <p><em>"A Oficina do Cabelo é o meu lugar favorito para relaxar e sair com um corte impecável. O atendimento é sempre incrível!"</em> – João Silva, cliente desde 2020.</p>
             </div>
         </div>
         <div class="image">

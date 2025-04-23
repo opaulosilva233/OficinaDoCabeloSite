@@ -142,11 +142,15 @@ main {
 .barber {
     text-align: center;
     max-width: 220px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
 }
 
-.barber:hover {
+.barber-link {
+    display: block; /* Garante que o link ocupe o espaço da imagem */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.barber-link:hover {
     transform: translateY(-10px);
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
@@ -162,7 +166,7 @@ main {
     animation: fadeIn 1s ease-out forwards;
 }
 
-.barber:hover img {
+.barber-link:hover img {
     transform: scale(1.05);
     filter: brightness(0.9);
     border: 2px solid #d4a373;
@@ -241,6 +245,10 @@ main {
 }
 
 .modal-content .modal-image-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
     margin-bottom: 15px;
 }
 
@@ -248,7 +256,6 @@ main {
     width: 180px;
     height: auto;
     border-radius: 15px;
-    margin-bottom: 10px;
     transition: transform 0.3s ease, filter 0.3s ease;
 }
 
