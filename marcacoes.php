@@ -25,9 +25,6 @@
             echo "<div class='error-message'>Erro: $error</div>";
         }
     ?>
-
-    <header>
-    </header>
     <?php
     // Verifica se os parâmetros da URL (date, time, barber, name) estão presentes.
     // Se estiverem, significa que a marcação foi confirmada e deve ser exibida uma mensagem de confirmação.
