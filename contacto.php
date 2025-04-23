@@ -1,5 +1,4 @@
 <?php include('./includes/header.php'); ?>
-<link rel="stylesheet" href="/css/contacto.css">
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
@@ -14,8 +13,10 @@
     <section class="contacts">
         <div class="contact-info">
             <h1>Contactos</h1>
-            <p><strong>Email:</strong> oficinadocabelo@gmail.com</p>
-            <p><strong>Telefone:</strong> +351 912 345 678</p>
+            <p class="contact-invite">Entre em contato conosco e agende sua visita à Oficina do Cabelo!</p>
+            <p><strong>Horário:</strong> Segunda a Sábado, das 9h às 19h</p>
+            <p><strong>Email:</strong> <a href="mailto:oficinadocabelo@gmail.com" class="contact-link">oficinadocabelo@gmail.com</a></p>
+            <p><strong>Telefone:</strong> <a href="tel:+351912345678" class="contact-link">+351 912 345 678</a></p>
             <p><strong>Morada:</strong> R. Eng. Armando de Magalhães 257, 4445-416 Ermesinde</p>
             <p><strong>Redes Sociais:</strong></p>
             <ul class="social-links">
@@ -45,3 +46,5 @@
     </section>
 </main>
 <?php include('./includes/footer.php'); ?>
+</body>
+</html>

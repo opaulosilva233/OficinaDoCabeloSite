@@ -55,11 +55,29 @@ main {
     font-weight: bold;
 }
 
+.contact-info .contact-invite {
+    font-size: 1.1rem;
+    color: #d4a373; /* Cor dourada para destaque */
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
 .contact-info p {
     font-size: 1rem; /* Tamanho padrão para parágrafos */
     color: #555; /* Cor neutra para o texto */
     margin-bottom: 20px;
     line-height: 1.8; /* Espaçamento confortável entre linhas */
+}
+
+.contact-info .contact-link {
+    color: #d4a373; /* Cor dourada para links */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.contact-info .contact-link:hover {
+    color: #b88c5f; /* Tom mais escuro ao passar o mouse */
+    text-decoration: underline;
 }
 
 /* Redes sociais */
