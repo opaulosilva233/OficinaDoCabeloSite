@@ -41,6 +41,19 @@ main {
     }
 }
 
+/* Animação de pulsação para os ícones sociais */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.15);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
 /* Informações de contato */
 .contact-info {
     flex: 1;
@@ -51,8 +64,15 @@ main {
 .contact-info h1 {
     font-size: 2rem; /* Tamanho grande, mas não exagerado */
     margin-bottom: 20px;
-    color: #333; /* Cor de destaque sofisticada */
+    color: #333; /* Cor dourada para consistência com o design */
     font-weight: bold;
+}
+
+.contact-info .contact-invite {
+    font-size: 1.1rem;
+    color: #d4a373; /* Cor dourada para destaque */
+    font-weight: bold;
+    margin-bottom: 25px;
 }
 
 .contact-info p {
@@ -60,6 +80,25 @@ main {
     color: #555; /* Cor neutra para o texto */
     margin-bottom: 20px;
     line-height: 1.8; /* Espaçamento confortável entre linhas */
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espaçamento entre ícone e texto */
+}
+
+.contact-info .contact-icon {
+    color: #d4a373; /* Cor dourada para os ícones */
+    font-size: 1.2rem;
+}
+
+.contact-info .contact-link {
+    color: #d4a373; /* Cor dourada para links */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.contact-info .contact-link:hover {
+    color: #b88c5f; /* Tom mais escuro ao passar o mouse */
+    text-decoration: underline;
 }
 
 /* Redes sociais */
@@ -77,28 +116,36 @@ main {
 
 .social-links a {
     text-decoration: none;
-    transition: transform 0.3s ease; /* Efeito de crescimento ao passar o mouse */
+    transition: color 0.3s ease; /* Transição suave para a cor */
 }
 
-.social-links img {
-    width: 35px; /* Tamanho maior para os ícones */
-    height: 35px;
-    transition: transform 0.3s ease; /* Efeito de crescimento ao passar o mouse */
+.social-links .social-icon i {
+    font-size: 2rem; /* Tamanho maior para os ícones */
+    color: #d4a373; /* Cor dourada para consistência */
+    transition: color 0.3s ease; /* Transição suave para a cor */
 }
 
-.social-links a:hover img {
-    transform: scale(1.1); /* Zoom sutil ao passar o mouse */
+.social-links a:hover .social-icon i {
+    color: #b88c5f; /* Tom mais escuro ao passar o mouse */
+    animation: pulse 0.6s ease-in-out; /* Animação de pulsação */
+}
+
+.social-links a:focus .social-icon i {
+    outline: 2px solid #d4a373; /* Estado de foco visível */
+    outline-offset: 3px;
+    border-radius: 5px;
 }
 
 /* Mapa */
 .map-container {
     flex: 1;
     max-width: 700px; /* Aumenta a largura máxima do mapa */
-    height: 400px; /* Mantém a altura fixa */
+    height: 400px; /* Altura fixa para desktop */
     border-radius: 15px; /* Bordas arredondadas suaves */
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08); /* Sombra leve para destaque */
     overflow: hidden;
     margin-left: 40px; /* Espaçamento maior entre o mapa e o texto */
+    border: 2px solid #d4a373; /* Borda dourada para destaque */
 }
 
 .map-container iframe {
@@ -117,16 +164,28 @@ main {
 
     .contact-info {
         margin-right: 0; /* Remove o espaçamento lateral */
-        margin-bottom: 30px; /* Adiciona espaçamento abaixo do texto */
+        margin-bottom: 50px; /* Espaçamento abaixo do texto */
+    }
+
+    .contact-info h1 {
+        font-size: 1.8rem; /* Reduz o tamanho do título em mobile */
+    }
+
+    .contact-info p {
+        justify-content: center; /* Centraliza ícone e texto em mobile */
     }
 
     .map-container {
         margin-left: 0; /* Remove o espaçamento lateral */
         max-width: 100%; /* Faz o mapa ocupar toda a largura disponível */
-        height: 400px; /* Mantém a altura fixa */
+        height: 50vh; /* Altura proporcional em mobile */
     }
 
     .social-links {
         justify-content: center; /* Centraliza os ícones das redes sociais */
+    }
+
+    .social-links .social-icon i {
+        font-size: 2.2rem; /* Aumentei o tamanho para facilitar o toque (antes era 1.8rem) */
     }
 }
