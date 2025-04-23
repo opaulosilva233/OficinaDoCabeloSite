@@ -78,7 +78,16 @@ document.addEventListener('DOMContentLoaded', () => {
         // Atualizar estado dos botões "Avançar"
         if (step === 1) updateNextButtonState(step, !!selectedService);
         if (step === 2) updateNextButtonState(step, !!selectedBarber);
-        if (step === 3) updateNextButtonState(step, !!dateField.value && !!timeSelect.value);
+        if (step === 3) {
+            // Garantir que o campo de horário tenha um estado inicial apropriado
+            if (!selectedBarber || !dateField.value) {
+                updateTimeSelect([], 'Selecione uma data e um barbeiro');
+            } else {
+                const formattedDate = formatDate(new Date(dateField.value));
+                fetchAvailableTimes(selectedBarber, formattedDate);
+            }
+            updateNextButtonState(step, !!dateField.value && !!timeSelect.value);
+        }
     };
 
     // Estado do botão "Avançar"
@@ -99,20 +108,38 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const fetchAvailableTimes = async (barber, date, forValidation = false) => {
+        // Só buscar horários se barbeiro e data estiverem definidos
+        if (!barber || !date) {
+            updateTimeSelect([], 'Selecione uma data e um barbeiro');
+            return [];
+        }
+
         loadingIndicator.classList.remove('hidden');
         timeSelect.disabled = true;
         timeSelect.innerHTML = '';
 
         try {
             const response = await fetch(`includes/getAvailableTimes.php?barber=${barber}&date=${date}`);
+            // Verificar se a resposta é válida
+            if (!response.ok) {
+                throw new Error(`Erro HTTP: ${response.status}`);
+            }
+
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                const text = await response.text();
+                throw new Error(`Resposta não é JSON: ${text}`);
+            }
+
             const data = await response.json();
             if (data.success) {
                 updateTimeSelect(data.slots);
                 if (forValidation) return data.slots;
             } else {
-                updateTimeSelect([], data.message);
+                updateTimeSelect([], data.message || 'Nenhum horário disponível');
             }
-        } catch {
+        } catch (error) {
+            console.error('Erro ao buscar horários:', error);
             updateTimeSelect([], 'Erro ao buscar horários');
         } finally {
             loadingIndicator.classList.add('hidden');
@@ -133,10 +160,11 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             const noSlots = document.createElement('option');
             noSlots.value = '';
-            noSlots.textContent = errorMessage || 'Nenhum horário disponível';
+            noSlots.textContent = errorMessage || 'Selecione uma data e um barbeiro';
             timeSelect.appendChild(noSlots);
+            timeSelect.disabled = true;
         }
-        updateNextButtonState(3, !!dateField.value && !!timeSelect.value);
+        updateNextButtonState(3, !!dateField.value && !!timeSelect.value && timeSelect.value !== '');
     };
 
     const lockTimeSlot = async (barber, date, time) => {
@@ -217,6 +245,9 @@ document.addEventListener('DOMContentLoaded', () => {
         category.classList.remove('expanded');
     });
 
+    // Definir estado inicial do campo de horário
+    updateTimeSelect([], 'Selecione uma data e um barbeiro');
+
     // Acordeão para categorias
     categoryTitles.forEach(title => {
         title.addEventListener('click', () => {
@@ -249,8 +280,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const formattedDate = formatDate(new Date(dateStr));
                 fetchAvailableTimes(selectedBarber, formattedDate);
             } else {
-                timeSelect.innerHTML = '';
-                timeSelect.disabled = true;
+                updateTimeSelect([], 'Selecione uma data e um barbeiro');
                 updateNextButtonState(3, false);
             }
             updateSummaryWindow(); // Atualiza a janela de resumo ao mudar a data
@@ -279,13 +309,18 @@ document.addEventListener('DOMContentLoaded', () => {
             barberInput.value = selectedBarber;
             console.log('Selected Barber:', selectedBarber);
             updateNextButtonState(2, true);
+            // Se já houver uma data selecionada, buscar horários
+            if (dateField.value) {
+                const formattedDate = formatDate(new Date(dateField.value));
+                fetchAvailableTimes(selectedBarber, formattedDate);
+            }
             updateSummaryWindow(); // Atualiza a janela de resumo ao selecionar o barbeiro
         });
     });
 
     // Etapa 3: Seleção de Data e Hora
     timeSelect.addEventListener('change', () => {
-        updateNextButtonState(3, !!dateField.value && !!timeSelect.value);
+        updateNextButtonState(3, !!dateField.value && !!timeSelect.value && timeSelect.value !== '');
         console.log('Date Field Value:', dateField.value, 'Time Select Value:', timeSelect.value);
         if (timeSelect.value) {
             lockTimeSlot(selectedBarber, formatDate(new Date(dateField.value)), timeSelect.value);
@@ -327,6 +362,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     dateField.value = '';
                     timeSelect.innerHTML = '';
                     timeSelect.disabled = true;
+                    updateTimeSelect([], 'Selecione uma data e um barbeiro');
                 }
                 if (currentStep >= 2) {
                     barbers.forEach(b => b.classList.remove('selected'));
