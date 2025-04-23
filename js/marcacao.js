@@ -1,209 +1,179 @@
-document.addEventListener('DOMContentLoaded', function () {
-     //Include config file to get the constants
-     const script = document.createElement('script');
-        script.src = 'includes/config.php'; // Replace with the actual path to your config.php file
-    // Início do bloco que executa quando o DOM estiver completamente carregado.
-    // Seleção de elementos do DOM
-    const buttons = document.querySelectorAll('.option-btn');
-    const modal = document.getElementById('modal');
-    const closeModal = document.getElementById('modal-close');
-    const confirmSelection = document.getElementById('confirm-selection');
-    const serviceInput = document.getElementById('service-selected');
-    const barberInput = document.getElementById('barber-selected');
+document.addEventListener('DOMContentLoaded', () => {
+    // Elementos do DOM
+    const form = document.getElementById('appointment-form');
+    const steps = document.querySelectorAll('.step');
+    const stepContents = document.querySelectorAll('.step-content');
+    const optionButtons = document.querySelectorAll('.option-btn');
+    const barbers = document.querySelectorAll('.barber');
     const dateField = document.getElementById('date');
     const timeSelect = document.getElementById('time');
-    const barbers = document.querySelectorAll('.barber');
-    const body = document.body;
-    const modalContainer = modal ? modal.querySelector('.modal-container') : null;
-    const serviceDisplay = document.getElementById('selected-service');
-        const userName = document.getElementById('name');
-        const userPhone = document.getElementById('phone');
-        
-    
+    const loadingIndicator = document.getElementById('loading-indicator');
+    const serviceInput = document.getElementById('service-selected');
+    const barberInput = document.getElementById('barber-selected');
+    const dateInput = document.getElementById('date-selected');
+    const timeInput = document.getElementById('time-selected');
+    const userName = document.getElementById('name');
+    const userPhone = document.getElementById('phone');
     const userEmail = document.getElementById('email');
-    const form = document.getElementById('appointment-form');
+    const categoryTitles = document.querySelectorAll('.category-title');
+    const selectedServiceDisplay = document.getElementById('selected-service');
+    let currentStep = 1;
+    let selectedService = null;
     let selectedBarber = null;
-    // Loading element
-    const loadingIndicator = document.createElement('div');
-    // Fim da seleção dos elementos do dom.
-    // Abrir modal ao selecionar um tipo de corte
-    buttons.forEach(button => button.addEventListener('click', openModal));
+    let lockId = null;
 
-    // Fechar modal ao clicar no botão de fechar
-    if (closeModal) {
-        closeModal.addEventListener('click', closeModalWindow);
-    }
+    // Função para navegação entre etapas
+    const updateStep = (step) => {
+        // Remover classe active de todas as etapas
+        steps.forEach(s => s.classList.remove('active'));
+        stepContents.forEach(s => s.classList.remove('active'));
 
-    // Selecionar barbeiro e ativar campo de data ao clicar no elemento do barbeiro.
-    barbers.forEach(barber => barber.addEventListener('click', selectBarber));
+        // Adicionar classe active apenas à etapa atual
+        steps[step - 1].classList.add('active');
+        stepContents[step - 1].classList.add('active');
 
-    // Adicionar event listeners para cada campo do formulario para validar em tempo real.
-    userName.addEventListener('input', validateName);
-    userName.addEventListener('blur', validateName);
+        // Marcar etapas anteriores como concluídas e remover a classe completed das etapas futuras e da etapa atual
+        steps.forEach((s, index) => {
+            if (index < step - 1) {
+                s.classList.add('completed');
+            } else {
+                s.classList.remove('completed');
+            }
+        });
 
-    userPhone.addEventListener('input', validatePhone);
-    userPhone.addEventListener('blur', validatePhone);
-
-    userEmail.addEventListener('input', validateEmail);
-    userEmail.addEventListener('blur', validateEmail);
-
-    
-    // Alterar data e buscar horários disponíveis ao alterar a data.
-    dateField.addEventListener('change', handleDateChange);
-
-    // Confirmar seleção e guardar dados para enviar para a base de dados.
-    confirmSelection.addEventListener('click', confirmBooking);
-
-    // Configurar o elemento para mostrar o loading.
-    // Create loading element
-    loadingIndicator.id = 'loading-indicator';
-    loadingIndicator.style.display = 'none';
-    loadingIndicator.style.textAlign = 'center';
-    loadingIndicator.style.fontSize = '24px';
-    loadingIndicator.textContent = 'A carregar...'; // Mensagem de carregamento
-    modal.insertBefore(loadingIndicator, timeSelect); // Insere o elemento de loading acima do select de tempo
-
-
-    // Funções.
-
-    // Função para abrir o modal ao clicar em um tipo de serviço.
-    function openModal() {
-        const selectedService = this.getAttribute('data-option');
-        if (serviceInput && serviceDisplay) {
-            serviceInput.value = selectedService; // Armazena o tipo de serviço selecionado
-            serviceDisplay.textContent = `Corte Selecionado: ${selectedService}`; // Exibe o serviço selecionado
-            serviceDisplay.classList.add('highlight-service'); // Destaca o serviço
-
-            // Exibe o modal
-            showModal();
+        // Atualizar o texto do tipo de corte selecionado na Etapa 2
+        if (step === 2 && selectedService) {
+            selectedServiceDisplay.textContent = `Tipo de Corte Selecionado: ${selectedService}`;
+        } else {
+            selectedServiceDisplay.textContent = '';
         }
-        resetModal(); // Reseta os campos do modal
-    }
-    
-    // Função para mostrar o modal.
-    function showModal() {
-        if (modal && document.getElementById('modal-backdrop')) {
-            modal.style.display = 'flex'; // Exibe o modal
-            document.getElementById('modal-backdrop').style.display = 'block'; // Exibe o fundo semitransparente
-            body.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'; // Aplica o fundo escurecido
-            modalContainer.style.backgroundColor = '#ffffff'; // Define o fundo do modal
+
+        currentStep = step;
+
+        // Atualizar estado dos botões "Avançar"
+        if (step === 1) updateNextButtonState(step, selectedService);
+        if (step === 2) updateNextButtonState(step, selectedBarber);
+        if (step === 3) updateNextButtonState(step, dateField.value && timeSelect.value);
+    };
+
+    // Estado do botão "Avançar"
+    const updateNextButtonState = (step, condition) => {
+        const nextBtn = stepContents[step - 1].querySelector('.next-btn');
+        if (nextBtn) {
+            nextBtn.disabled = !condition;
         }
-    }
+    };
 
-    // Função para fechar o modal.
-    function closeModalWindow() {
-        if (modal && document.getElementById('modal-backdrop')) {
-            modal.style.display = 'none'; // Esconde o modal
-            document.getElementById('modal-backdrop').style.display = 'none'; // Esconde o fundo
-            body.style.backgroundColor = ''; // Restaura a cor do fundo
-            modalContainer.style.backgroundColor = ''; // Restaura o fundo do modal
+    // Funções auxiliares
+    const formatDate = (date) => {
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}-${month}-${year}`;
+    };
+
+    const fetchAvailableTimes = async (barber, date, forValidation = false) => {
+        loadingIndicator.classList.remove('hidden');
+        timeSelect.disabled = true;
+        timeSelect.innerHTML = '';
+
+        try {
+            const response = await fetch(`includes/getAvailableTimes.php?barber=${barber}&date=${date}`);
+            const data = await response.json();
+            if (data.success) {
+                updateTimeSelect(data.slots);
+                if (forValidation) return data.slots;
+            } else {
+                updateTimeSelect([], data.message);
+            }
+        } catch {
+            updateTimeSelect([], 'Erro ao buscar horários');
+        } finally {
+            loadingIndicator.classList.add('hidden');
         }
-        resetModal(); // Reseta os campos do modal
-    }
+        return [];
+    };
 
-    // Função para resetar o modal (limpar campos).
-    function resetModal() {
-        barbers.forEach(b => b.classList.remove('selected')); // Remove a seleção do barbeiro
-        dateField.value = ''; // Limpa a data
-        timeSelect.innerHTML = ''; // Limpa as opções de horário
-        dateField.disabled = true; // Desabilita o campo de data
-        timeSelect.disabled = true; // Desabilita o campo de horário
-    }
-
-    // Função para selecionar o barbeiro.
-    function selectBarber() {
-        barbers.forEach(b => b.classList.remove('selected')); // Remove a seleção dos barbeiros
-        this.classList.add('selected'); // Adiciona a seleção ao barbeiro clicado
-        selectedBarber = this.getAttribute('data-barber'); // Armazena o barbeiro selecionado
-        barberInput.value = selectedBarber; // Armazena o barbeiro no campo oculto
-        dateField.disabled = false; // Habilita o campo de data
-        timeSelect.innerHTML = ''; // Limpa os horários
-        timeSelect.disabled = true; // Desabilita o campo de horário
-        configureDateField(); // Configura o campo de data (se necessário)
-    }
-
-    // Função para configurar o campo de data (pode ser personalizada conforme necessário).
-    function configureDateField() {
-        // Lógica de configuração do campo de data (se necessário)
-    }
-
-    // Função chamada quando a data é alterada.
-    function handleDateChange() {
-        const selectedDate = formatDate(new Date(dateField.value)); // Formata a data selecionada
-        if (selectedBarber && selectedDate) {
-            fetchAvailableTimes(selectedBarber, selectedDate); // Busca horários disponíveis para o barbeiro e data selecionados
+    const updateTimeSelect = (slots, errorMessage = '') => {
+        timeSelect.innerHTML = '';
+        if (slots.length > 0) {
+            slots.forEach(slot => {
+                const option = document.createElement('option');
+                option.value = slot;
+                option.textContent = slot;
+                timeSelect.appendChild(option);
+            });
+            timeSelect.disabled = false;
+        } else {
+            const noSlots = document.createElement('option');
+            noSlots.value = '';
+            noSlots.textContent = errorMessage || 'Nenhum horário disponível';
+            timeSelect.appendChild(noSlots);
         }
-    }
+    };
 
-    // Função para formatar a data no formato "DD-MM-YYYY".
-    function formatDate(date) {
-        const day = String(date.getDate()).padStart(2, '0'); // Adiciona zero à esquerda se necessário
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // Adiciona zero à esquerda se necessário
-        const year = date.getFullYear(); // Ano
-        return `${day}-${month}-${year}`; // Retorna a data formatada
-    }
+    const lockTimeSlot = async (barber, date, time) => {
+        try {
+            const response = await fetch('includes/lockTimeSlot.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `barber=${barber}&date=${date}&time=${time}`
+            });
+            const data = await response.json();
+            if (data.success) {
+                lockId = data.lock_id;
+            } else {
+                alert('Não foi possível reservar este horário. Por favor, escolha outro.');
+                fetchAvailableTimes(barber, date);
+            }
+        } catch {
+            alert('Erro ao reservar o horário. Tente novamente.');
+            fetchAvailableTimes(barber, date);
+        }
+    };
 
-    // Funções de validação dos campos.
-    // Validation functions
-    function validateName() {
+    const releaseTimeSlot = async (lockId) => {
+        try {
+            await fetch('includes/releaseTimeSlot.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `lock_id=${lockId}`
+            });
+            lockId = null;
+        } catch {
+            console.error('Erro ao liberar o horário');
+        }
+    };
+
+    // Funções de validação
+    const validateName = () => {
         const nameValue = userName.value.trim();
-        const errorSpan = document.getElementById('name-error');
-
-
         const nameRegex = /^[a-zA-Z\s]+$/;
-
-        if (!errorSpan){
-            const errorSpan = document.createElement('span');
-            errorSpan.id = 'name-error';
-            errorSpan.style.color = 'red';
-            userName.parentNode.insertBefore(errorSpan, userName.nextSibling); // Insere a mensagem de erro logo após o campo do nome
-        }
-
         if (nameValue === '') {
             document.getElementById('name-error').textContent = 'O nome é obrigatório';
             return false;
         } else if (nameValue.length < 3 || !nameRegex.test(nameValue)) {
-           // Verifica se o nome tem menos de 3 caracteres ou contém caracteres inválidos
-           document.getElementById('name-error').textContent = 'O nome deve ter no mínimo 3 caracteres e conter apenas letras e espaços.';
-
+            document.getElementById('name-error').textContent = 'O nome deve ter no mínimo 3 caracteres e conter apenas letras e espaços.';
             return false;
         } else {
             document.getElementById('name-error').textContent = '';
             return true;
         }
-    }
+    };
 
-    function validatePhone() {
+    const validatePhone = () => {
         const phoneValue = userPhone.value.trim();
-        const errorSpan = document.getElementById('phone-error');
-        
-        if (!errorSpan){
-             const errorSpan = document.createElement('span');
-            errorSpan.id = 'phone-error';
-            errorSpan.style.color = 'red';
-            userPhone.parentNode.insertBefore(errorSpan, userPhone.nextSibling);
-        }
-
-        if (phoneValue.length !== PHONE_NUMBER_SIZE || isNaN(phoneValue)) {
-            document.getElementById('phone-error').textContent = 'O telemóvel deve ter 9 digitos.';
+        if (phoneValue.length !== 9 || isNaN(phoneValue)) {
+            document.getElementById('phone-error').textContent = 'O telemóvel deve ter 9 dígitos.';
             return false;
         } else {
             document.getElementById('phone-error').textContent = '';
             return true;
         }
-    }
+    };
 
-    function validateEmail() {
+    const validateEmail = () => {
         const emailValue = userEmail.value.trim();
-        const errorSpan = document.getElementById('email-error');
-
-        if (!errorSpan){
-             const errorSpan = document.createElement('span');
-            errorSpan.id = 'email-error';
-            errorSpan.style.color = 'red';
-            userEmail.parentNode.insertBefore(errorSpan, userEmail.nextSibling);
-        }
-
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (!emailRegex.test(emailValue)) {
             document.getElementById('email-error').textContent = 'O e-mail é inválido.';
@@ -212,158 +182,119 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('email-error').textContent = '';
             return true;
         }
-    }
+    };
 
-    // Função que valida os campos e impede que o formulario seja enviado se estiverem incorretos.
-    form.addEventListener('submit', (event) => {
-        if (!validateName() || !validatePhone() || !validateEmail()) {
-            event.preventDefault();
+    // Inicializar: apenas a primeira etapa visível e categorias fechadas
+    updateStep(1);
+    document.querySelectorAll('.category').forEach(category => {
+        category.classList.remove('expanded');
+    });
+
+    // Acordeão para categorias
+    categoryTitles.forEach(title => {
+        title.addEventListener('click', () => {
+            const category = title.parentElement;
+            const isExpanded = category.classList.contains('expanded');
+
+            // Fechar todas as outras categorias
+            document.querySelectorAll('.category').forEach(cat => {
+                cat.classList.remove('expanded');
+            });
+
+            // Abrir ou fechar a categoria clicada
+            if (!isExpanded) {
+                category.classList.add('expanded');
+            }
+        });
+    });
+
+    // Configurar data mínima (hoje) e desabilitar domingos
+    const today = new Date().toISOString().split('T')[0];
+    dateField.setAttribute('min', today);
+    dateField.addEventListener('change', () => {
+        const selectedDate = new Date(dateField.value);
+        if (selectedDate.getDay() === 0) {
+            alert('A barbearia está fechada aos domingos. Por favor, escolha outro dia.');
+            dateField.value = '';
         }
     });
 
-    // Função para buscar os horários disponíveis via AJAX
-    // Esta função envia uma requisição para o servidor para obter os horários disponíveis.
-    function fetchAvailableTimes(barber, date){
-        showLoadingIndicator();
-        fetch(`includes/getAvailableTimes.php?barber=${barber}&date=${date}`)
-            .then(response => response.json())
-            .then(data => {
-                updateTimeSelect(data.slots); // Atualiza os horários no select
-                hideLoadingIndicator();
-            })
-            .catch(() => {
-                updateTimeSelect([], 'Erro ao buscar horários'); // Exibe erro se falhar
-                hideLoadingIndicator();
-            });
-    }
+    // Etapa 1: Seleção do Tipo de Corte
+    optionButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            optionButtons.forEach(btn => btn.classList.remove('selected'));
+            button.classList.add('selected');
+            selectedService = button.getAttribute('data-option');
+            serviceInput.value = selectedService;
+            updateNextButtonState(1, true);
+        });
+    });
 
-    // Função para mostrar o elemento de loading.
-    function showLoadingIndicator() {
-        loadingIndicator.style.display = 'block';
-    }
+    // Etapa 2: Seleção do Barbeiro
+    barbers.forEach(barber => {
+        barber.addEventListener('click', () => {
+            barbers.forEach(b => b.classList.remove('selected'));
+            barber.classList.add('selected');
+            selectedBarber = barber.getAttribute('data-barber');
+            barberInput.value = selectedBarber;
+            updateNextButtonState(2, true);
+        });
+    });
 
-    // Função para esconder o elemento de loading.
-    function hideLoadingIndicator() {
-        loadingIndicator.style.display = 'none';
-    }
-
-    // Função para atualizar a lista de horários no select.
-    // Esta função recebe a lista de horários e atualiza o select.
-    function updateTimeSelect(slots, errorMessage = '') {
-        timeSelect.innerHTML = ''; // Limpa as opções anteriores
-        if (slots.length > 0) {
-            // Se houver horários disponíveis
-            slots.forEach(slot => {
-                const option = document.createElement('option');
-                option.value = slot;
-                option.textContent = slot;
-                timeSelect.appendChild(option); // Adiciona as opções de horário
-            });
-            timeSelect.disabled = false; // Habilita o select de horário
-        } else {
-            // Se não houver horários disponíveis
-            const noSlots = document.createElement('option');
-            noSlots.value = '';
-            noSlots.textContent = errorMessage || 'Nenhum horário disponível';
-            timeSelect.appendChild(noSlots); // Adiciona a opção de "Nenhum horário disponível"
-            timeSelect.disabled = true; // Desabilita o select de horário
+    // Etapa 3: Seleção de Data e Hora
+    dateField.addEventListener('change', () => {
+        const selectedDate = formatDate(new Date(dateField.value));
+        if (selectedBarber && selectedDate) {
+            fetchAvailableTimes(selectedBarber, selectedDate);
         }
-    }
+    });
 
-    // Função chamada ao confirmar a marcação.
-    function confirmBooking() {
-        const selectedDate = formatDate(new Date(dateField.value)); // Formata a data selecionada
-        const selectedTime = timeSelect.value; 
-
-
-        // Validação dos campos obrigatórios
-        if (!selectedBarber || !selectedDate || !selectedTime) {
-            alert('Por favor, preencha todos os campos.');
-           return;
+    timeSelect.addEventListener('change', () => {
+        updateNextButtonState(3, dateField.value && timeSelect.value);
+        if (timeSelect.value) {
+            lockTimeSlot(selectedBarber, formatDate(new Date(dateField.value)), timeSelect.value);
         }
+    });
 
-        const bookingData = {
-            service: serviceInput.value,
-            barber: selectedBarber,
-            date: selectedDate,
-            time: selectedTime,
-            name: userName.value,
-            phone: userPhone.value,
-            email: userEmail.value,
-        };
+    // Etapa 4: Validação de Dados Pessoais
+    userName.addEventListener('input', validateName);
+    userPhone.addEventListener('input', validatePhone);
+    userEmail.addEventListener('input', validateEmail);
 
-        // Validar o formulário
-        const validationResult = validateBookingForm(bookingData);
+    // Navegação
+    document.querySelectorAll('.next-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (currentStep < 4) updateStep(currentStep + 1);
+        });
+    });
 
-        if (!validationResult.isValid) {
-            alert(validationResult.errors); 
+    document.querySelectorAll('.prev-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (currentStep > 1) {
+                if (currentStep === 3 && lockId) {
+                    releaseTimeSlot(lockId);
+                }
+                updateStep(currentStep - 1);
+            }
+        });
+    });
+
+    // Formulário
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!validateName() || !validatePhone() || !validateEmail()) return;
+
+        // Verificar se o horário ainda está disponível
+        const selectedDate = formatDate(new Date(dateField.value));
+        const availableTimes = await fetchAvailableTimes(selectedBarber, selectedDate, true);
+        if (!availableTimes.includes(timeSelect.value)) {
+            alert('Desculpe, este horário já foi reservado. Por favor, escolha outro.');
+            updateStep(3);
             return;
         }
 
-        // Armazenar os dados no localStorage
-        localStorage.setItem('bookingData', JSON.stringify(bookingData));
-
-        // Enviar os dados ao backend
-        sendBookingData();
-    }
-
-    // Função para validar os dados do formulário antes de guardar na base de dados.
-    function validateBookingForm(data) {
-        const errors = [];
-        if (!data.name) errors.push('O nome é obrigatório.');
-        if (!data.phone) errors.push('O telemóvel é obrigatório.');
-        if (!data.email) errors.push('O e-mail é obrigatório.');
-        if (!data.service) errors.push('O serviço é obrigatório.');
-        if (!data.barber) errors.push('O barbeiro é obrigatório.');
-        if (!data.date) errors.push('A data é obrigatória.');
-        if (!data.time) errors.push('A hora é obrigatória.');
-
-        if (errors.length > 0){
-            return { isValid: false, errors: errors[0] };
-        }
-        
-        return { isValid: errors.length === 0, errors }; // Retorna a validação
-    }
-
-    // Função para enviar os dados ao backend.
-    function sendBookingData() {
-        const storedData = localStorage.getItem('bookingData');
-        if (storedData) {
-            const bookingData = JSON.parse(storedData);
-            const formData = new FormData();
-            for (let key in bookingData) {
-                formData.append(key, bookingData[key]); // Adiciona os dados ao FormData
-            }
-
-            fetch('includes/saveBooking.php', {
-                method: 'POST',
-                body: formData,
-            })
-            .then(response => response.json())
-            .then(responseData => handleBookingResponse(responseData)) // Lida com a resposta do backend
-            .catch(() => redirectToErrorPage('Houve um erro ao tentar realizar a marcação.')); // Redireciona em caso de erro
-        }
-    }
-
-    // Função para tratar a resposta do backend após tentar salvar a marcação.
-    function handleBookingResponse(responseData) {
-        if (responseData.success) {
-            alert('Reserva realizada com sucesso!');
-            localStorage.removeItem('bookingData'); // Limpa os dados armazenados
-            window.location.href = "marcacoes.php"; 
-        }else {
-            const errorMessage = encodeURIComponent(responseData.message);
-            const redirectUrl = `marcacoes.php?error=${errorMessage}`;
-            window.location.href = redirectUrl; 
-            
-        } else {
-            redirectToErrorPage(responseData.message); // Redireciona em caso de erro
-        }
-    }
-
-    // Função para redirecionar para uma página de erro.
-    function redirectToErrorPage(message) {
-        const errorMessage = encodeURIComponent(message);
-        window.location.href = `erroMarcacao.php?error=${errorMessage}`; // Redireciona para a página de erro
-    }
+        dateInput.value = selectedDate;
+        timeInput.value = timeSelect.value;
+        form.submit();
+    });
 });

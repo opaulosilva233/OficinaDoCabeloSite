@@ -1,109 +1,65 @@
 <?php
 date_default_timezone_set('Europe/Lisbon');
-// Incluir o ficheiro de ligação à base de dados. Este arquivo estabelece a ligação com a base de dados MySQL.
-include('./db.php'); // Caminho atualizado com './'
+include('./db.php');
+include('./bookingUtils.php');
 
-// Verificar se os dados foram enviados via POST. O código dentro deste if só será executado se a requisição for POST.
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Receber os dados do formulário. Os dados enviados pelo formulário são recebidos através do array $_POST.
-    // O operador de coalescência nula (??) é usado para definir valores padrão se os campos não forem definidos.
-    $service = isset($_POST['service']) ? filter_var($_POST['service'], FILTER_SANITIZE_STRING) : null;
-    $barber = isset($_POST['barber']) ? filter_var($_POST['barber'], FILTER_SANITIZE_STRING) : null;
-    $date = isset($_POST['date']) ? filter_var($_POST['date'], FILTER_SANITIZE_STRING) : null;
-    $time = isset($_POST['time']) ? filter_var($_POST['time'], FILTER_SANITIZE_STRING) : null;
-    // Sanitize name to only allow letters and spaces
-    $name = isset($_POST['name']) ? filter_var($_POST['name'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH) : null;
-    $phone = isset($_POST['phone']) ? filter_var($_POST['phone'], FILTER_SANITIZE_NUMBER_INT) : null;
-    $email = isset($_POST['email']) ? filter_var($_POST['email'], FILTER_SANITIZE_EMAIL) : null;
+    $service = filter_var($_POST['service'] ?? '', FILTER_SANITIZE_STRING);
+    $barber = filter_var($_POST['barber'] ?? '', FILTER_SANITIZE_STRING);
+    $date = filter_var($_POST['date'] ?? '', FILTER_SANITIZE_STRING);
+    $time = filter_var($_POST['time'] ?? '', FILTER_SANITIZE_STRING);
+    $name = filter_var($_POST['name'] ?? '', FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+    $phone = filter_var($_POST['phone'] ?? '', FILTER_SANITIZE_NUMBER_INT);
+    $email = filter_var($_POST['email'] ?? '', FILTER_SANITIZE_EMAIL);
 
-    $emailSent = true;
-    $emailError = "";
-    // Registo dos dados recebidos para fins de depuração com timestamp.
     error_log("Dados recebidos: service=$service, barber=$barber, date=$date, time=$time, name=$name, phone=$phone, email=$email");
 
-    // Inicializar um array para armazenar mensagens de erro. Se houver erros de validação, eles serão armazenados aqui.
-    $errors = []; 
+    $errors = [];
+    if (empty($service)) $errors[] = 'O campo "Serviço" é obrigatório.';
+    if (empty($barber)) $errors[] = 'O campo "Barbeiro" é obrigatório.';
+    if (empty($date)) $errors[] = 'O campo "Data" é obrigatório.';
+    if (empty($time)) $errors[] = 'O campo "Horário" é obrigatório.';
+    if (empty($name)) $errors[] = 'O campo "Nome" é obrigatório.';
+    if (empty($phone)) $errors[] = 'O campo "Telefone" é obrigatório.';
+    if (empty($email)) $errors[] = 'O campo "Email" é obrigatório.';
+    if (!preg_match('/^[a-zA-Z\s]+$/', $name)) $errors[] = 'O nome deve conter apenas letras e espaços.';
+    if (strlen($phone) !== 9 || !is_numeric($phone)) $errors[] = 'O telemóvel deve ter 9 dígitos.';
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'O e-mail é inválido.';
 
-    // Validação de cada campo individualmente
-    if (empty($service)) {
-        $errors[] = 'O campo "Serviço" é obrigatório.';
-    }
-    if (empty($barber)) {
-        $errors[] = 'O campo "Barbeiro" é obrigatório.';
-    }
-    if (empty($date)) {
-        $errors[] = 'O campo "Data" é obrigatório.';
-    }
-    if (empty($time)) {
-        $errors[] = 'O campo "Horário" é obrigatório.';
-    }
-    if (empty($name)) {
-        $errors[] = 'O campo "Nome" é obrigatório.';
-    }
-    if (empty($phone)) {
-        $errors[] = 'O campo "Telefone" é obrigatório.';
-    }
-    if (empty($email)) {
-        $errors[] = 'O campo "Email" é obrigatório.';
-    }
-
-    // Verificar se há erros de validação
     if (!empty($errors)) {
         $errorMessage = implode(' ', $errors);
         error_log(date('[Y-m-d H:i:s] ') . "Erros de validação: " . $errorMessage);
-        echo json_encode(['success' => false, 'message' => $errorMessage]); // Enviar os erros de validação em formato JSON.
-        exit;
-    }
-
-    // Converter a data de "DD-MM-YYYY" para "YYYY-MM-DD". Este bloco converte a data recebida para o formato YYYY-MM-DD para ser usada na base de dados.
-    if ($date) {
-        $dateParts = explode('-', $date); // Divide a data em dia, mês e ano.
-        if (count($dateParts) == 3) {
-            // A data está no formato "DD-MM-YYYY", então podemos converter
-             // Reorganizar a data para o formato "YYYY-MM-DD".
-            $formattedDate = $dateParts[2] . '-' . $dateParts[1] . '-' . $dateParts[0]; // "YYYY-MM-DD"
-        } else {
-            $errorMessage = 'O formato de data é inválido. Por favor utilize o formato DD-MM-YYYY.';
-            error_log(date('[Y-m-d H:i:s] ') . "Erro de formato de data: $date");
-            echo json_encode(['success' => false, 'message' => $errorMessage]);
-            exit;
-        }
-    }
-    // Verificar se já existe uma marcação com o mesmo email, data, hora e barbeiro.
-    $checkSql = "SELECT * FROM marcacoes WHERE email_utilizador = :email AND data_marcacao = :date AND horario_marcacao = :time AND barbeiro = :barber";
-    $checkStmt = $pdo->prepare($checkSql);
-    $checkStmt->bindParam(':email', $email);
-    $checkStmt->bindParam(':date', $formattedDate);
-    $checkStmt->bindParam(':time', $time);
-    $checkStmt->bindParam(':barber', $barber);
-    $checkStmt->execute();
-    
-    if ($checkStmt->rowCount() > 0) {
-        $errorMessage = 'Já existe uma marcação com o mesmo email, data, hora e barbeiro.';
-        error_log(date('[Y-m-d H:i:s] ') . "Erro: $errorMessage - email=$email, date=$formattedDate, time=$time, barber=$barber");
         echo json_encode(['success' => false, 'message' => $errorMessage]);
         exit;
     }
-    
-    // Preparar a consulta SQL com prepared statements. Isso ajuda a evitar ataques de SQL injection.
+
+    // Converter data para o formato do banco
+    $dateParts = explode('-', $date);
+    if (count($dateParts) !== 3) {
+        $errorMessage = 'O formato de data é inválido.';
+        error_log(date('[Y-m-d H:i:s] ') . "Erro de formato de data: $date");
+        echo json_encode(['success' => false, 'message' => $errorMessage]);
+        exit;
+    }
+    $formattedDate = $dateParts[2] . '-' . $dateParts[1] . '-' . $dateParts[0];
+
+    // Verificar disponibilidade do horário
+    $bookingUtils = new BookingUtils($pdo);
+    if (!$bookingUtils->isTimeSlotAvailable($barber, $date, $time)) {
+        $errorMessage = 'Este horário já foi reservado. Por favor, escolha outro.';
+        error_log(date('[Y-m-d H:i:s] ') . "Erro: $errorMessage - barber=$barber, date=$formattedDate, time=$time");
+        echo json_encode(['success' => false, 'message' => $errorMessage]);
+        exit;
+    }
+
+    // Inserir a marcação
     $sql = "INSERT INTO marcacoes (nome_utilizador, telefone_utilizador, email_utilizador, barbeiro, servico, data_marcacao, horario_marcacao, estado, criado_em, atualizado_em)
             VALUES (:name, :phone, :email, :barber, :service, :date, :time, :status, :created_at, :updated_at)";
     $stmt = $pdo->prepare($sql);
 
-    // Verificar se a consulta foi preparada corretamente
-    if ($stmt === false) {
-        $errorMessage = 'Ocorreu um erro ao preparar a consulta para a base de dados.';
-        error_log(date('[Y-m-d H:i:s] ') ."Erro ao preparar a consulta SQL: " . implode(' ', $pdo->errorInfo()));
-        echo json_encode(['success' => false, 'message' => $errorMessage]);
-        exit;
-    }
-
-    // Definir os valores para os parâmetros.
-    $status = 'marcada'; // Estado inicial da marcação.
-    $created_at = date('Y-m-d H:i:s'); // Data e hora de criação.
-    $updated_at = $created_at; // Data e hora de atualização (inicialmente igual à criação).
-
-    // Vincular os parâmetros. Isto associa os valores recebidos aos parâmetros da consulta SQL.
+    $status = 'marcada';
+    $created_at = date('Y-m-d H:i:s');
+    $updated_at = $created_at;
 
     $stmt->bindParam(':name', $name);
     $stmt->bindParam(':phone', $phone);
@@ -116,50 +72,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bindParam(':created_at', $created_at);
     $stmt->bindParam(':updated_at', $updated_at);
 
-    // Executar a consulta. Aqui a consulta é executada com os valores fornecidos.
     if ($stmt->execute()) {
-        error_log(date('[Y-m-d H:i:s] ')."Reserva realizada com sucesso para: service=$service, barber=$barber, date=$formattedDate, time=$time, name=$name, phone=$phone, email=$email");
-        
-        //Send email to the client. Esta secção envia um email de confirmação ao cliente.
-        $emailData = array(
+        error_log(date('[Y-m-d H:i:s] ') . "Reserva realizada com sucesso para: service=$service, barber=$barber, date=$formattedDate, time=$time, name=$name, phone=$phone, email=$email");
+
+        // Enviar email
+        $emailData = [
             'name' => $name,
             'email' => $email,
             'date' => $date,
             'time' => $time,
             'barber' => $barber,
             'service' => $service
-        );
-        //Inicializar cURL para enviar o email.
+        ];
         $ch = curl_init('http://localhost/Barbearia/includes/sendBookingEmail.php');
         curl_setopt_array($ch, [
             CURLOPT_POST => true,
             CURLOPT_POSTFIELDS => http_build_query($emailData),
             CURLOPT_RETURNTRANSFER => true,
         ]);
-
-        // Executa o pedido cURL
         $response = json_decode(curl_exec($ch), true);
-        $emailSent = $response['success'];
-        $emailError = $response['message'];
-        curl_close($ch); // Fechar a sessão cURL.
-        
-        // Construct the URL with parameters. Esta secção constrói a URL para a qual o cliente será redirecionado.
-        $redirectUrl = "marcacoes.php?date=" . urlencode($date) . "&time=" . urlencode($time) . "&barber=" . urlencode($barber) . "&name=" . urlencode($name) . "&service=" . urlencode($service);
-        
-        // Send JavaScript to redirect. Isto redireciona o usuário para a página de confirmação.
-        echo "<script>";
-        echo "window.location.href = '" . $redirectUrl . "';";
-        echo "</script>";
-        exit;
+        $emailSent = $response['success'] ?? false;
+        $emailError = $response['message'] ?? 'Erro desconhecido ao enviar email';
+        curl_close($ch);
 
+        if (!$emailSent) {
+            error_log(date('[Y-m-d H:i:s] ') . "Erro ao enviar email: $emailError");
+        }
+
+        $redirectUrl = "marcacoes.php?date=" . urlencode($date) . "&time=" . urlencode($time) . "&barber=" . urlencode($barber) . "&name=" . urlencode($name) . "&service=" . urlencode($service);
+        echo "<script>window.location.href = '$redirectUrl';</script>";
+        exit;
     } else {
         $errorMessage = 'Ocorreu um erro ao guardar a reserva na base de dados: ' . implode(' ', $stmt->errorInfo());
-        error_log(date('[Y-m-d H:i:s] ')."Erro ao guardar a reserva: " . implode(' ', $stmt->errorInfo()));
+        error_log(date('[Y-m-d H:i:s] ') . "Erro ao guardar a reserva: " . implode(' ', $stmt->errorInfo()));
         echo json_encode(['success' => false, 'message' => $errorMessage]);
+        exit;
     }
 } else {
-    $errorMessage = 'Método de requisição inválido. Apenas requisições POST são permitidas.';
-    error_log(date('[Y-m-d H:i:s] ')."Método de requisição inválido: " . $_SERVER["REQUEST_METHOD"]);
+    $errorMessage = 'Método de requisição inválido.';
+    error_log(date('[Y-m-d H:i:s] ') . "Método de requisição inválido: " . $_SERVER["REQUEST_METHOD"]);
     echo json_encode(['success' => false, 'message' => $errorMessage]);
-} // Fim da condição para verificar o método da requisição.
-?>
+}
