@@ -22,6 +22,32 @@ document.addEventListener('DOMContentLoaded', () => {
     let selectedBarber = null;
     let lockId = null;
 
+    // Criar a janela flutuante para o resumo
+    const summaryWindow = document.createElement('div');
+    summaryWindow.classList.add('summary-window');
+    document.body.appendChild(summaryWindow);
+
+    // Função para atualizar a janela de resumo
+    const updateSummaryWindow = () => {
+        let summaryContent = '';
+        if (selectedService) {
+            summaryContent += `<p>Serviço: <span>${selectedService}</span></p>`;
+        }
+        if (selectedBarber) {
+            summaryContent += `<p>Barbeiro: <span>${selectedBarber}</span></p>`;
+        }
+        if (dateField.value) {
+            const formattedDate = formatDate(new Date(dateField.value));
+            summaryContent += `<p>Data: <span>${formattedDate}</span></p>`;
+        }
+        if (timeSelect.value) {
+            summaryContent += `<p>Horário: <span>${timeSelect.value}</span></p>`;
+        }
+
+        summaryWindow.innerHTML = summaryContent;
+        summaryWindow.style.display = summaryContent ? 'block' : 'none';
+    };
+
     // Função para navegação entre etapas
     const updateStep = (step) => {
         // Remover classe active de todas as etapas
@@ -41,19 +67,18 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Atualizar o texto do tipo de corte selecionado na Etapa 2
-        if (step === 2 && selectedService) {
-            selectedServiceDisplay.textContent = `Tipo de Corte Selecionado: ${selectedService}`;
-        } else {
-            selectedServiceDisplay.textContent = '';
-        }
+        // Não exibir mais o tipo de corte na Etapa 2
+        selectedServiceDisplay.textContent = '';
+
+        // Atualizar a janela de resumo
+        updateSummaryWindow();
 
         currentStep = step;
 
         // Atualizar estado dos botões "Avançar"
-        if (step === 1) updateNextButtonState(step, selectedService);
-        if (step === 2) updateNextButtonState(step, selectedBarber);
-        if (step === 3) updateNextButtonState(step, dateField.value && timeSelect.value);
+        if (step === 1) updateNextButtonState(step, !!selectedService);
+        if (step === 2) updateNextButtonState(step, !!selectedBarber);
+        if (step === 3) updateNextButtonState(step, !!dateField.value && !!timeSelect.value);
     };
 
     // Estado do botão "Avançar"
@@ -61,6 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const nextBtn = stepContents[step - 1].querySelector('.next-btn');
         if (nextBtn) {
             nextBtn.disabled = !condition;
+            console.log(`Step ${step} - Next Button State: ${!condition ? 'Disabled' : 'Enabled'}, Condition: ${condition}`);
         }
     };
 
@@ -110,6 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
             noSlots.textContent = errorMessage || 'Nenhum horário disponível';
             timeSelect.appendChild(noSlots);
         }
+        updateNextButtonState(3, !!dateField.value && !!timeSelect.value);
     };
 
     const lockTimeSlot = async (barber, date, time) => {
@@ -208,14 +235,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Configurar data mínima (hoje) e desabilitar domingos
-    const today = new Date().toISOString().split('T')[0];
-    dateField.setAttribute('min', today);
-    dateField.addEventListener('change', () => {
-        const selectedDate = new Date(dateField.value);
-        if (selectedDate.getDay() === 0) {
-            alert('A barbearia está fechada aos domingos. Por favor, escolha outro dia.');
-            dateField.value = '';
+    // Configurar o Flatpickr para o campo de data, desabilitando domingos
+    flatpickr(dateField, {
+        minDate: "today",
+        dateFormat: "Y-m-d",
+        disable: [
+            function(date) {
+                return date.getDay() === 0;
+            }
+        ],
+        onChange: (selectedDates, dateStr) => {
+            if (selectedBarber && dateStr) {
+                const formattedDate = formatDate(new Date(dateStr));
+                fetchAvailableTimes(selectedBarber, formattedDate);
+            } else {
+                timeSelect.innerHTML = '';
+                timeSelect.disabled = true;
+                updateNextButtonState(3, false);
+            }
+            updateSummaryWindow(); // Atualiza a janela de resumo ao mudar a data
         }
     });
 
@@ -226,7 +264,9 @@ document.addEventListener('DOMContentLoaded', () => {
             button.classList.add('selected');
             selectedService = button.getAttribute('data-option');
             serviceInput.value = selectedService;
+            console.log('Selected Service:', selectedService);
             updateNextButtonState(1, true);
+            updateSummaryWindow(); // Atualiza a janela de resumo ao selecionar o serviço
         });
     });
 
@@ -237,23 +277,20 @@ document.addEventListener('DOMContentLoaded', () => {
             barber.classList.add('selected');
             selectedBarber = barber.getAttribute('data-barber');
             barberInput.value = selectedBarber;
+            console.log('Selected Barber:', selectedBarber);
             updateNextButtonState(2, true);
+            updateSummaryWindow(); // Atualiza a janela de resumo ao selecionar o barbeiro
         });
     });
 
     // Etapa 3: Seleção de Data e Hora
-    dateField.addEventListener('change', () => {
-        const selectedDate = formatDate(new Date(dateField.value));
-        if (selectedBarber && selectedDate) {
-            fetchAvailableTimes(selectedBarber, selectedDate);
-        }
-    });
-
     timeSelect.addEventListener('change', () => {
-        updateNextButtonState(3, dateField.value && timeSelect.value);
+        updateNextButtonState(3, !!dateField.value && !!timeSelect.value);
+        console.log('Date Field Value:', dateField.value, 'Time Select Value:', timeSelect.value);
         if (timeSelect.value) {
             lockTimeSlot(selectedBarber, formatDate(new Date(dateField.value)), timeSelect.value);
         }
+        updateSummaryWindow(); // Atualiza a janela de resumo ao selecionar o horário
     });
 
     // Etapa 4: Validação de Dados Pessoais
@@ -264,15 +301,42 @@ document.addEventListener('DOMContentLoaded', () => {
     // Navegação
     document.querySelectorAll('.next-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-            if (currentStep < 4) updateStep(currentStep + 1);
+            console.log('Next button clicked, Current Step:', currentStep);
+            if (currentStep < 4) {
+                updateStep(currentStep + 1);
+            }
         });
     });
 
     document.querySelectorAll('.prev-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             if (currentStep > 1) {
-                if (currentStep === 3 && lockId) {
-                    releaseTimeSlot(lockId);
+                // Limpar escolhas das etapas futuras
+                if (currentStep === 4) {
+                    userName.value = '';
+                    userPhone.value = '';
+                    userEmail.value = '';
+                    document.getElementById('name-error').textContent = '';
+                    document.getElementById('phone-error').textContent = '';
+                    document.getElementById('email-error').textContent = '';
+                }
+                if (currentStep >= 3) {
+                    if (lockId) {
+                        releaseTimeSlot(lockId);
+                    }
+                    dateField.value = '';
+                    timeSelect.innerHTML = '';
+                    timeSelect.disabled = true;
+                }
+                if (currentStep >= 2) {
+                    barbers.forEach(b => b.classList.remove('selected'));
+                    selectedBarber = null;
+                    barberInput.value = '';
+                }
+                if (currentStep >= 1) {
+                    optionButtons.forEach(btn => btn.classList.remove('selected'));
+                    selectedService = null;
+                    serviceInput.value = '';
                 }
                 updateStep(currentStep - 1);
             }
@@ -284,7 +348,6 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         if (!validateName() || !validatePhone() || !validateEmail()) return;
 
-        // Verificar se o horário ainda está disponível
         const selectedDate = formatDate(new Date(dateField.value));
         const availableTimes = await fetchAvailableTimes(selectedBarber, selectedDate, true);
         if (!availableTimes.includes(timeSelect.value)) {

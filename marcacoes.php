@@ -15,6 +15,8 @@
     <link rel="icon" href="./img/logotipo2.png" type="image/x-icon">
     <!-- Adicionando Font Awesome para ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="./js/marcacao.js" defer></script>
     <?php include('./includes/header.php'); ?>
 </head>
