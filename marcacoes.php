@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <!-- Adicionando canvas-confetti para animação de confetes -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="./js/marcacao.js" defer></script>
     <?php include('./includes/header.php'); ?>
 </head>
@@ -63,6 +65,12 @@
 
             <!-- Mensagem de Sucesso (inicialmente oculta) -->
             <div id="success-message" class="success-message hidden">
+                <div class="check-container">
+                    <svg class="check-icon" viewBox="0 0 50 50">
+                        <circle class="check-circle" cx="25" cy="25" r="20" fill="none" stroke="#d4a373" stroke-width="4"/>
+                        <path class="check-mark" fill="none" stroke="#d4a373" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" d="M15 25 l8 8 12-12"/>
+                    </svg>
+                </div>
                 <h2>Marcação Concluída</h2>
                 <p>A sua marcação foi concluída com sucesso!</p>
                 <p>Receberá uma confirmação no seu e-mail em breve.</p>

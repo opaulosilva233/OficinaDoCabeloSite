@@ -389,6 +389,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Exibir a mensagem de sucesso
                 successMessage.classList.remove('hidden');
                 successMessage.classList.add('active');
+                // Disparar a animação de confetes
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#d4a373', '#666', '#fff']
+                });
             } else {
                 alert(data.message || 'Erro ao salvar a marcação. Tente novamente.');
             }

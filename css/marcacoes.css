@@ -608,6 +608,15 @@ p {
     outline-offset: 2px;
 }
 
+/* Estilo específico para o botão "Voltar à Página Inicial" */
+.home-btn {
+    background: #666; /* Cor diferente para distinguir do botão "Fazer Nova Marcação" */
+}
+
+.home-btn:hover {
+    background: #555;
+}
+
 /* Mensagem de Erro */
 .error-message {
     background-color: #ffebee;
@@ -629,6 +638,13 @@ p {
     border-radius: 5px;
     margin-bottom: 20px;
     display: none; /* Inicialmente oculta */
+    opacity: 0; /* Para a animação de fade-in */
+    transform: scale(0.9); /* Para o efeito de "pop" */
+}
+
+.success-message.active {
+    display: block;
+    animation: popIn 0.5s ease-out forwards;
 }
 
 .success-message h2 {
@@ -642,10 +658,62 @@ p {
     color: #333;
 }
 
-.success-message.active {
-    display: block;
+/* Animação de Fade-In com Pop */
+@keyframes popIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    70% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
+/* Estilo e Animação do Ícone de Check */
+.check-container {
+    margin: 0 auto 20px;
+    width: 70px;
+    height: 70px;
+}
+
+.check-icon {
+    width: 100%;
+    height: 100%;
+}
+
+.check-circle {
+    stroke-dasharray: 126; /* Circunferência do círculo (2πr = 2 * 3.14 * 20 ≈ 126) */
+    stroke-dashoffset: 126;
+    animation: drawCircle 0.6s ease-in-out forwards;
+}
+
+.check-mark {
+    stroke-dasharray: 50; /* Comprimento aproximado do caminho do check */
+    stroke-dashoffset: 50;
+    animation: drawCheck 0.4s ease-in-out 0.6s forwards; /* Inicia após o círculo */
+}
+
+@keyframes drawCircle {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes drawCheck {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* Ajuste para a navegação da mensagem de sucesso */
+.success-message .step-navigation {
+    justify-content: space-between; /* Posiciona os botões nas extremidades */
+}
 
 /* Responsividade */
 @media (max-width: 768px) {
@@ -690,7 +758,7 @@ p {
         gap: 10px;
     }
 
-    .next-btn, .prev-btn, .submit-btn {
+    .next-btn, .prev-btn, .submit-btn, .cta-button, .home-btn {
         width: 100%;
     }
 
@@ -701,4 +769,15 @@ p {
     .confirmation-summary p strong {
         width: 100px;
     }
+
+    .success-message .step-navigation {
+        flex-direction: column; /* Em telas pequenas, os botões empilham verticalmente */
+        gap: 10px;
+    }
+
+    .check-container {
+        width: 60px;
+        height: 60px;
+    }
 }
+
