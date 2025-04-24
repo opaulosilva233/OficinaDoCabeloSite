@@ -1,65 +1,53 @@
 <?php
-// Configurações para evitar saída indesejada
-ini_set('display_errors', 0); // Desativa a exibição de erros na saída
-ini_set('display_startup_errors', 0);
-error_reporting(0); // Desativa relatórios de erro (apenas para produção)
+header('Content-Type: application/json; charset=UTF-8');
 
-// Define o cabeçalho como JSON
-header('Content-Type: application/json');
-
-// Inclui o arquivo de conexão com o banco de dados
+// Incluir a conexão com o banco de dados
 require_once 'db.php';
 
-// Função para retornar uma resposta JSON e encerrar o script
-function sendResponse($success, $data = [], $message = '') {
-    echo json_encode([
-        'success' => $success,
-        'slots' => $data,
-        'message' => $message
-    ]);
+// Receber os parâmetros
+$barber = isset($_GET['barber']) ? trim($_GET['barber']) : '';
+$date = isset($_GET['date']) ? trim($_GET['date']) : '';
+
+if (empty($barber) || empty($date)) {
+    echo json_encode(['success' => false, 'message' => 'Barbeiro ou data não fornecidos']);
     exit;
 }
 
-// Validação dos parâmetros
-if (!isset($_GET['barber']) || !isset($_GET['date'])) {
-    sendResponse(false, [], 'Parâmetros barbeiro e data são obrigatórios');
+// Validar o formato da data (esperado: YYYY-MM-DD, ex.: 2025-04-25)
+if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+    echo json_encode(['success' => false, 'message' => 'Formato de data inválido. Use o formato YYYY-MM-DD']);
+    exit;
 }
 
-// Obtém os parâmetros e sanitiza
-$barber = htmlspecialchars($_GET['barber'], ENT_QUOTES, 'UTF-8');
-$date = htmlspecialchars($_GET['date'], ENT_QUOTES, 'UTF-8');
+// Lista de horários disponíveis (baseado no horário de funcionamento)
+$allSlots = [
+    '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
+    '12:00', '12:30', '13:00', '13:30', '14:00', '14:30',
+    '15:00', '15:30', '16:00', '16:30', '17:00', '17:30',
+    '18:00', '18:30', '19:00'
+];
 
-// Validação adicional dos parâmetros
-if (empty($barber) || empty($date)) {
-    sendResponse(false, [], 'Barbeiro ou data inválidos');
-}
-
-// Verifica se a conexão com o banco de dados está disponível
-if (!isset($pdo) || !($pdo instanceof PDO)) {
-    sendResponse(false, [], 'Erro de conexão com o banco de dados');
-}
-
-// Lógica para buscar horários disponíveis
-$workingHours = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00'];
-
+// Buscar horários já ocupados na tabela marcacoes
 try {
-    // Buscar horários já agendados para o barbeiro na data
-    $stmt = $pdo->prepare('SELECT horario_marcacao FROM marcacoes WHERE barbeiro = :barbeiro AND data_marcacao = :data_marcacao AND estado != "cancelada"');
-    $stmt->execute(['barbeiro' => $barber, 'data_marcacao' => $date]);
-    $bookedTimes = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    $stmt = $pdo->prepare("SELECT horario_marcacao FROM marcacoes WHERE barbeiro = ? AND data_marcacao = ? AND estado = 'marcada'");
+    $stmt->execute([$barber, $date]);
+    $bookedSlots = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
-    // Filtrar horários disponíveis
-    $slots = array_diff($workingHours, $bookedTimes);
+    // Normalizar os horários ocupados removendo espaços
+    $bookedSlots = array_map('trim', $bookedSlots);
 
-    // Ordenar os horários
-    sort($slots);
+    // Filtrar os horários disponíveis, removendo os já ocupados
+    $availableSlots = array_diff($allSlots, $bookedSlots);
 
-    if (empty($slots)) {
-        sendResponse(false, [], 'Nenhum horário disponível para esta data');
+    // Ordenar os horários disponíveis
+    sort($availableSlots);
+
+    if (empty($availableSlots)) {
+        echo json_encode(['success' => false, 'message' => 'Nenhum horário disponível para esta data']);
     } else {
-        sendResponse(true, $slots);
+        echo json_encode(['success' => true, 'slots' => array_values($availableSlots)]);
     }
-} catch (Exception $e) {
-    sendResponse(false, [], 'Erro ao buscar horários: ' . $e->getMessage());
+} catch (PDOException $e) {
+    echo json_encode(['success' => false, 'message' => 'Erro ao buscar horários: ' . $e->getMessage()]);
 }
 ?>

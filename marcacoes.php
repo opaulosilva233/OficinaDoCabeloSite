@@ -1,7 +1,7 @@
 <?php
 /**
  * Página de marcações da barbearia com um stepper para guiar o usuário.
- * Etapas: 1. Tipo de Corte, 2. Barbeiro, 3. Data e Hora, 4. Dados Pessoais.
+ * Etapas: 1. Tipo de Corte, 2. Barbeiro, 3. Data e Hora, 4. Dados Pessoais, 5. Confirmação.
  */
 ?>
 <!DOCTYPE html>
@@ -21,45 +21,17 @@
     <?php include('./includes/header.php'); ?>
 </head>
 <body>
+    <main>
     <?php
-    // Exibe mensagem de erro, se houver
-    if (isset($_GET['error'])) {
-        $error = htmlspecialchars($_GET['error']);
-        echo "<div class='error-message'>Erro: $error</div>";
-    }
-
-    // Exibe mensagem de confirmação, se a marcação foi realizada
-    if (isset($_GET['date']) && isset($_GET['time']) && isset($_GET['barber']) && isset($_GET['name']) && isset($_GET['service'])) {
-        $date = htmlspecialchars($_GET['date']);
-        $time = htmlspecialchars($_GET['time']);
-        $barber = htmlspecialchars($_GET['barber']);
-        $name = htmlspecialchars($_GET['name']);
-        $service = htmlspecialchars($_GET['service']);
-        ?>
-        <main>
-            <section class="appointment-section confirmation-section">
-                <h2>Marcação Confirmada</h2>
-                <div class="confirmation-message">
-                    <p>Olá, <?php echo $name; ?>!</p>
-                    <p>A sua marcação foi confirmada com sucesso.</p>
-                    <p><strong>Data:</strong> <?php echo $date; ?></p>
-                    <p><strong>Hora:</strong> <?php echo $time; ?></p>
-                    <p><strong>Barbeiro:</strong> <?php echo $barber; ?></p>
-                    <p><strong>Serviço:</strong> <?php echo $service; ?></p>
-                    <p>Iremos enviar um email com os detalhes da marcação.</p>
-                    <a href="marcacoes.php" class="cta-button">Fazer Nova Marcação</a>
-                </div>
-            </section>
-        </main>
-        <footer>
-            <?php include('./includes/footer.php'); ?>
-        </footer>
-        </body>
-        </html>
-        <?php exit;
+    // Função para formatar a data de YYYY-MM-DD para DD-MM-YYYY
+    function formatDisplayDate($date) {
+        if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+            $dateObj = DateTime::createFromFormat('Y-m-d', $date);
+            return $dateObj ? $dateObj->format('d-m-Y') : $date;
+        }
+        return $date;
     }
     ?>
-    <main>
         <section class="appointment-section">
             <h1>Agendar uma Marcação</h1>
             <p>Preencha as informações abaixo para agendar seu corte na Oficina do Cabelo, barbearia em Ermesinde.</p>
@@ -81,6 +53,10 @@
                 <div class="step" data-step="4">
                     <span class="step-number">4</span>
                     <span class="step-label">Dados Pessoais</span>
+                </div>
+                <div class="step" data-step="5">
+                    <span class="step-number">5</span>
+                    <span class="step-label">Confirmação</span>
                 </div>
             </div>
 
@@ -210,14 +186,30 @@
                     <span id="email-error" class="error-text"></span>
                     <div class="step-navigation">
                         <button type="button" class="prev-btn">Voltar</button>
+                        <button type="button" class="next-btn" disabled>Avançar</button>
+                    </div>
+                </div>
+
+                <!-- Etapa 5: Confirmação -->
+                <div class="step-content" data-step="5">
+                    <h2>Confirmação</h2>
+                    <div class="confirmation-summary">
+                        <p><strong>Serviço:</strong> <span id="confirm-service"></span></p>
+                        <p><strong>Barbeiro:</strong> <span id="confirm-barber"></span></p>
+                        <p><strong>Data:</strong> <span id="confirm-date"></span></p>
+                        <p><strong>Horário:</strong> <span id="confirm-time"></span></p>
+                        <p><strong>Nome:</strong> <span id="confirm-name"></span></p>
+                        <p><strong>Telemóvel:</strong> <span id="confirm-phone"></span></p>
+                        <p><strong>E-mail:</strong> <span id="confirm-email"></span></p>
+                    </div>
+                    <div class="step-navigation">
+                        <button type="button" class="prev-btn">Voltar</button>
                         <button type="submit" class="submit-btn">Confirmar Marcação</button>
                     </div>
                 </div>
             </form>
         </section>
     </main>
-    <footer>
-        <?php include('./includes/footer.php'); ?>
-    </footer>
+    <?php include('./includes/footer.php'); ?>
 </body>
 </html>

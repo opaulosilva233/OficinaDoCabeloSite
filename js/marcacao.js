@@ -17,10 +17,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const userEmail = document.getElementById('email');
     const categoryTitles = document.querySelectorAll('.category-title');
     const selectedServiceDisplay = document.getElementById('selected-service');
+    const confirmService = document.getElementById('confirm-service');
+    const confirmBarber = document.getElementById('confirm-barber');
+    const confirmDate = document.getElementById('confirm-date');
+    const confirmTime = document.getElementById('confirm-time');
+    const confirmName = document.getElementById('confirm-name');
+    const confirmPhone = document.getElementById('confirm-phone');
+    const confirmEmail = document.getElementById('confirm-email');
     let currentStep = 1;
     let selectedService = null;
     let selectedBarber = null;
-    let lockId = null;
 
     // Criar a janela flutuante para o resumo
     const summaryWindow = document.createElement('div');
@@ -48,17 +54,23 @@ document.addEventListener('DOMContentLoaded', () => {
         summaryWindow.style.display = summaryContent ? 'block' : 'none';
     };
 
+    // Função para atualizar o resumo na Etapa 5
+    const updateConfirmationSummary = () => {
+        confirmService.textContent = selectedService || 'N/A';
+        confirmBarber.textContent = selectedBarber || 'N/A';
+        confirmDate.textContent = dateField.value ? formatDate(new Date(dateField.value)) : 'N/A';
+        confirmTime.textContent = timeSelect.value || 'N/A';
+        confirmName.textContent = userName.value || 'N/A';
+        confirmPhone.textContent = userPhone.value || 'N/A';
+        confirmEmail.textContent = userEmail.value || 'N/A';
+    };
+
     // Função para navegação entre etapas
     const updateStep = (step) => {
-        // Remover classe active de todas as etapas
         steps.forEach(s => s.classList.remove('active'));
         stepContents.forEach(s => s.classList.remove('active'));
-
-        // Adicionar classe active apenas à etapa atual
         steps[step - 1].classList.add('active');
         stepContents[step - 1].classList.add('active');
-
-        // Marcar etapas anteriores como concluídas e remover a classe completed das etapas futuras e da etapa atual
         steps.forEach((s, index) => {
             if (index < step - 1) {
                 s.classList.add('completed');
@@ -67,39 +79,43 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Não exibir mais o tipo de corte na Etapa 2
         selectedServiceDisplay.textContent = '';
-
-        // Atualizar a janela de resumo
         updateSummaryWindow();
+        if (step === 5) {
+            updateConfirmationSummary();
+        }
 
         currentStep = step;
 
-        // Atualizar estado dos botões "Avançar"
         if (step === 1) updateNextButtonState(step, !!selectedService);
         if (step === 2) updateNextButtonState(step, !!selectedBarber);
         if (step === 3) {
-            // Garantir que o campo de horário tenha um estado inicial apropriado
             if (!selectedBarber || !dateField.value) {
                 updateTimeSelect([], 'Selecione uma data e um barbeiro');
             } else {
-                const formattedDate = formatDate(new Date(dateField.value));
+                const formattedDate = formatDateForBackend(new Date(dateField.value));
                 fetchAvailableTimes(selectedBarber, formattedDate);
             }
             updateNextButtonState(step, !!dateField.value && !!timeSelect.value);
         }
+        if (step === 4) {
+            updateNextButtonState(step, validateName() && validatePhone() && validateEmail());
+        }
+        if (step === 5) {
+            const nextBtn = stepContents[step - 1].querySelector('.submit-btn');
+            if (nextBtn) nextBtn.disabled = false;
+        }
     };
 
-    // Estado do botão "Avançar"
     const updateNextButtonState = (step, condition) => {
-        const nextBtn = stepContents[step - 1].querySelector('.next-btn');
+        const nextBtn = stepContents[step - 1].querySelector('.next-btn') || stepContents[step - 1].querySelector('.submit-btn');
         if (nextBtn) {
             nextBtn.disabled = !condition;
             console.log(`Step ${step} - Next Button State: ${!condition ? 'Disabled' : 'Enabled'}, Condition: ${condition}`);
         }
     };
 
-    // Funções auxiliares
+    // Função para formatar a data para exibição (DD-MM-YYYY)
     const formatDate = (date) => {
         const day = String(date.getDate()).padStart(2, '0');
         const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -107,8 +123,15 @@ document.addEventListener('DOMContentLoaded', () => {
         return `${day}-${month}-${year}`;
     };
 
+    // Função para formatar a data para o backend (YYYY-MM-DD)
+    const formatDateForBackend = (date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
+
     const fetchAvailableTimes = async (barber, date, forValidation = false) => {
-        // Só buscar horários se barbeiro e data estiverem definidos
         if (!barber || !date) {
             updateTimeSelect([], 'Selecione uma data e um barbeiro');
             return [];
@@ -119,8 +142,11 @@ document.addEventListener('DOMContentLoaded', () => {
         timeSelect.innerHTML = '';
 
         try {
-            const response = await fetch(`includes/getAvailableTimes.php?barber=${barber}&date=${date}`);
-            // Verificar se a resposta é válida
+            const response = await fetch(`includes/getAvailableTimes.php?barber=${barber}&date=${date}`, {
+                headers: {
+                    'Cache-Control': 'no-cache'
+                }
+            });
             if (!response.ok) {
                 throw new Error(`Erro HTTP: ${response.status}`);
             }
@@ -133,9 +159,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const data = await response.json();
             if (data.success) {
+                console.log(`Horários disponíveis para barbeiro=${barber}, data=${date}:`, data.slots);
                 updateTimeSelect(data.slots);
                 if (forValidation) return data.slots;
             } else {
+                console.log(`Nenhum horário disponível para barbeiro=${barber}, data=${date}:`, data.message);
                 updateTimeSelect([], data.message || 'Nenhum horário disponível');
             }
         } catch (error) {
@@ -167,43 +195,9 @@ document.addEventListener('DOMContentLoaded', () => {
         updateNextButtonState(3, !!dateField.value && !!timeSelect.value && timeSelect.value !== '');
     };
 
-    const lockTimeSlot = async (barber, date, time) => {
-        try {
-            const response = await fetch('includes/lockTimeSlot.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `barber=${barber}&date=${date}&time=${time}`
-            });
-            const data = await response.json();
-            if (data.success) {
-                lockId = data.lock_id;
-            } else {
-                alert('Não foi possível reservar este horário. Por favor, escolha outro.');
-                fetchAvailableTimes(barber, date);
-            }
-        } catch {
-            alert('Erro ao reservar o horário. Tente novamente.');
-            fetchAvailableTimes(barber, date);
-        }
-    };
-
-    const releaseTimeSlot = async (lockId) => {
-        try {
-            await fetch('includes/releaseTimeSlot.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `lock_id=${lockId}`
-            });
-            lockId = null;
-        } catch {
-            console.error('Erro ao liberar o horário');
-        }
-    };
-
-    // Funções de validação
     const validateName = () => {
         const nameValue = userName.value.trim();
-        const nameRegex = /^[a-zA-Z\s]+$/;
+        const nameRegex = /^[a-zA-ZÀ-ÿ\s]+$/;
         if (nameValue === '') {
             document.getElementById('name-error').textContent = 'O nome é obrigatório';
             return false;
@@ -239,34 +233,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Inicializar: apenas a primeira etapa visível e categorias fechadas
     updateStep(1);
     document.querySelectorAll('.category').forEach(category => {
         category.classList.remove('expanded');
     });
 
-    // Definir estado inicial do campo de horário
     updateTimeSelect([], 'Selecione uma data e um barbeiro');
 
-    // Acordeão para categorias
     categoryTitles.forEach(title => {
         title.addEventListener('click', () => {
             const category = title.parentElement;
             const isExpanded = category.classList.contains('expanded');
-
-            // Fechar todas as outras categorias
             document.querySelectorAll('.category').forEach(cat => {
                 cat.classList.remove('expanded');
             });
-
-            // Abrir ou fechar a categoria clicada
             if (!isExpanded) {
                 category.classList.add('expanded');
             }
         });
     });
 
-    // Configurar o Flatpickr para o campo de data, desabilitando domingos
     flatpickr(dateField, {
         minDate: "today",
         dateFormat: "Y-m-d",
@@ -276,18 +262,19 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         ],
         onChange: (selectedDates, dateStr) => {
+            console.log('Data selecionada no Flatpickr:', dateStr);
             if (selectedBarber && dateStr) {
-                const formattedDate = formatDate(new Date(dateStr));
+                const formattedDate = formatDateForBackend(new Date(dateStr));
+                console.log('Data formatada para o backend:', formattedDate);
                 fetchAvailableTimes(selectedBarber, formattedDate);
             } else {
                 updateTimeSelect([], 'Selecione uma data e um barbeiro');
                 updateNextButtonState(3, false);
             }
-            updateSummaryWindow(); // Atualiza a janela de resumo ao mudar a data
+            updateSummaryWindow();
         }
     });
 
-    // Etapa 1: Seleção do Tipo de Corte
     optionButtons.forEach(button => {
         button.addEventListener('click', () => {
             optionButtons.forEach(btn => btn.classList.remove('selected'));
@@ -296,11 +283,10 @@ document.addEventListener('DOMContentLoaded', () => {
             serviceInput.value = selectedService;
             console.log('Selected Service:', selectedService);
             updateNextButtonState(1, true);
-            updateSummaryWindow(); // Atualiza a janela de resumo ao selecionar o serviço
+            updateSummaryWindow();
         });
     });
 
-    // Etapa 2: Seleção do Barbeiro
     barbers.forEach(barber => {
         barber.addEventListener('click', () => {
             barbers.forEach(b => b.classList.remove('selected'));
@@ -309,35 +295,37 @@ document.addEventListener('DOMContentLoaded', () => {
             barberInput.value = selectedBarber;
             console.log('Selected Barber:', selectedBarber);
             updateNextButtonState(2, true);
-            // Se já houver uma data selecionada, buscar horários
             if (dateField.value) {
-                const formattedDate = formatDate(new Date(dateField.value));
+                const formattedDate = formatDateForBackend(new Date(dateField.value));
                 fetchAvailableTimes(selectedBarber, formattedDate);
             }
-            updateSummaryWindow(); // Atualiza a janela de resumo ao selecionar o barbeiro
+            updateSummaryWindow();
         });
     });
 
-    // Etapa 3: Seleção de Data e Hora
     timeSelect.addEventListener('change', () => {
         updateNextButtonState(3, !!dateField.value && !!timeSelect.value && timeSelect.value !== '');
         console.log('Date Field Value:', dateField.value, 'Time Select Value:', timeSelect.value);
-        if (timeSelect.value) {
-            lockTimeSlot(selectedBarber, formatDate(new Date(dateField.value)), timeSelect.value);
-        }
-        updateSummaryWindow(); // Atualiza a janela de resumo ao selecionar o horário
+        updateSummaryWindow();
     });
 
-    // Etapa 4: Validação de Dados Pessoais
-    userName.addEventListener('input', validateName);
-    userPhone.addEventListener('input', validatePhone);
-    userEmail.addEventListener('input', validateEmail);
+    userName.addEventListener('input', () => {
+        validateName();
+        updateNextButtonState(4, validateName() && validatePhone() && validateEmail());
+    });
+    userPhone.addEventListener('input', () => {
+        validatePhone();
+        updateNextButtonState(4, validateName() && validatePhone() && validateEmail());
+    });
+    userEmail.addEventListener('input', () => {
+        validateEmail();
+        updateNextButtonState(4, validateName() && validatePhone() && validateEmail());
+    });
 
-    // Navegação
     document.querySelectorAll('.next-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             console.log('Next button clicked, Current Step:', currentStep);
-            if (currentStep < 4) {
+            if (currentStep < 5) {
                 updateStep(currentStep + 1);
             }
         });
@@ -346,7 +334,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.prev-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             if (currentStep > 1) {
-                // Limpar escolhas das etapas futuras
+                if (currentStep === 5) {
+                }
                 if (currentStep === 4) {
                     userName.value = '';
                     userPhone.value = '';
@@ -356,9 +345,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.getElementById('email-error').textContent = '';
                 }
                 if (currentStep >= 3) {
-                    if (lockId) {
-                        releaseTimeSlot(lockId);
-                    }
                     dateField.value = '';
                     timeSelect.innerHTML = '';
                     timeSelect.disabled = true;
@@ -379,18 +365,32 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Formulário
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        if (!validateName() || !validatePhone() || !validateEmail()) return;
+        if (!validateName() || !validatePhone() || !validateEmail()) {
+            updateStep(4);
+            return;
+        }
 
-        const selectedDate = formatDate(new Date(dateField.value));
-        const availableTimes = await fetchAvailableTimes(selectedBarber, selectedDate, true);
-        if (!availableTimes.includes(timeSelect.value)) {
-            alert('Desculpe, este horário já foi reservado. Por favor, escolha outro.');
+        if (!dateField.value) {
+            alert('Por favor, selecione uma data.');
             updateStep(3);
             return;
         }
+
+        const selectedDate = formatDateForBackend(new Date(dateField.value));
+        const displayDate = formatDate(new Date(dateField.value));
+
+        console.log('Enviando formulário:', {
+            service: serviceInput.value,
+            barber: barberInput.value,
+            date: selectedDate,
+            displayDate: displayDate,
+            time: timeSelect.value,
+            name: userName.value,
+            phone: userPhone.value,
+            email: userEmail.value
+        });
 
         dateInput.value = selectedDate;
         timeInput.value = timeSelect.value;
