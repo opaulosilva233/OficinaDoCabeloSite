@@ -13,7 +13,7 @@
     <title>Agendar Marcação - Oficina do Cabelo Barbearia Ermesinde</title>
     <meta name="description" content="Agende sua marcação na Oficina do Cabelo, a melhor barbearia em Ermesinde. Escolha seu barbeiro, data e horário de forma rápida e fácil!">
     <link rel="stylesheet" href="./css/marcacoes.css">
-    <link rel="icon" href="./img/logotipo2.png" type="image/x-icon">
+    <link rel="icon" href="./img/logotipo.png" type="image/x-icon">
     <!-- Adicionando Font Awesome para ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
