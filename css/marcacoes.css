@@ -135,14 +135,14 @@ p {
 .step-content {
     display: none;
     opacity: 0;
-    transform: translateX(20px); /* Inicia com um leve deslocamento à direita */
-    transition: opacity 0.5s ease, transform 0.5s ease; /* Transição suave para opacidade e deslocamento */
+    transform: translateX(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 .step-content.active {
     display: block;
     opacity: 1;
-    transform: translateX(0); /* Volta à posição original */
+    transform: translateX(0);
 }
 
 /* Mensagem de Confirmação Intermediária */
@@ -214,7 +214,7 @@ p {
 }
 
 .category.expanded .category-options {
-    max-height: 200px; /* Ajuste conforme necessário */
+    max-height: 200px;
     padding: 15px 15px;
 }
 
@@ -292,16 +292,17 @@ p {
     text-align: center;
     cursor: pointer;
     padding: 15px;
-    background-color: #f7f7f7;
+    background-color: #fff;
     border-radius: 10px;
     transition: all 0.3s ease;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     width: 150px;
+    position: relative;
 }
 
 .barber:hover {
-    transform: scale(1.03);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 .barber img {
@@ -309,17 +310,40 @@ p {
     height: 80px;
     border-radius: 50%;
     margin-bottom: 10px;
+    border: 3px solid #d4a373;
+    transition: border-color 0.3s ease;
+}
+
+.barber.selected img {
+    border-color: #b88c5f;
+    box-shadow: 0 0 10px rgba(212, 163, 115, 0.5);
 }
 
 .barber p {
     margin: 0;
     font-weight: bold;
     color: #333;
+    font-size: 1rem;
+}
+
+.barber .specialty {
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.barber .specialty i {
+    color: #d4a373;
 }
 
 .barber.selected {
+    background-color: #f7f7f7;
     border: 2px solid #d4a373;
-    box-shadow: 0 0 10px rgba(212, 163, 115, 0.5);
+    box-shadow: 0 0 15px rgba(212, 163, 115, 0.5);
 }
 
 /* Estilização do Campo de Data (Input) */
@@ -349,57 +373,92 @@ p {
 /* Estilização do Flatpickr */
 .flatpickr-calendar {
     font-family: Arial, sans-serif;
-    background: #fff;
+    background: linear-gradient(145deg, #ffffff, #f7f7f7); /* Gradiente suave */
     border: 1px solid #d4a373;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-    padding: 10px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); /* Sombra mais suave */
+    padding: 20px;
+    width: 320px; /* Ajuste de largura para melhor proporção */
 }
 
 .flatpickr-month {
     color: #d4a373;
     font-weight: bold;
+    background: #fff;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+.flatpickr-current-month {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
 }
 
 .flatpickr-current-month .flatpickr-monthDropdown-months,
 .flatpickr-current-month input.cur-year {
     color: #d4a373;
     font-weight: bold;
+    background: transparent;
+    border: none;
+    padding: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.flatpickr-current-month .flatpickr-monthDropdown-months:hover,
+.flatpickr-current-month input.cur-year:hover {
+    background: #f0f0f0;
+    border-radius: 5px;
 }
 
 .flatpickr-weekdays {
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
 .flatpickr-weekday {
-    color: #666;
-    font-weight: bold;
-    font-size: 0.9rem;
+    color: #d4a373;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .flatpickr-days {
-    border-top: 1px solid #e0e0e0;
-    padding-top: 5px;
+    border-top: 1px solid #e8e8e8;
+    padding-top: 10px;
 }
 
 .flatpickr-day {
     color: #333;
-    font-size: 0.9rem;
-    border-radius: 5px;
-    transition: background-color 0.2s ease, color 0.2s ease;
-    position: relative; /* Para posicionar o tooltip */
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 50%;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    position: relative;
+    width: 38px;
+    height: 38px;
+    line-height: 38px;
+    margin: 2px;
 }
 
 .flatpickr-day:hover {
     background-color: #d4a373;
     color: white;
-    border-radius: 5px;
+    transform: scale(1.1);
+    box-shadow: 0 2px 8px rgba(212, 163, 115, 0.3);
 }
 
 .flatpickr-day.today {
-    border: 1px solid #d4a373;
-    background: #f7f7f7;
+    background: #fff;
     color: #d4a373;
+    border: 2px solid #d4a373;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(212, 163, 115, 0.2);
 }
 
 .flatpickr-day.today:hover {
@@ -412,28 +471,32 @@ p {
     background: #d4a373;
     color: white;
     border: none;
+    transform: scale(1.15);
+    box-shadow: 0 4px 12px rgba(212, 163, 115, 0.5);
 }
 
 .flatpickr-day.disabled,
 .flatpickr-day.disabled:hover {
-    background: #f0f0f0;
+    background: #f5f5f5;
     color: #ccc;
     cursor: not-allowed;
-    position: relative; /* Para o tooltip */
+    position: relative;
+    transform: none;
+    box-shadow: none;
 }
 
 /* Estilização do Tooltip para Dias Desabilitados */
 .flatpickr-day.disabled:hover::after {
-    content: attr(data-tooltip); /* Usa o atributo data-tooltip para o texto */
+    content: attr(data-tooltip);
     position: absolute;
-    top: -30px; /* Posiciona acima do dia */
+    top: -35px;
     left: 50%;
     transform: translateX(-50%);
     background-color: #666;
     color: white;
-    padding: 5px 10px;
+    padding: 6px 12px;
     border-radius: 4px;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     white-space: nowrap;
     z-index: 10;
     opacity: 0;
@@ -447,7 +510,7 @@ p {
 .flatpickr-day.disabled:hover::before {
     content: '';
     position: absolute;
-    top: -8px; /* Posiciona a seta do tooltip */
+    top: -10px;
     left: 50%;
     transform: translateX(-50%);
     border-left: 5px solid transparent;
@@ -456,15 +519,62 @@ p {
     z-index: 10;
 }
 
+/* Setas de Navegação */
 .flatpickr-prev-month,
 .flatpickr-next-month {
-    color: #d4a373;
-    font-size: 1.2rem;
+    color: transparent; /* Esconde o texto padrão */
+    font-size: 0; /* Remove qualquer texto */
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+    position: absolute;
+    top: 12px;
+    cursor: pointer;
 }
 
-.flatpickr-prev-month:hover,
-.flatpickr-next-month:hover {
+.flatpickr-prev-month {
+    left: 12px;
+}
+
+.flatpickr-next-month {
+    right: 12px;
+}
+
+.flatpickr-prev-month svg,
+.flatpickr-next-month svg {
+    display: none; /* Esconde as setas SVG padrão do Flatpickr */
+}
+
+.flatpickr-prev-month::before,
+.flatpickr-next-month::before {
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    font-size: 1.3rem;
+    color: #d4a373;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.flatpickr-prev-month::before {
+    content: '\f053'; /* Ícone de seta para a esquerda */
+}
+
+.flatpickr-next-month::before {
+    content: '\f054'; /* Ícone de seta para a direita */
+}
+
+.flatpickr-prev-month:hover::before,
+.flatpickr-next-month:hover::before {
     color: #b88c5f;
+    background: #f0f0f0;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
 }
 
 /* Data e Hora */
@@ -589,7 +699,11 @@ p {
     font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .next-btn, .submit-btn {
@@ -599,17 +713,21 @@ p {
 
 .next-btn:hover, .submit-btn:hover {
     background-color: #b88c5f;
-    transform: scale(1.03);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(212, 163, 115, 0.3);
 }
 
 .next-btn:focus, .submit-btn:focus {
-    outline: 2px solid #d4a373;
+    outline: 3px solid #b88c5f;
     outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(212, 163, 115, 0.2);
 }
 
 .next-btn:disabled, .submit-btn:disabled {
     background-color: #ccc;
     cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
 }
 
 .prev-btn {
@@ -619,12 +737,33 @@ p {
 
 .prev-btn:hover {
     background-color: #555;
-    transform: scale(1.03);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(102, 102, 102, 0.3);
 }
 
 .prev-btn:focus {
-    outline: 2px solid #666;
+    outline: 3px solid #555;
     outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(102, 102, 102, 0.2);
+}
+
+/* Ícones nos Botões */
+.next-btn::after {
+    content: '\f054'; /* Ícone de seta para a direita */
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+}
+
+.prev-btn::before {
+    content: '\f053'; /* Ícone de seta para a esquerda */
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+}
+
+.submit-btn::after {
+    content: '\f00c'; /* Ícone de check */
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
 }
 
 /* Confirmação (página de confirmação após submissão) */
@@ -668,7 +807,7 @@ p {
 
 /* Estilo específico para o botão "Voltar à Página Inicial" */
 .home-btn {
-    background: #666; /* Cor diferente para distinguir do botão "Fazer Nova Marcação" */
+    background: #666;
 }
 
 .home-btn:hover {
@@ -695,9 +834,9 @@ p {
     padding: 30px;
     border-radius: 5px;
     margin-bottom: 20px;
-    display: none; /* Inicialmente oculta */
-    opacity: 0; /* Para a animação de fade-in */
-    transform: scale(0.9); /* Para o efeito de "pop" */
+    display: none;
+    opacity: 0;
+    transform: scale(0.9);
 }
 
 .success-message.active {
@@ -745,15 +884,15 @@ p {
 }
 
 .check-circle {
-    stroke-dasharray: 126; /* Circunferência do círculo (2πr = 2 * 3.14 * 20 ≈ 126) */
+    stroke-dasharray: 126;
     stroke-dashoffset: 126;
     animation: drawCircle 0.6s ease-in-out forwards;
 }
 
 .check-mark {
-    stroke-dasharray: 50; /* Comprimento aproximado do caminho do check */
+    stroke-dasharray: 50;
     stroke-dashoffset: 50;
-    animation: drawCheck 0.4s ease-in-out 0.6s forwards; /* Inicia após o círculo */
+    animation: drawCheck 0.4s ease-in-out 0.6s forwards;
 }
 
 @keyframes drawCircle {
@@ -770,7 +909,7 @@ p {
 
 /* Ajuste para a navegação da mensagem de sucesso */
 .success-message .step-navigation {
-    justify-content: space-between; /* Posiciona os botões nas extremidades */
+    justify-content: space-between;
 }
 
 /* Footer */
@@ -796,7 +935,7 @@ p {
 /* Responsividade para telas menores (até 768px) */
 @media (max-width: 768px) {
     main {
-        padding: 20px 10px; /* Reduz padding em telas menores */
+        padding: 20px 10px;
     }
 
     .appointment-section {
@@ -822,15 +961,15 @@ p {
     /* Stepper */
     .stepper {
         display: flex;
-        flex-wrap: nowrap; /* Mantém as etapas em uma linha */
-        overflow-x: auto; /* Permite rolagem horizontal */
+        flex-wrap: nowrap;
+        overflow-x: auto;
         margin-bottom: 20px;
-        -webkit-overflow-scrolling: touch; /* Melhora a rolagem em dispositivos iOS */
-        padding-bottom: 10px; /* Espaço para a barra de rolagem */
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 10px;
     }
 
     .stepper::-webkit-scrollbar {
-        height: 6px; /* Altura da barra de rolagem */
+        height: 6px;
     }
 
     .stepper::-webkit-scrollbar-thumb {
@@ -843,15 +982,15 @@ p {
     }
 
     .stepper::before {
-        top: 12px; /* Ajusta a posição da linha para o novo tamanho do step-number */
-        left: 5%; /* Ajusta para evitar que a linha fique fora da área visível */
+        top: 12px;
+        left: 5%;
         right: 5%;
     }
 
     .step {
-        flex: 0 0 auto; /* Impede que as etapas encolham */
-        width: 80px; /* Largura fixa para cada etapa */
-        margin: 0 5px; /* Espaço entre as etapas */
+        flex: 0 0 auto;
+        width: 80px;
+        margin: 0 5px;
     }
 
     .step-number {
@@ -861,7 +1000,7 @@ p {
     }
 
     .step-label {
-        font-size: 0.75rem; /* Reduz o tamanho do texto para caber */
+        font-size: 0.75rem;
     }
 
     /* Categorias e Botões */
@@ -884,7 +1023,7 @@ p {
 
     .category.expanded .category-options {
         padding: 12px;
-        max-height: 300px; /* Aumenta o max-height para evitar corte */
+        max-height: 300px;
     }
 
     .option-btn {
@@ -916,10 +1055,15 @@ p {
     .barber img {
         width: 60px;
         height: 60px;
+        border-width: 2px;
     }
 
     .barber p {
         font-size: 0.9rem;
+    }
+
+    .barber .specialty {
+        font-size: 0.75rem;
     }
 
     /* Campos de Data e Hora */
@@ -939,19 +1083,29 @@ p {
 
     /* Flatpickr */
     .flatpickr-calendar {
-        max-width: 90vw !important; /* Ajusta a largura para caber na viewport */
-        width: auto !important; /* Remove largura fixa */
-        padding: 8px;
+        max-width: 90vw !important;
+        width: 280px !important; /* Ajuste para telas menores */
+        padding: 12px;
         box-sizing: border-box;
-        left: 50% !important; /* Centraliza o calendário */
-        transform: translateX(-50%) !important; /* Centraliza horizontalmente */
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+    }
+
+    .flatpickr-month {
+        padding: 8px;
+        margin-bottom: 10px;
+    }
+
+    .flatpickr-current-month .flatpickr-monthDropdown-months,
+    .flatpickr-current-month input.cur-year {
+        font-size: 1rem;
     }
 
     .flatpickr-day {
-        font-size: 0.8rem;
-        width: 30px;
-        height: 30px;
-        line-height: 30px;
+        font-size: 0.85rem;
+        width: 32px;
+        height: 32px;
+        line-height: 32px;
     }
 
     .flatpickr-weekday {
@@ -960,7 +1114,14 @@ p {
 
     .flatpickr-prev-month,
     .flatpickr-next-month {
-        font-size: 1rem;
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+    }
+
+    .flatpickr-prev-month::before,
+    .flatpickr-next-month::before {
+        font-size: 1.1rem;
     }
 
     /* Dados Pessoais */
@@ -1012,7 +1173,7 @@ p {
     /* Mensagem de Sucesso */
     .success-message {
         padding: 20px;
-        max-width: 90%; /* Garante que a mensagem caiba na tela */
+        max-width: 90%;
         margin-left: auto;
         margin-right: auto;
     }
@@ -1033,18 +1194,17 @@ p {
     .success-message .step-navigation {
         flex-direction: column;
         gap: 10px;
-        align-items: center; /* Centraliza os botões horizontalmente */
-        justify-content: center; /* Centraliza verticalmente no flex */
+        align-items: center;
+        justify-content: center;
     }
 
-    /* Ajuste específico para os botões na mensagem de sucesso */
     .success-message .cta-button,
     .success-message .home-btn {
-        padding: 8px; /* Reduz o padding dos botões */
-        font-size: 0.85rem; /* Reduz a fonte */
-        width: auto; /* Permite que o botão tenha largura baseada no conteúdo */
-        max-width: 80%; /* Limita a largura máxima dos botões */
-        text-align: center; /* Centraliza o texto dentro do botão */
+        padding: 8px;
+        font-size: 0.85rem;
+        width: auto;
+        max-width: 80%;
+        text-align: center;
     }
 
     /* Ajuste para o Toast em Telas Menores */
@@ -1093,21 +1253,21 @@ p {
     /* Stepper */
     .stepper {
         display: flex;
-        flex-wrap: nowrap; /* Mantém as etapas em uma linha */
-        overflow-x: auto; /* Permite rolagem horizontal */
-        -webkit-overflow-scrolling: touch; /* Melhora a rolagem em dispositivos iOS */
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
         padding-bottom: 10px;
     }
 
     .stepper::before {
-        top: 10px; /* Ajusta a posição da linha */
+        top: 10px;
         left: 5%;
         right: 5%;
     }
 
     .step {
         flex: 0 0 auto;
-        width: 60px; /* Reduz ainda mais a largura para caber em telas pequenas */
+        width: 60px;
         margin: 0 3px;
     }
 
@@ -1118,7 +1278,7 @@ p {
     }
 
     .step-label {
-        font-size: 0.65rem; /* Reduz o texto para caber */
+        font-size: 0.65rem;
     }
 
     /* Categorias */
@@ -1159,18 +1319,48 @@ p {
         font-size: 0.85rem;
     }
 
+    .barber .specialty {
+        font-size: 0.7rem;
+    }
+
     /* Flatpickr */
     .flatpickr-calendar {
-        max-width: 85vw !important; /* Ajusta ainda mais para telas pequenas */
-        width: auto !important;
+        max-width: 85vw !important;
+        width: 260px !important;
+        padding: 10px;
+    }
+
+    .flatpickr-month {
         padding: 6px;
+        margin-bottom: 8px;
+    }
+
+    .flatpickr-current-month .flatpickr-monthDropdown-months,
+    .flatpickr-current-month input.cur-year {
+        font-size: 0.95rem;
     }
 
     .flatpickr-day {
-        width: 28px;
-        height: 28px;
-        line-height: 28px;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        font-size: 0.8rem;
+    }
+
+    .flatpickr-weekday {
         font-size: 0.75rem;
+    }
+
+    .flatpickr-prev-month,
+    .flatpickr-next-month {
+        width: 22px;
+        height: 22px;
+        line-height: 22px;
+    }
+
+    .flatpickr-prev-month::before,
+    .flatpickr-next-month::before {
+        font-size: 1rem;
     }
 
     /* Confirmação */
@@ -1194,7 +1384,7 @@ p {
     /* Mensagem de Sucesso */
     .success-message {
         padding: 15px;
-        max-width: 85%; /* Reduz ainda mais para caber na tela */
+        max-width: 85%;
     }
 
     .success-message h2 {
@@ -1210,13 +1400,12 @@ p {
         height: 50px;
     }
 
-    /* Ajuste específico para os botões na mensagem de sucesso */
     .success-message .cta-button,
     .success-message .home-btn {
-        padding: 6px; /* Reduz ainda mais o padding */
-        font-size: 0.8rem; /* Reduz a fonte */
-        width: auto; /* Permite largura baseada no conteúdo */
-        max-width: 70%; /* Reduz ainda mais a largura máxima */
+        padding: 6px;
+        font-size: 0.8rem;
+        width: auto;
+        max-width: 70%;
     }
 
     /* Ajuste para o Toast em Telas Muito Pequenas */
