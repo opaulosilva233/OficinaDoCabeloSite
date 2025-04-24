@@ -3,18 +3,18 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 100%); /* Gradiente escuro */
+    background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 50%, #d4a373 100%); /* Gradiente com as cores do site */
     color: #f5f5f5;
-    height: 100vh; /* Garante que o fundo cubra toda a altura da tela */
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Espaça o conteúdo e o rodapé */
+    justify-content: space-between;
 }
 
 /* Animação de zoom-in no conteúdo da página */
 main {
     opacity: 0;
-    animation: fadeInUp 0.8s ease-out forwards; /* Nova animação mais suave */
+    animation: fadeInUp 1.2s ease-out forwards;
 }
 
 /* Animação de fade-in com leve movimento para cima */
@@ -33,26 +33,37 @@ main {
 .login-container {
     max-width: 400px;
     margin: 60px auto;
-    background: #ffffff; /* Fundo branco */
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+    backdrop-filter: blur(10px);
     padding: 40px;
     border-radius: 12px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); /* Sombra mais pronunciada */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
     text-align: center;
     overflow: hidden;
-    border: 1px solid rgba(212, 163, 115, 0.2); /* Borda sutil com a cor principal */
+    border: 1px solid rgba(212, 163, 115, 0.3);
 }
 
 /* Título da página */
 .login-container h2 {
     font-size: 28px;
     margin-bottom: 25px;
-    color: #333; /* Cor escura para contrastar com o fundo branco */
-    font-weight: 800; /* Negrito mais forte */
+    color: #333;
+    font-weight: 800;
     letter-spacing: 1px;
     position: relative;
-    background: linear-gradient(to right, #d4a373, #b88c5f); /* Gradiente no texto */
+    background: linear-gradient(to right, #d4a373, #b88c5f);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* Ícone no título */
+.title-icon {
+    font-size: 24px;
+    color: #d4a373;
 }
 
 /* Sublinhado decorativo abaixo do título */
@@ -68,21 +79,16 @@ main {
     border-radius: 2px;
 }
 
-/* Estilização dos labels do formulário */
-form label {
-    display: block;
-    margin-bottom: 8px;
-    font-size: 15px;
-    color: #333; /* Cor escura para contrastar com o fundo branco */
-    text-align: left;
-    font-weight: 500;
+/* Estilização do grupo de input (para labels flutuantes) */
+.input-group {
+    position: relative;
+    margin-bottom: 30px;
 }
 
-/* Estilização dos inputs do formulário */
-form input {
+/* Estilização dos inputs */
+.input-group input {
     width: 100%;
-    padding: 12px 12px 12px 40px; /* Espaço para o ícone à esquerda */
-    margin-bottom: 20px;
+    padding: 12px 12px 12px 40px;
     border: 1px solid rgba(212, 163, 115, 0.3);
     border-radius: 8px;
     font-size: 16px;
@@ -90,37 +96,54 @@ form input {
     background-color: rgba(255, 255, 255, 0.9);
     box-sizing: border-box;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    position: relative;
 }
 
-/* Estilização dos placeholders */
-form input::placeholder {
+/* Efeito de glow no foco dos inputs */
+.input-group input:focus {
+    border-color: #d4a373;
+    outline: none;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(212, 163, 115, 0.5);
+}
+
+/* Estilização dos labels flutuantes */
+.input-group label {
+    position: absolute;
+    top: 50%;
+    left: 40px;
+    transform: translateY(-50%);
+    font-size: 16px;
     color: #999;
-    font-style: italic;
-    font-size: 14px;
+    font-weight: 500;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+/* Quando o input está preenchido ou focado, o label sobe */
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label {
+    top: 0;
+    left: 15px;
+    font-size: 12px;
+    color: #d4a373;
+    background: #fff;
+    padding: 0 5px;
+    transform: translateY(-50%);
 }
 
 /* Ícones dentro dos inputs */
-form input#username {
+.input-group input#username {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%23d4a373" viewBox="0 0 16 16"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 2c-2.67 0-8 1.34-8 4v1h16v-1c0-2.66-5.33-4-8-4z"/></svg>');
     background-repeat: no-repeat;
     background-position: 10px center;
     background-size: 16px;
 }
 
-form input#password {
+.input-group input#password {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%23d4a373" viewBox="0 0 16 16"><path d="M5.5 6h5V5a2.5 2.5 0 0 0-5 0v1zm5.5 1H5a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1z"/></svg>');
     background-repeat: no-repeat;
     background-position: 10px center;
     background-size: 16px;
-}
-
-/* Foco nos campos de input */
-form input:focus {
-    border-color: #d4a373;
-    outline: none;
-    background-color: #fff;
-    box-shadow: 0 0 8px rgba(212, 163, 115, 0.3);
 }
 
 /* Botões */
@@ -141,7 +164,6 @@ form input:focus {
     transition: background 0.4s ease-in-out, transform 0.2s ease, box-shadow 0.3s ease;
     box-sizing: border-box;
     margin-bottom: 15px;
-    gap: 12px; /* Aumentei o espaço entre texto e ícone */
     box-shadow: 0 4px 15px rgba(212, 163, 115, 0.2);
     position: relative;
     overflow: hidden;
@@ -164,11 +186,11 @@ form input:focus {
     transition: 0.5s ease;
 }
 
-/* Efeito de hover no botão Entrar */
+/* Efeito de glow no hover dos botões */
 .submit-btn:hover {
     background: linear-gradient(135deg, #e0b68a 0%, #d4a373 100%);
     transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(212, 163, 115, 0.4);
+    box-shadow: 0 6px 20px rgba(212, 163, 115, 0.5);
 }
 
 .submit-btn:hover::after {
@@ -178,7 +200,7 @@ form input:focus {
 /* Efeito de focus no botão Entrar */
 .submit-btn:focus {
     outline: none;
-    box-shadow: 0 0 0 4px rgba(212, 163, 115, 0.4);
+    box-shadow: 0 0 10px rgba(212, 163, 115, 0.5);
 }
 
 /* Botão Voltar à Página Inicial */
@@ -207,10 +229,7 @@ form input:focus {
 }
 
 /* Ícone no botão Voltar à Página Inicial */
-.back-home-btn::before {
-    content: '\f015'; /* Ícone de casa do Font Awesome */
-    font-family: 'Font Awesome 5 Free';
-    font-weight: 900;
+.back-home-btn .fas {
     font-size: 20px;
     color: #fff;
     line-height: 1;
@@ -233,11 +252,11 @@ form input:focus {
     transition: 0.5s ease;
 }
 
-/* Efeito de hover no botão Voltar */
+/* Efeito de glow no hover */
 .back-home-btn:hover {
     background: linear-gradient(135deg, #777 0%, #666 100%);
     transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(102, 102, 102, 0.4);
+    box-shadow: 0 6px 20px rgba(102, 102, 102, 0.5);
 }
 
 .back-home-btn:hover::after {
@@ -247,17 +266,7 @@ form input:focus {
 /* Efeito de focus no botão Voltar */
 .back-home-btn:focus {
     outline: none;
-    box-shadow: 0 0 0 4px rgba(102, 102, 102, 0.4);
-}
-
-/* Nota de segurança */
-.login-note {
-    font-size: 13px;
-    color: #666; /* Cor mais escura para contrastar com o fundo branco */
-    margin-top: 15px;
-    text-align: center;
-    font-weight: 400;
-    font-style: italic;
+    box-shadow: 0 0 10px rgba(102, 102, 102, 0.5);
 }
 
 /* Estilização do erro */
@@ -270,6 +279,44 @@ form input:focus {
     padding: 10px;
     border-radius: 6px;
     border: 1px solid rgba(255, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    animation: shake 0.5s ease;
+}
+
+/* Ícone na mensagem de erro */
+.error-icon {
+    font-size: 16px;
+    color: #fff;
+}
+
+/* Animação de shake para a mensagem de erro */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+/* Nota de segurança */
+.login-note {
+    font-size: 13px;
+    color: #d4a373;
+    margin-top: 15px;
+    text-align: center;
+    font-weight: 400;
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* Ícone na nota de segurança */
+.note-icon {
+    font-size: 14px;
+    color: #d4a373;
 }
 
 /* Estilo para o rodapé */
@@ -280,6 +327,7 @@ form input:focus {
     text-align: center;
 }
 
+/* Estilo para o crédito no rodapé */
 .credit {
     font-size: 0.85rem;
     color: rgba(255, 255, 255, 0.7);
@@ -305,25 +353,29 @@ form input:focus {
         font-size: 24px;
     }
 
+    .title-icon {
+        font-size: 20px;
+    }
+
     .login-container h2::after {
         width: 40px;
     }
 
-    form label {
+    .input-group label {
         font-size: 14px;
-        margin-bottom: 6px;
     }
 
-    form input {
+    .input-group input {
         padding: 10px 10px 10px 36px;
-        margin-bottom: 15px;
         font-size: 15px;
         background-size: 14px;
         background-position: 8px center;
     }
 
-    form input::placeholder {
-        font-size: 13px;
+    .input-group input:focus + label,
+    .input-group input:not(:placeholder-shown) + label {
+        font-size: 10px;
+        left: 12px;
     }
 
     .submit-btn, .back-home-btn {
@@ -331,8 +383,7 @@ form input:focus {
         font-size: 15px;
     }
 
-    .submit-btn::before,
-    .back-home-btn::before {
+    .back-home-btn .fas {
         font-size: 18px;
     }
 
@@ -340,9 +391,17 @@ form input:focus {
         font-size: 12px;
     }
 
+    .note-icon {
+        font-size: 12px;
+    }
+
     .error {
         font-size: 13px;
         padding: 8px;
+    }
+
+    .error-icon {
+        font-size: 14px;
     }
 
     .footer {
@@ -364,19 +423,25 @@ form input:focus {
         font-size: 22px;
     }
 
-    form label {
+    .title-icon {
+        font-size: 18px;
+    }
+
+    .input-group label {
         font-size: 13px;
     }
 
-    form input {
+    .input-group input {
         padding: 8px 8px 8px 32px;
         font-size: 14px;
         background-size: 12px;
         background-position: 8px center;
     }
 
-    form input::placeholder {
-        font-size: 12px;
+    .input-group input:focus + label,
+    .input-group input:not(:placeholder-shown) + label {
+        font-size: 9px;
+        left: 10px;
     }
 
     .submit-btn, .back-home-btn {
@@ -384,8 +449,7 @@ form input:focus {
         font-size: 14px;
     }
 
-    .submit-btn::before,
-    .back-home-btn::before {
+    .back-home-btn .fas {
         font-size: 16px;
     }
 
@@ -393,8 +457,16 @@ form input:focus {
         font-size: 11px;
     }
 
+    .note-icon {
+        font-size: 11px;
+    }
+
     .error {
         font-size: 12px;
         padding: 6px;
+    }
+
+    .error-icon {
+        font-size: 12px;
     }
 }
