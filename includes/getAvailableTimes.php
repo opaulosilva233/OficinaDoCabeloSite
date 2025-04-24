@@ -1,63 +1,68 @@
 <?php
-// Incluir o arquivo de conexão com o banco de dados. Este arquivo estabelece a conexão com a base de dados MySQL.
-include('./db.php'); // Caminho atualizado com './'
+header('Content-Type: application/json; charset=UTF-8');
 
-// Verificar se os parâmetros 'barber' (barbeiro) e 'date' (data) foram enviados através do método GET.
-if (isset($_GET['barber']) && isset($_GET['date'])) {
-    // Sanitize the barber input
-    $barber = filter_var($_GET['barber'], FILTER_SANITIZE_STRING);
-    // Sanitize the date input
-    $date = filter_var($_GET['date'], FILTER_SANITIZE_STRING);
+// Incluir a conexão com o banco de dados
+require_once 'db.php';
 
-    // Registar (log) os parâmetros recebidos para fins de depuração.
-    error_log("Parâmetros recebidos: barber=$barber, date=$date");
+// Receber os parâmetros
+$barber = isset($_GET['barber']) ? trim($_GET['barber']) : '';
+$date = isset($_GET['date']) ? trim($_GET['date']) : '';
 
-    // Converter a data do formato "DD-MM-YYYY" (formato recebido) para "YYYY-MM-DD" (formato usado no banco de dados).
-    $dateParts = explode('-', $date); // Dividir a data em partes usando o hífen como delimitador.
-    if (count($dateParts) == 3) {
-        // Reorganizar a data para o formato "YYYY-MM-DD".
-        $formattedDate = $dateParts[2] . '-' . $dateParts[1] . '-' . $dateParts[0];
+if (empty($barber) || empty($date)) {
+    echo json_encode(['success' => false, 'message' => 'Barbeiro ou data não fornecidos']);
+    exit;
+}
+
+// Validar o formato da data (esperado: YYYY-MM-DD, ex.: 2025-04-25)
+if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+    echo json_encode(['success' => false, 'message' => 'Formato de data inválido. Use o formato YYYY-MM-DD']);
+    exit;
+}
+
+// Log dos parâmetros recebidos
+error_log("Parâmetros recebidos: barbeiro=$barber, data=$date");
+
+// Lista de horários disponíveis (baseado no horário de funcionamento)
+$allSlots = [
+    '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
+    '12:00', '12:30', '13:00', '13:30', '14:00', '14:30',
+    '15:00', '15:30', '16:00', '16:30', '17:00', '17:30',
+    '18:00', '18:30', '19:00'
+];
+
+// Buscar horários já ocupados na tabela marcacoes
+try {
+    // Usar TIME_FORMAT para retornar o horário no formato HH:MM
+    $stmt = $pdo->prepare("SELECT TIME_FORMAT(horario_marcacao, '%H:%i') AS horario_marcacao 
+                           FROM marcacoes 
+                           WHERE TRIM(barbeiro) = ? AND data_marcacao = ? AND estado = 'marcada'");
+    $stmt->execute([$barber, $date]);
+    $bookedSlots = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+    // Log temporário para depuração
+    error_log("Horários ocupados para barbeiro=$barber, data=$date: " . json_encode($bookedSlots));
+
+    // Verificar se os horários ocupados estão no formato correto
+    if (empty($bookedSlots)) {
+        error_log("Nenhum horário ocupado encontrado para barbeiro=$barber, data=$date. Verifique os dados na tabela marcacoes.");
+    }
+
+    // Filtrar os horários disponíveis, removendo os já ocupados
+    $availableSlots = array_diff($allSlots, $bookedSlots);
+
+    // Log temporário para depuração
+    error_log("Horários disponíveis para barbeiro=$barber, data=$date: " . json_encode($availableSlots));
+
+    // Ordenar os horários disponíveis
+    sort($availableSlots);
+
+    if (empty($availableSlots)) {
+        echo json_encode(['success' => false, 'message' => 'Nenhum horário disponível para esta data']);
     } else {
-        // Caso o formato de data seja inválido, retornar uma mensagem de erro em formato JSON.
-        echo json_encode(['success' => false, 'message' => 'O formato da data é inválido.']); // Alteração para português de Portugal
-        exit;
+        echo json_encode(['success' => true, 'slots' => array_values($availableSlots)]);
     }
-
-    // Preparar a consulta SQL para obter os horários já marcados para o barbeiro e na data selecionada.
-    // Esta consulta irá buscar todas as marcações para um dado barbeiro numa data específica que já tenham sido marcadas.
-    $sql = "SELECT horario_marcacao FROM marcacoes
-            WHERE barbeiro = :barber AND data_marcacao = :date AND estado = 'marcada'"; // Filtrar apenas as marcações com estado 'marcada'.
-    // Preparar a consulta SQL usando PDO para evitar SQL injection.
-    $stmt = $pdo->prepare($sql); 
-    // Vincular o parâmetro 'barber' na consulta SQL ao valor de $barber.
-    $stmt->bindParam(':barber', $barber); 
-    // Vincular o parâmetro 'date' na consulta SQL ao valor de $formattedDate.
-    $stmt->bindParam(':date', $formattedDate); 
-    // Executar a consulta preparada.
-    $stmt->execute(); 
-
-    // Obter os horários que já estão marcados para o barbeiro na data selecionada.
-    // PDO::FETCH_COLUMN, 0 irá retornar um array simples com os horários.
-    $bookedTimes = $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
-
-    // Definir os horários disponíveis (das 9h às 18h, com intervalos de 30 minutos)
-    $availableTimes = [];
-    for ($hour = 9; $hour <= 18; $hour++) {
-        // Adiciona os horários de cada meia hora
-        $availableTimes[] = sprintf('%02d:00', $hour); // Horário completo (ex: 09:00)
-        $availableTimes[] = sprintf('%02d:30', $hour); // Horário de meia hora (ex: 09:30)
-    }
-
-    // Remover os horários que já estão marcados da lista de horários disponíveis.
-    $availableTimes = array_diff($availableTimes, $bookedTimes);
-
-    // Registo (log) dos horários disponíveis após a remoção dos horários já marcados.
-    error_log("Horários disponíveis: " . implode(', ', $availableTimes));
-
-    // Retornar os horários disponíveis em formato JSON para serem processados pelo lado do cliente (JavaScript).
-    echo json_encode(['success' => true, 'slots' => $availableTimes]);
-} else {
-    // Caso os parâmetros 'barber' ou 'date' não sejam enviados, retornar uma mensagem de erro em formato JSON.
-    echo json_encode(['success' => false, 'message' => 'Parâmetros inválidos.']); // Mensagem em português de Portugal
+} catch (PDOException $e) {
+    error_log("Erro PDO: " . $e->getMessage());
+    echo json_encode(['success' => false, 'message' => 'Erro ao buscar horários: ' . $e->getMessage()]);
 }
 ?>
