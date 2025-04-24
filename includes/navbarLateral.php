@@ -1,19 +1,20 @@
 <!DOCTYPE html>
-<html lang="pt-PT"> <!-- Alterado para 'pt-PT' -->
+<html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel de Controlo</title> <!-- Alterado "Dashboard" para "Painel de Controlo" -->
-    <link rel="stylesheet" href="./css/navbarLateral.css"> <!-- Caminho atualizado com './' -->
-    <link rel="icon" href="./img/logotipo2.png" type="image/x-icon"> <!-- Caminho atualizado com './' -->
+    <title>Painel de Controlo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="./css/navbarLateral.css">
+    <link rel="icon" href="./img/logotipo2.png" type="image/x-icon">
 </head>
 <body>
   <!-- Barra de Navegação Superior -->
   <header class="top-navbar">
       <div class="logo">
-          <a href="./dashboard.php" class="logo"> <!-- Caminho atualizado com './' -->
-              <img src="./img/logotipo.png" alt="Logótipo da Barbearia"> <!-- Alterado "Logo" para "Logótipo" -->
-              <span>Painel de Controlo</span> <!-- Alterado "Dashboard" para "Painel de Controlo" -->
+          <a href="./dashboard.php" class="logo">
+              <img src="./img/logotipo.png" alt="Logótipo da Barbearia">
+              <span>Painel de Controlo</span>
           </a>
       </div>
       <!-- Menu Hamburger -->
@@ -26,14 +27,65 @@
   <!-- Barra de Navegação Lateral -->
   <aside id="menu" class="sidebar">
       <ul>
-          <li><a href="./dashboard.php" class="sidebar-link">Geral</a></li> <!-- Caminho atualizado com './' -->
-          <li><a href="./barbeiro1.php" class="sidebar-link">Bruno Martins</a></li> <!-- Caminho atualizado com './' -->
-          <li><a href="./barbeiro2.php" class="sidebar-link">Hugo Alves</a></li> <!-- Caminho atualizado com './' -->
-          <li><a href="./todasMarcacoes.php" class="sidebar-link">Todas as Marcações</a></li> <!-- Caminho atualizado com './' -->
-          <li><a href="./logout.php" class="sidebar-link">Terminar Sessão</a></li> <!-- Alterado "Logout" para "Terminar Sessão" -->
+          <li class="sidebar-section">
+              <span class="section-title">Visão Geral</span>
+              <ul>
+                  <li>
+                      <a href="./dashboard.php" class="sidebar-link" title="Visão geral da dashboard">
+                          <i class="fas fa-tachometer-alt"></i> Geral
+                          <span class="loading-icon"><i class="fas fa-spinner fa-spin"></i></span>
+                      </a>
+                  </li>
+              </ul>
+          </li>
+          <li class="sidebar-section">
+              <span class="section-title">Barbeiros</span>
+              <ul>
+                  <li>
+                      <a href="./barbeiro1.php" class="sidebar-link" title="Ver agenda de Bruno Martins">
+                          <i class="fas fa-user"></i> Bruno Martins
+                          <span class="loading-icon"><i class="fas fa-spinner fa-spin"></i></span>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="./barbeiro2.php" class="sidebar-link" title="Ver agenda de Hugo Alves">
+                          <i class="fas fa-user"></i> Hugo Alves
+                          <span class="loading-icon"><i class="fas fa-spinner fa-spin"></i></span>
+                      </a>
+                  </li>
+              </ul>
+          </li>
+          <li class="sidebar-section">
+              <span class="section-title">Outros</span>
+              <ul>
+                  <li>
+                      <a href="./todasMarcacoes.php" class="sidebar-link" title="Ver todas as marcações">
+                          <i class="fas fa-calendar-alt"></i> Todas as Marcações
+                          <span class="loading-icon"><i class="fas fa-spinner fa-spin"></i></span>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="./logout.php" class="sidebar-link logout-link" title="Terminar a sessão atual">
+                          <i class="fas fa-sign-out-alt"></i> Terminar Sessão
+                          <span class="loading-icon"><i class="fas fa-spinner fa-spin"></i></span>
+                      </a>
+                  </li>
+              </ul>
+          </li>
       </ul>
   </aside>
+  <!-- Modal de Confirmação para Terminar Sessão -->
+  <div id="logoutModal" class="modal">
+      <div class="modal-content">
+          <h2><i class="fas fa-sign-out-alt modal-icon"></i> Terminar Sessão</h2>
+          <p>Tem certeza que deseja terminar a sessão?</p>
+          <div class="modal-buttons">
+              <button id="confirmLogout" class="modal-btn confirm-btn">Confirmar</button>
+              <button id="cancelLogout" class="modal-btn cancel-btn">Cancelar</button>
+          </div>
+      </div>
+  </div>
   <!-- Script para o menu hamburger -->
-  <script src="./js/navLatMenu.js"></script> <!-- Caminho atualizado com './' -->
+  <script src="./js/navLatMenu.js"></script>
 </body>
 </html>

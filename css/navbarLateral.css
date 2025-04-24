@@ -1,12 +1,12 @@
 /* Reset básico */
 body {
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* Navbar Superior */
 header.top-navbar {
-    background: #2b2b2b;
+    background: linear-gradient(135deg, #2b2b2b 0%, #3e3e3e 100%);
     color: #d4a373;
     padding: 10px 20px;
     position: fixed;
@@ -44,14 +44,44 @@ header .logo a {
 .sidebar {
     width: 220px;
     height: 100vh;
-    background-color: #2b2b2b;
+    background: linear-gradient(135deg, #2b2b2b 0%, #3e3e3e 100%);
     color: #fff;
     position: fixed;
     top: 60px;
     left: 0;
     padding-top: 20px;
-    font-family: Arial, Helvetica, sans-serif;
-    transition: transform 0.3s ease;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    animation: fadeInSidebar 0.8s ease-out forwards;
+}
+
+/* Animação de entrada para a sidebar */
+@keyframes fadeInSidebar {
+    0% {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Seções da Sidebar */
+.sidebar-section {
+    margin-bottom: 20px;
+}
+
+.section-title {
+    display: block;
+    padding: 10px 20px;
+    color: #d4a373;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid rgba(212, 163, 115, 0.2);
 }
 
 /* Links da Sidebar */
@@ -62,20 +92,94 @@ header .logo a {
 }
 
 .sidebar ul li {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .sidebar-link {
-    display: block;
-    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
     color: #d4a373;
     text-decoration: none;
     border-radius: 5px;
-    transition: background 0.3s;
+    transition: background 0.3s ease, transform 0.2s ease;
+    position: relative;
 }
 
+/* Efeito de hover nos links */
 .sidebar-link:hover {
-    background: #3e3e3e;
+    background: linear-gradient(135deg, #d4a373 0%, #e0b68a 100%);
+    color: #fff;
+    transform: scale(1.02);
+}
+
+/* Efeito de click nos links */
+.sidebar-link:active {
+    transform: scale(0.98);
+}
+
+/* Estilo para o link ativo */
+.sidebar-link.active {
+    background: rgba(212, 163, 115, 0.2);
+    color: #fff;
+    position: relative;
+}
+
+/* Borda decorativa no link ativo */
+.sidebar-link.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 3px;
+    background: #d4a373;
+    border-radius: 5px 0 0 5px;
+}
+
+/* Ícones nos links */
+.sidebar-link i {
+    font-size: 16px;
+}
+
+/* Indicador de carregamento */
+.loading-icon {
+    display: none;
+    margin-left: 10px;
+}
+
+.sidebar-link.loading .loading-icon {
+    display: inline-block;
+}
+
+/* Tooltip */
+.sidebar-link {
+    position: relative;
+}
+
+.sidebar-link:hover::after {
+    content: attr(title);
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #d4a373;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 1000;
+    margin-left: 10px;
+    opacity: 0;
+    animation: fadeInTooltip 0.3s ease forwards;
+}
+
+@keyframes fadeInTooltip {
+    to {
+        opacity: 1;
+    }
 }
 
 /* Conteúdo Principal */
@@ -85,73 +189,119 @@ header .logo a {
     margin-top: 80px;
 }
 
-/* ==========================
-   🔹 MENU HAMBURGER (Mobile)
-   ========================== */
-
-/* Esconde o botão no desktop */
+/* Esconde o botão hamburger (já que mobile não é importante) */
 .hamburger {
     display: none;
-    cursor: pointer;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 30px;
-    height: 21px;
 }
 
-.hamburger div {
+/* Modal de Confirmação */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 3px;
-    background-color: #fff;
-    border-radius: 5px;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
 }
 
-/* Efeito do botão quando ativo */
-.hamburger.active div:nth-child(1) {
-    transform: rotate(45deg);
-    position: relative;
-    top: 6px;
+.modal.active {
+    display: flex;
 }
 
-.hamburger.active div:nth-child(2) {
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    border: 1px solid rgba(212, 163, 115, 0.3);
     opacity: 0;
+    transform: scale(0.9);
+    animation: fadeInModal 0.3s ease-out forwards;
 }
 
-.hamburger.active div:nth-child(3) {
-    transform: rotate(-45deg);
-    position: relative;
-    top: -6px;
+/* Animação de entrada do modal */
+@keyframes fadeInModal {
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
-/* ==========================
-   🔹 RESPONSIVIDADE (Mobile)
-   ========================== */
+/* Animação de saída do modal */
+.modal-content.closing {
+    animation: fadeOutModal 0.3s ease-out forwards;
+}
 
-@media (max-width: 768px) {
-    /* Exibir o botão hamburger */
-    .hamburger {
-        display: flex;
+@keyframes fadeOutModal {
+    to {
+        opacity: 0;
+        transform: scale(0.9);
     }
+}
 
-    /* Esconder a sidebar por padrão no mobile */
-    .sidebar {
-        transform: translateX(-100%);
-        position: fixed;
-        top: 60px;
-        left: 0;
-        width: 220px;
-        height: 100vh;
-        transition: transform 0.3s ease-in-out;
-    }
+.modal-content h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(to right, #d4a373, #b88c5f);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
 
-    /* Mostrar sidebar quando ativa */
-    .sidebar.active {
-        transform: translateX(0);
-    }
+.modal-icon {
+    font-size: 24px;
+    color: #d4a373;
+}
 
-    /* Ajustar o conteúdo para ocupar toda a largura */
-    .content {
-        margin-left: 0;
-    }
+.modal-content p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.modal-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.confirm-btn {
+    background: linear-gradient(135deg, #d4a373 0%, #e0b68a 100%);
+    color: #fff;
+}
+
+.confirm-btn:hover {
+    background: linear-gradient(135deg, #e0b68a 0%, #d4a373 100%);
+    transform: translateY(-2px);
+}
+
+.cancel-btn {
+    background: linear-gradient(135deg, #666 0%, #777 100%);
+    color: #fff;
+}
+
+.cancel-btn:hover {
+    background: linear-gradient(135deg, #777 0%, #666 100%);
+    transform: translateY(-2px);
 }
