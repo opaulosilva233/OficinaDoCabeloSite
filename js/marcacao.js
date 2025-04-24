@@ -25,7 +25,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const confirmPhone = document.getElementById('confirm-phone');
     const confirmEmail = document.getElementById('confirm-email');
     const successMessage = document.getElementById('success-message');
-    
+
+    // Simulação de dias cheios (sem horários disponíveis)
+    // Em um ambiente real, isso seria obtido via API
+    const fullDays = [
+        "2025-04-25", // Exemplo: 25 de abril de 2025 está cheio
+        "2025-04-26", // Exemplo: 26 de abril de 2025 está cheio
+    ];
+
     // Variáveis de controle
     let currentStep = 1;
     let selectedService = null;
@@ -112,6 +119,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const fetchAvailableTimes = async (barber, date, forValidation = false) => {
         if (!barber || !date) {
             updateTimeSelect([], 'Selecione uma data e um barbeiro');
+            return [];
+        }
+
+        // Verifica se o dia está na lista de dias cheios
+        if (fullDays.includes(date)) {
+            updateTimeSelect([], 'Nenhum horário disponível para este dia');
             return [];
         }
 
@@ -236,8 +249,9 @@ document.addEventListener('DOMContentLoaded', () => {
         dateFormat: "Y-m-d",
         disable: [
             function(date) {
-                return date.getDay() === 0;
-            }
+                return date.getDay() === 0; // Desabilita domingos
+            },
+            ...fullDays // Desabilita dias cheios
         ],
         onChange: (selectedDates, dateStr) => {
             console.log('Data selecionada no Flatpickr:', dateStr);

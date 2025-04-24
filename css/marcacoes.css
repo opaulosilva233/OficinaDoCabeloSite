@@ -715,44 +715,231 @@ p {
     justify-content: space-between; /* Posiciona os botões nas extremidades */
 }
 
-/* Responsividade */
+/* Footer */
+#site-footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+}
+
+#site-footer .footer-content {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+#site-footer p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #ccc;
+}
+
+/* Responsividade para telas menores (até 768px) */
 @media (max-width: 768px) {
+    main {
+        padding: 20px 10px; /* Reduz padding em telas menores */
+    }
+
     .appointment-section {
-        padding: 20px;
+        padding: 15px;
+        border-radius: 8px;
     }
 
     h1 {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
+        margin-bottom: 8px;
     }
 
     h2 {
         font-size: 1.3rem;
+        margin-bottom: 15px;
     }
 
+    p {
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+    }
+
+    /* Stepper */
     .stepper {
-        flex-wrap: wrap;
-        gap: 10px;
+        display: flex;
+        flex-wrap: nowrap; /* Mantém as etapas em uma linha */
+        overflow-x: auto; /* Permite rolagem horizontal */
+        margin-bottom: 20px;
+        -webkit-overflow-scrolling: touch; /* Melhora a rolagem em dispositivos iOS */
+        padding-bottom: 10px; /* Espaço para a barra de rolagem */
     }
 
-    .step {
-        width: 50%;
-        margin-bottom: 10px;
+    .stepper::-webkit-scrollbar {
+        height: 6px; /* Altura da barra de rolagem */
+    }
+
+    .stepper::-webkit-scrollbar-thumb {
+        background-color: #d4a373;
+        border-radius: 3px;
+    }
+
+    .stepper::-webkit-scrollbar-track {
+        background-color: #e0e0e0;
     }
 
     .stepper::before {
-        display: none;
+        top: 12px; /* Ajusta a posição da linha para o novo tamanho do step-number */
+        left: 5%; /* Ajusta para evitar que a linha fique fora da área visível */
+        right: 5%;
     }
 
+    .step {
+        flex: 0 0 auto; /* Impede que as etapas encolham */
+        width: 80px; /* Largura fixa para cada etapa */
+        margin: 0 5px; /* Espaço entre as etapas */
+    }
+
+    .step-number {
+        width: 25px;
+        height: 25px;
+        font-size: 0.9rem;
+    }
+
+    .step-label {
+        font-size: 0.75rem; /* Reduz o tamanho do texto para caber */
+    }
+
+    /* Categorias e Botões */
+    .categories {
+        gap: 8px;
+    }
+
+    .category-title {
+        font-size: 1rem;
+        padding: 12px;
+    }
+
+    .category-title i {
+        font-size: 0.9rem;
+    }
+
+    .category-options {
+        padding: 0 12px;
+    }
+
+    .category.expanded .category-options {
+        padding: 12px;
+        max-height: 300px; /* Aumenta o max-height para evitar corte */
+    }
+
+    .option-btn {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+
+    .option-btn .option-name {
+        font-size: 0.9rem;
+    }
+
+    .option-btn .option-price {
+        font-size: 0.9rem;
+    }
+
+    /* Barbeiros */
     .barbers {
         flex-direction: column;
         align-items: center;
+        gap: 15px;
     }
 
     .barber {
         width: 100%;
-        max-width: 200px;
+        max-width: 180px;
+        padding: 10px;
     }
 
+    .barber img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .barber p {
+        font-size: 0.9rem;
+    }
+
+    /* Campos de Data e Hora */
+    .step-content[data-step="3"] label {
+        font-size: 0.9rem;
+        margin: 8px 0 4px;
+    }
+
+    #date, #time {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+
+    #loading-indicator {
+        font-size: 0.9rem;
+    }
+
+    /* Flatpickr */
+    .flatpickr-calendar {
+        max-width: 90vw !important; /* Ajusta a largura para caber na viewport */
+        width: auto !important; /* Remove largura fixa */
+        padding: 8px;
+        box-sizing: border-box;
+        left: 50% !important; /* Centraliza o calendário */
+        transform: translateX(-50%) !important; /* Centraliza horizontalmente */
+    }
+
+    .flatpickr-day {
+        font-size: 0.8rem;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+    }
+
+    .flatpickr-weekday {
+        font-size: 0.8rem;
+    }
+
+    .flatpickr-prev-month,
+    .flatpickr-next-month {
+        font-size: 1rem;
+    }
+
+    /* Dados Pessoais */
+    .step-content[data-step="4"] label {
+        font-size: 0.9rem;
+        margin: 8px 0 4px;
+    }
+
+    .step-content[data-step="4"] input {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+
+    .error-text {
+        font-size: 0.8rem;
+    }
+
+    /* Confirmação */
+    .confirmation-summary {
+        max-width: 100%;
+        padding: 15px;
+    }
+
+    .confirmation-summary h3 {
+        font-size: 1.2rem;
+    }
+
+    .confirmation-summary p {
+        font-size: 0.9rem;
+    }
+
+    .confirmation-summary p strong {
+        width: 100px;
+        font-size: 0.9rem;
+    }
+
+    /* Navegação */
     .step-navigation {
         flex-direction: column;
         gap: 10px;
@@ -760,24 +947,219 @@ p {
 
     .next-btn, .prev-btn, .submit-btn, .cta-button, .home-btn {
         width: 100%;
+        padding: 10px;
+        font-size: 0.9rem;
     }
 
-    .confirmation-summary {
-        max-width: 100%;
+    /* Mensagem de Sucesso */
+    .success-message {
+        padding: 20px;
+        max-width: 90%; /* Garante que a mensagem caiba na tela */
+        margin-left: auto;
+        margin-right: auto;
     }
 
-    .confirmation-summary p strong {
-        width: 100px;
+    .success-message h2 {
+        font-size: 1.3rem;
     }
 
-    .success-message .step-navigation {
-        flex-direction: column; /* Em telas pequenas, os botões empilham verticalmente */
-        gap: 10px;
+    .success-message p {
+        font-size: 1rem;
     }
 
     .check-container {
         width: 60px;
         height: 60px;
     }
+
+    .success-message .step-navigation {
+        flex-direction: column;
+        gap: 10px;
+        align-items: center; /* Centraliza os botões horizontalmente */
+        justify-content: center; /* Centraliza verticalmente no flex */
+    }
+
+    /* Ajuste específico para os botões na mensagem de sucesso */
+    .success-message .cta-button,
+    .success-message .home-btn {
+        padding: 8px; /* Reduz o padding dos botões */
+        font-size: 0.85rem; /* Reduz a fonte */
+        width: auto; /* Permite que o botão tenha largura baseada no conteúdo */
+        max-width: 80%; /* Limita a largura máxima dos botões */
+        text-align: center; /* Centraliza o texto dentro do botão */
+    }
+
+    /* Footer */
+    #site-footer {
+        padding: 15px;
+    }
+
+    #site-footer p {
+        font-size: 0.8rem;
+    }
 }
 
+/* Responsividade para telas muito pequenas (até 480px) */
+@media (max-width: 480px) {
+    main {
+        padding: 15px 5px;
+    }
+
+    .appointment-section {
+        padding: 10px;
+        border-radius: 6px;
+    }
+
+    h1 {
+        font-size: 1.4rem;
+        margin-bottom: 5px;
+    }
+
+    h2 {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+    }
+
+    p {
+        font-size: 0.85rem;
+        margin-bottom: 15px;
+    }
+
+    /* Stepper */
+    .stepper {
+        display: flex;
+        flex-wrap: nowrap; /* Mantém as etapas em uma linha */
+        overflow-x: auto; /* Permite rolagem horizontal */
+        -webkit-overflow-scrolling: touch; /* Melhora a rolagem em dispositivos iOS */
+        padding-bottom: 10px;
+    }
+
+    .stepper::before {
+        top: 10px; /* Ajusta a posição da linha */
+        left: 5%;
+        right: 5%;
+    }
+
+    .step {
+        flex: 0 0 auto;
+        width: 60px; /* Reduz ainda mais a largura para caber em telas pequenas */
+        margin: 0 3px;
+    }
+
+    .step-number {
+        width: 20px;
+        height: 20px;
+        font-size: 0.8rem;
+    }
+
+    .step-label {
+        font-size: 0.65rem; /* Reduz o texto para caber */
+    }
+
+    /* Categorias */
+    .category-title {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+
+    .category-title i {
+        font-size: 0.8rem;
+    }
+
+    .option-btn {
+        padding: 8px;
+        font-size: 0.85rem;
+    }
+
+    .option-btn .option-name {
+        font-size: 0.85rem;
+    }
+
+    .option-btn .option-price {
+        font-size: 0.85rem;
+    }
+
+    /* Barbeiros */
+    .barber {
+        max-width: 150px;
+        padding: 8px;
+    }
+
+    .barber img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .barber p {
+        font-size: 0.85rem;
+    }
+
+    /* Flatpickr */
+    .flatpickr-calendar {
+        max-width: 85vw !important; /* Ajusta ainda mais para telas pequenas */
+        width: auto !important;
+        padding: 6px;
+    }
+
+    .flatpickr-day {
+        width: 28px;
+        height: 28px;
+        line-height: 28px;
+        font-size: 0.75rem;
+    }
+
+    /* Confirmação */
+    .confirmation-summary {
+        padding: 10px;
+    }
+
+    .confirmation-summary h3 {
+        font-size: 1.1rem;
+    }
+
+    .confirmation-summary p {
+        font-size: 0.85rem;
+    }
+
+    .confirmation-summary p strong {
+        width: 90px;
+        font-size: 0.85rem;
+    }
+
+    /* Mensagem de Sucesso */
+    .success-message {
+        padding: 15px;
+        max-width: 85%; /* Reduz ainda mais para caber na tela */
+    }
+
+    .success-message h2 {
+        font-size: 1.2rem;
+    }
+
+    .success-message p {
+        font-size: 0.9rem;
+    }
+
+    .check-container {
+        width: 50px;
+        height: 50px;
+    }
+
+    /* Ajuste específico para os botões na mensagem de sucesso */
+    .success-message .cta-button,
+    .success-message .home-btn {
+        padding: 6px; /* Reduz ainda mais o padding */
+        font-size: 0.8rem; /* Reduz a fonte */
+        width: auto; /* Permite largura baseada no conteúdo */
+        max-width: 70%; /* Reduz ainda mais a largura máxima */
+    }
+
+    /* Footer */
+    #site-footer {
+        padding: 10px;
+    }
+
+    #site-footer p {
+        font-size: 0.75rem;
+    }
+}
