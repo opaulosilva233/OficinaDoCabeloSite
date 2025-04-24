@@ -40,6 +40,23 @@ document.addEventListener('DOMContentLoaded', () => {
     let selectedDate = null;
     let selectedTime = null;
 
+    // Função para mostrar a mensagem de confirmação intermediária
+    function showConfirmationToast(message) {
+        let toast = document.querySelector('.confirmation-toast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.classList.add('confirmation-toast');
+            document.body.appendChild(toast);
+        }
+        toast.textContent = message;
+        toast.classList.add('show');
+
+        // Remove a mensagem após 3 segundos
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3000);
+    }
+
     // Função para atualizar o resumo na Etapa 5
     const updateConfirmationSummary = () => {
         confirmService.textContent = selectedService || 'N/A';
@@ -253,6 +270,33 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             ...fullDays // Desabilita dias cheios
         ],
+        onDayCreate: (dObj, dStr, fp, dayElem) => {
+            // Adiciona tooltips aos dias desabilitados
+            const date = new Date(dayElem.dateObj);
+            const formattedDate = fp.formatDate(date, 'Y-m-d');
+            if (dayElem.classList.contains('flatpickr-disabled')) {
+                if (fullDays.includes(formattedDate)) {
+                    dayElem.setAttribute('data-tooltip', 'Dia cheio');
+                } else if (date.getDay() === 0) {
+                    dayElem.setAttribute('data-tooltip', 'Fechado');
+                }
+            }
+        },
+        onMonthChange: () => {
+            // Garante que os tooltips sejam reaplicados ao mudar de mês
+            const days = document.querySelectorAll('.flatpickr-day');
+            days.forEach(day => {
+                if (day.classList.contains('flatpickr-disabled')) {
+                    const date = new Date(day.dateObj);
+                    const formattedDate = flatpickr.formatDate(date, 'Y-m-d');
+                    if (fullDays.includes(formattedDate)) {
+                        day.setAttribute('data-tooltip', 'Dia cheio');
+                    } else if (date.getDay() === 0) {
+                        day.setAttribute('data-tooltip', 'Fechado');
+                    }
+                }
+            });
+        },
         onChange: (selectedDates, dateStr) => {
             console.log('Data selecionada no Flatpickr:', dateStr);
             selectedDate = formatDate(new Date(dateStr)); // Armazena a data formatada para exibição
@@ -318,6 +362,16 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', () => {
             console.log('Next button clicked, Current Step:', currentStep);
             if (currentStep < 5) {
+                // Mostrar mensagem de confirmação ao avançar entre etapas
+                if (currentStep === 1 && selectedService) {
+                    showConfirmationToast(`Serviço selecionado: ${selectedService}`);
+                } else if (currentStep === 2 && selectedBarber) {
+                    showConfirmationToast(`Barbeiro selecionado: ${selectedBarber}`);
+                } else if (currentStep === 3 && dateField.value && timeSelect.value) {
+                    showConfirmationToast(`Data e hora confirmadas: ${formatDate(new Date(dateField.value))} às ${timeSelect.value}`);
+                } else if (currentStep === 4 && validateName() && validatePhone() && validateEmail()) {
+                    showConfirmationToast('Dados pessoais confirmados! Verifique o resumo.');
+                }
                 updateStep(currentStep + 1);
             }
         });
