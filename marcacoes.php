@@ -2,6 +2,7 @@
 /**
  * Página de marcações da barbearia com um stepper para guiar o usuário.
  * Etapas: 1. Tipo de Corte, 2. Barbeiro, 3. Data e Hora, 4. Dados Pessoais, 5. Confirmação.
+ * Após a submissão bem-sucedida, exibe uma mensagem de sucesso.
  */
 ?>
 <!DOCTYPE html>
@@ -57,6 +58,17 @@
                 <div class="step" data-step="5">
                     <span class="step-number">5</span>
                     <span class="step-label">Confirmação</span>
+                </div>
+            </div>
+
+            <!-- Mensagem de Sucesso (inicialmente oculta) -->
+            <div id="success-message" class="success-message hidden">
+                <h2>Marcação Concluída</h2>
+                <p>A sua marcação foi concluída com sucesso!</p>
+                <p>Receberá uma confirmação no seu e-mail em breve.</p>
+                <div class="step-navigation">
+                    <a href="index.php" class="cta-button home-btn">Voltar à Página Inicial</a>
+                    <a href="marcacoes.php" class="cta-button">Fazer Nova Marcação</a>
                 </div>
             </div>
 

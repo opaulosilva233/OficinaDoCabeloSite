@@ -258,34 +258,6 @@ p {
     border-radius: 5px;
 }
 
-/* Janela Flutuante para Resumo das Escolhas */
-.summary-window {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #fff;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    border: 1px solid #d4a373;
-    font-size: 0.9rem;
-    color: #666;
-    line-height: 1.4;
-    max-width: 250px;
-    display: none; /* Inicialmente oculta */
-    z-index: 1000;
-}
-
-.summary-window p {
-    margin: 5px 0;
-    font-style: italic;
-}
-
-.summary-window span {
-    color: #d4a373;
-    font-weight: bold;
-}
-
 /* Barbeiros */
 .barbers {
     display: flex;
@@ -649,26 +621,31 @@ p {
     max-width: 600px;
 }
 
-/* Footer */
-#site-footer {
-    background-color: #333;
-    color: #fff;
+/* Mensagem de Sucesso */
+.success-message {
     text-align: center;
-    padding: 20px;
-    position: relative;
-    z-index: 500; /* Menor que o z-index da summary-window */
+    background: #f7f7f7;
+    padding: 30px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    display: none; /* Inicialmente oculta */
 }
 
-#site-footer .footer-content {
-    max-width: 900px;
-    margin: 0 auto;
+.success-message h2 {
+    color: #d4a373;
+    margin-bottom: 15px;
 }
 
-#site-footer p {
-    margin: 0;
-    font-size: 0.9rem;
-    color: #ccc;
+.success-message p {
+    margin: 10px 0;
+    font-size: 1.2rem;
+    color: #333;
 }
+
+.success-message.active {
+    display: block;
+}
+
 
 /* Responsividade */
 @media (max-width: 768px) {
@@ -715,13 +692,6 @@ p {
 
     .next-btn, .prev-btn, .submit-btn {
         width: 100%;
-    }
-
-    .summary-window {
-        bottom: 10px;
-        right: 10px;
-        max-width: 200px;
-        font-size: 0.8rem;
     }
 
     .confirmation-summary {

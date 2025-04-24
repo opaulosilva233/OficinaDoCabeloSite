@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const confirmName = document.getElementById('confirm-name');
     const confirmPhone = document.getElementById('confirm-phone');
     const confirmEmail = document.getElementById('confirm-email');
+    const successMessage = document.getElementById('success-message');
     
     // Variáveis de controle
     let currentStep = 1;
@@ -31,92 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let selectedBarber = null;
     let selectedDate = null;
     let selectedTime = null;
-
-    // Criar a janela flutuante para o resumo
-    const summaryWindow = document.createElement('div');
-    summaryWindow.classList.add('summary-window');
-    document.body.appendChild(summaryWindow);
-
-    // Função para atualizar a janela flutuante com as escolhas
-    function updateSummaryWindow() {
-        summaryWindow.innerHTML = ''; // Limpa o conteúdo anterior
-
-        // Adiciona informações com base na etapa atual
-        if (selectedService) {
-            const serviceSummary = document.createElement('p');
-            serviceSummary.innerHTML = `Serviço: <span>${selectedService}</span>`;
-            summaryWindow.appendChild(serviceSummary);
-        }
-
-        if (currentStep >= 2 && selectedBarber) {
-            const barberSummary = document.createElement('p');
-            barberSummary.innerHTML = `Barbeiro: <span>${selectedBarber}</span>`;
-            summaryWindow.appendChild(barberSummary);
-        }
-
-        if (currentStep >= 3 && selectedDate && selectedTime) {
-            const dateTimeSummary = document.createElement('p');
-            dateTimeSummary.innerHTML = `Data e Hora: <span>${selectedDate} às ${selectedTime}</span>`;
-            summaryWindow.appendChild(dateTimeSummary);
-        }
-
-        if (currentStep >= 4 && userName.value.trim()) {
-            const nameSummary = document.createElement('p');
-            nameSummary.innerHTML = `Nome: <span>${userName.value.trim()}</span>`;
-            summaryWindow.appendChild(nameSummary);
-        }
-
-        if (currentStep >= 4 && userPhone.value.trim()) {
-            const phoneSummary = document.createElement('p');
-            phoneSummary.innerHTML = `Telemóvel: <span>${userPhone.value.trim()}</span>`;
-            summaryWindow.appendChild(phoneSummary);
-        }
-
-        if (currentStep >= 4 && userEmail.value.trim()) {
-            const emailSummary = document.createElement('p');
-            emailSummary.innerHTML = `E-mail: <span>${userEmail.value.trim()}</span>`;
-            summaryWindow.appendChild(emailSummary);
-        }
-
-        // Mostra a janela flutuante se houver informações
-        summaryWindow.style.display = summaryWindow.children.length > 0 ? 'block' : 'none';
-
-        // Atualiza a posição da janela para evitar sobreposição com o footer
-        adjustSummaryWindowPosition();
-    }
-
-    // Função para ajustar a posição da janela flutuante para não sobrepor o footer
-    function adjustSummaryWindowPosition() {
-        const footer = document.getElementById('site-footer');
-        if (!footer) return; // Se o footer não existir, não faz nada
-
-        const footerRect = footer.getBoundingClientRect();
-        const windowHeight = window.innerHeight;
-        const summaryRect = summaryWindow.getBoundingClientRect();
-
-        // Calcula a posição do topo do footer na viewport
-        const footerTop = footerRect.top;
-        // Calcula a posição da parte inferior da janela flutuante
-        const summaryBottom = summaryRect.bottom;
-
-        // Margem mínima entre a janela e o footer (em pixels)
-        const margin = 10;
-
-        // Se a parte inferior da janela flutuante estiver muito próxima ou sobrepor o footer
-        if (summaryBottom + margin > footerTop) {
-            // Calcula quanto a janela precisa subir para ficar acima do footer
-            const newBottom = windowHeight - footerTop + margin;
-            summaryWindow.style.bottom = `${newBottom}px`;
-        } else {
-            // Volta à posição padrão (20px do fundo)
-            summaryWindow.style.bottom = '20px';
-        }
-    }
-
-    // Adiciona um evento de rolagem para ajustar a posição da janela flutuante
-    window.addEventListener('scroll', adjustSummaryWindowPosition);
-    // Adiciona um evento de redimensionamento para ajustar a posição quando a janela for redimensionada
-    window.addEventListener('resize', adjustSummaryWindowPosition);
 
     // Função para atualizar o resumo na Etapa 5
     const updateConfirmationSummary = () => {
@@ -144,7 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         selectedServiceDisplay.textContent = '';
-        updateSummaryWindow();
         if (step === 5) {
             updateConfirmationSummary();
         }
@@ -336,7 +250,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateTimeSelect([], 'Selecione uma data e um barbeiro');
                 updateNextButtonState(3, false);
             }
-            updateSummaryWindow();
         }
     });
 
@@ -348,7 +261,6 @@ document.addEventListener('DOMContentLoaded', () => {
             serviceInput.value = selectedService;
             console.log('Selected Service:', selectedService);
             updateNextButtonState(1, true);
-            updateSummaryWindow();
         });
     });
 
@@ -364,7 +276,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const formattedDate = formatDateForBackend(new Date(dateField.value));
                 fetchAvailableTimes(selectedBarber, formattedDate);
             }
-            updateSummaryWindow();
         });
     });
 
@@ -372,25 +283,21 @@ document.addEventListener('DOMContentLoaded', () => {
         selectedTime = timeSelect.value;
         updateNextButtonState(3, !!dateField.value && !!timeSelect.value && timeSelect.value !== '');
         console.log('Date Field Value:', dateField.value, 'Time Select Value:', timeSelect.value);
-        updateSummaryWindow();
     });
 
     userName.addEventListener('input', () => {
         validateName();
         updateNextButtonState(4, validateName() && validatePhone() && validateEmail());
-        updateSummaryWindow();
     });
 
     userPhone.addEventListener('input', () => {
         validatePhone();
         updateNextButtonState(4, validateName() && validatePhone() && validateEmail());
-        updateSummaryWindow();
     });
 
     userEmail.addEventListener('input', () => {
         validateEmail();
         updateNextButtonState(4, validateName() && validatePhone() && validateEmail());
-        updateSummaryWindow();
     });
 
     document.querySelectorAll('.next-btn').forEach(btn => {
@@ -465,6 +372,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
         dateInput.value = selectedDate;
         timeInput.value = timeSelect.value;
-        form.submit();
+
+        // Enviar o formulário via AJAX
+        const formData = new FormData(form);
+        try {
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                // Ocultar o formulário e o stepper
+                form.style.display = 'none';
+                document.querySelector('.stepper').style.display = 'none';
+                // Exibir a mensagem de sucesso
+                successMessage.classList.remove('hidden');
+                successMessage.classList.add('active');
+            } else {
+                alert(data.message || 'Erro ao salvar a marcação. Tente novamente.');
+            }
+        } catch (error) {
+            console.error('Erro ao enviar o formulário:', error);
+            alert('Erro ao salvar a marcação. Tente novamente.');
+        }
     });
 });
