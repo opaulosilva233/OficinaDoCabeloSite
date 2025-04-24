@@ -1,6 +1,7 @@
 let chartInstance = null; // Variável global para armazenar o gráfico
 
 function loadChartData(period = 'weekly') {
+    console.log('Período selecionado para o gráfico:', period);
     const chartContainer = document.getElementById('chartContainer');
     const chartLoading = document.getElementById('chartLoading');
     const chartError = document.getElementById('chartError');
@@ -39,67 +40,64 @@ function loadChartData(period = 'weekly') {
             }
 
             console.log('Dados recebidos do servidor:', data);
-            let labels, maxBookingsPerDay;
+            let labels, bookingsData, maxBookingsPerDay;
+
             if (period === 'daily') {
                 labels = ['00h-04h', '04h-08h', '08h-12h', '12h-16h', '16h-20h', '20h-24h'];
                 maxBookingsPerDay = 10;
+                bookingsData = labels.map(slot => {
+                    const slotData = data.find(item => item.time_slot === slot);
+                    return slotData ? slotData.booking_count : 0;
+                });
             } else if (period === 'monthly') {
-                labels = Array.from({ length: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate() }, (_, i) => (i + 1).toString());
+                const daysInMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
+                labels = Array.from({ length: daysInMonth }, (_, i) => (i + 1).toString());
                 maxBookingsPerDay = 50;
+                bookingsData = labels.map(day => {
+                    const dayData = data.find(item => item.day === day);
+                    return dayData ? dayData.booking_count : 0;
+                });
             } else {
                 labels = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
                 maxBookingsPerDay = 30;
+                bookingsData = labels.map(day => {
+                    const dayData = data.find(item => item.day_of_week === day);
+                    return dayData ? dayData.booking_count : 0;
+                });
             }
 
-            const marcadasData = labels.map(label => {
-                let item;
-                if (period === 'daily') {
-                    item = data.find(d => d.time_slot === label);
-                } else if (period === 'monthly') {
-                    item = data.find(d => d.day === parseInt(label));
-                } else {
-                    item = data.find(d => d.day_of_week === label);
-                }
-                return item ? item.marcadas : 0;
-            });
-
-            const concluidasData = labels.map(label => {
-                let item;
-                if (period === 'daily') {
-                    item = data.find(d => d.time_slot === label);
-                } else if (period === 'monthly') {
-                    item = data.find(d => d.day === parseInt(label));
-                } else {
-                    item = data.find(d => d.day_of_week === label);
-                }
-                return item ? item.concluidas : 0;
-            });
-
-            const canceladasData = labels.map(label => {
-                let item;
-                if (period === 'daily') {
-                    item = data.find(d => d.time_slot === label);
-                } else if (period === 'monthly') {
-                    item = data.find(d => d.day === parseInt(label));
-                } else {
-                    item = data.find(d => d.day_of_week === label);
-                }
-                return item ? item.canceladas : 0;
-            });
-
             console.log('Labels:', labels);
-            console.log('Dados do gráfico - Marcadas:', marcadasData);
-            console.log('Dados do gráfico - Concluídas:', concluidasData);
-            console.log('Dados do gráfico - Canceladas:', canceladasData);
+            console.log('Dados do gráfico:', bookingsData);
 
             // Verificar se todos os dados estão zerados
-            const allZero = marcadasData.every(val => val === 0) && concluidasData.every(val => val === 0) && canceladasData.every(val => val === 0);
+            const allZero = bookingsData.every(val => val === 0);
             if (allZero) {
                 console.warn('Todos os dados do gráfico estão zerados. Verifique se há dados na tabela marcacoes para o período selecionado.');
                 chartLoading.style.display = 'none';
                 chartNoData.style.display = 'flex';
                 return;
             }
+
+            // Função para obter a cor da barra com base no número de marcações
+            const getBarColor = (count) => {
+                const minColor = [0, 200, 0];   // Verde (Poucas marcações)
+                const midColor = [255, 165, 0]; // Laranja (Médio)
+                const maxColor = [255, 0, 0];   // Vermelho (Limite)
+                const ratio = Math.min(count / maxBookingsPerDay, 1);
+                let r, g, b;
+
+                if (ratio < 0.5) {
+                    r = Math.round(minColor[0] + ratio * 2 * (midColor[0] - minColor[0]));
+                    g = Math.round(minColor[1] + ratio * 2 * (midColor[1] - minColor[1]));
+                    b = Math.round(minColor[2] + ratio * 2 * (midColor[2] - minColor[2]));
+                } else {
+                    r = Math.round(midColor[0] + (ratio - 0.5) * 2 * (maxColor[0] - midColor[0]));
+                    g = Math.round(midColor[1] + (ratio - 0.5) * 2 * (maxColor[1] - midColor[1]));
+                    b = Math.round(midColor[2] + (ratio - 0.5) * 2 * (maxColor[2] - midColor[2]));
+                }
+
+                return `rgb(${r}, ${g}, ${b})`;
+            };
 
             // Se já existir um gráfico, destrói-o antes de criar outro
             if (chartInstance !== null) {
@@ -111,45 +109,20 @@ function loadChartData(period = 'weekly') {
                 type: 'bar',
                 data: {
                     labels: labels,
-                    datasets: [
-                        {
-                            label: 'Marcadas',
-                            data: marcadasData,
-                            backgroundColor: '#ff9800', // Laranja
-                            borderColor: '#e68900',
-                            borderWidth: 1,
-                            borderRadius: 5,
-                        },
-                        {
-                            label: 'Concluídas',
-                            data: concluidasData,
-                            backgroundColor: '#28a745', // Verde
-                            borderColor: '#218838',
-                            borderWidth: 1,
-                            borderRadius: 5,
-                        },
-                        {
-                            label: 'Canceladas',
-                            data: canceladasData,
-                            backgroundColor: '#dc3545', // Vermelho
-                            borderColor: '#c82333',
-                            borderWidth: 1,
-                            borderRadius: 5,
-                        }
-                    ]
+                    datasets: [{
+                        label: 'Número de Marcações',
+                        data: bookingsData,
+                        backgroundColor: bookingsData.map(getBarColor),
+                        borderColor: '#b5855f',
+                        borderWidth: 1,
+                        borderRadius: 5,
+                    }]
                 },
                 options: {
-                    responsive: true,
+                    responsive: false,
                     maintainAspectRatio: false,
                     scales: {
-                        x: {
-                            stacked: true,
-                            grid: {
-                                display: false
-                            }
-                        },
                         y: {
-                            stacked: true,
                             beginAtZero: true,
                             max: maxBookingsPerDay,
                             ticks: {
@@ -158,34 +131,52 @@ function loadChartData(period = 'weekly') {
                             grid: {
                                 color: '#ddd'
                             }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
                         }
                     },
                     plugins: {
                         legend: {
                             display: true,
-                            position: 'top',
                             labels: {
                                 font: {
                                     size: 14
-                                }
-                            }
-                        },
-                        tooltip: {
-                            backgroundColor: '#2b2b2b',
-                            titleColor: '#fff',
-                            bodyColor: '#d4a373',
-                            borderColor: '#d4a373',
-                            borderWidth: 1,
-                            cornerRadius: 5,
-                            callbacks: {
-                                label: function(context) {
-                                    return `${context.dataset.label}: ${context.parsed.y}`;
                                 }
                             }
                         }
                     }
                 }
             });
+
+            // Garante que a legenda personalizada apareça
+            setTimeout(() => {
+                const legendContainer = document.getElementById('chartLegend');
+                if (legendContainer) {
+                    legendContainer.innerHTML = `
+                        <div style="display: flex; justify-content: center; gap: 15px; margin-top: 10px; font-size: 14px;">
+                            <div style="display: flex; align-items: center;">
+                                <div style="width: 20px; height: 20px; background-color: rgb(0,200,0); margin-right: 5px;"></div>
+                                <span>Poucas marcações</span>
+                            </div>
+                            <div style="display: flex; align-items: center;">
+                                <div style="width: 20px; height: 20px; background-color: rgb(255,165,0); margin-right: 5px;"></div>
+                                <span>Moderado</span>
+                            </div>
+                            <div style="display: flex; align-items: center;">
+                                <div style="width: 20px; height: 20px; background-color: rgb(255,69,0); margin-right: 5px;"></div>
+                                <span>Elevado</span>
+                            </div>
+                            <div style="display: flex; align-items: center;">
+                                <div style="width: 20px; height: 20px; background-color: rgb(255,0,0); margin-right: 5px;"></div>
+                                <span>No limite</span>
+                            </div>
+                        </div>
+                    `;
+                }
+            }, 500);
 
             // Esconder loading
             chartLoading.style.display = 'none';
