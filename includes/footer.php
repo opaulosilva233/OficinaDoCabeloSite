@@ -13,7 +13,7 @@
     <!-- Incluindo Font Awesome para os ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<footer>
+<footer id="site-footer">
     <div class="footer-container">
         <!-- Início da Secção de Links Rápidos -->
         <div class="footer-section links">

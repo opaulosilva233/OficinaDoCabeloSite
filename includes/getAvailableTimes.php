@@ -19,6 +19,9 @@ if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
     exit;
 }
 
+// Log dos parâmetros recebidos
+error_log("Parâmetros recebidos: barbeiro=$barber, data=$date");
+
 // Lista de horários disponíveis (baseado no horário de funcionamento)
 $allSlots = [
     '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
@@ -29,15 +32,26 @@ $allSlots = [
 
 // Buscar horários já ocupados na tabela marcacoes
 try {
-    $stmt = $pdo->prepare("SELECT horario_marcacao FROM marcacoes WHERE barbeiro = ? AND data_marcacao = ? AND estado = 'marcada'");
+    // Usar TIME_FORMAT para retornar o horário no formato HH:MM
+    $stmt = $pdo->prepare("SELECT TIME_FORMAT(horario_marcacao, '%H:%i') AS horario_marcacao 
+                           FROM marcacoes 
+                           WHERE TRIM(barbeiro) = ? AND data_marcacao = ? AND estado = 'marcada'");
     $stmt->execute([$barber, $date]);
     $bookedSlots = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
-    // Normalizar os horários ocupados removendo espaços
-    $bookedSlots = array_map('trim', $bookedSlots);
+    // Log temporário para depuração
+    error_log("Horários ocupados para barbeiro=$barber, data=$date: " . json_encode($bookedSlots));
+
+    // Verificar se os horários ocupados estão no formato correto
+    if (empty($bookedSlots)) {
+        error_log("Nenhum horário ocupado encontrado para barbeiro=$barber, data=$date. Verifique os dados na tabela marcacoes.");
+    }
 
     // Filtrar os horários disponíveis, removendo os já ocupados
     $availableSlots = array_diff($allSlots, $bookedSlots);
+
+    // Log temporário para depuração
+    error_log("Horários disponíveis para barbeiro=$barber, data=$date: " . json_encode($availableSlots));
 
     // Ordenar os horários disponíveis
     sort($availableSlots);
@@ -48,6 +62,7 @@ try {
         echo json_encode(['success' => true, 'slots' => array_values($availableSlots)]);
     }
 } catch (PDOException $e) {
+    error_log("Erro PDO: " . $e->getMessage());
     echo json_encode(['success' => false, 'message' => 'Erro ao buscar horários: ' . $e->getMessage()]);
 }
 ?>

@@ -24,35 +24,99 @@ document.addEventListener('DOMContentLoaded', () => {
     const confirmName = document.getElementById('confirm-name');
     const confirmPhone = document.getElementById('confirm-phone');
     const confirmEmail = document.getElementById('confirm-email');
+    
+    // Variáveis de controle
     let currentStep = 1;
     let selectedService = null;
     let selectedBarber = null;
+    let selectedDate = null;
+    let selectedTime = null;
 
     // Criar a janela flutuante para o resumo
     const summaryWindow = document.createElement('div');
     summaryWindow.classList.add('summary-window');
     document.body.appendChild(summaryWindow);
 
-    // Função para atualizar a janela de resumo
-    const updateSummaryWindow = () => {
-        let summaryContent = '';
+    // Função para atualizar a janela flutuante com as escolhas
+    function updateSummaryWindow() {
+        summaryWindow.innerHTML = ''; // Limpa o conteúdo anterior
+
+        // Adiciona informações com base na etapa atual
         if (selectedService) {
-            summaryContent += `<p>Serviço: <span>${selectedService}</span></p>`;
-        }
-        if (selectedBarber) {
-            summaryContent += `<p>Barbeiro: <span>${selectedBarber}</span></p>`;
-        }
-        if (dateField.value) {
-            const formattedDate = formatDate(new Date(dateField.value));
-            summaryContent += `<p>Data: <span>${formattedDate}</span></p>`;
-        }
-        if (timeSelect.value) {
-            summaryContent += `<p>Horário: <span>${timeSelect.value}</span></p>`;
+            const serviceSummary = document.createElement('p');
+            serviceSummary.innerHTML = `Serviço: <span>${selectedService}</span>`;
+            summaryWindow.appendChild(serviceSummary);
         }
 
-        summaryWindow.innerHTML = summaryContent;
-        summaryWindow.style.display = summaryContent ? 'block' : 'none';
-    };
+        if (currentStep >= 2 && selectedBarber) {
+            const barberSummary = document.createElement('p');
+            barberSummary.innerHTML = `Barbeiro: <span>${selectedBarber}</span>`;
+            summaryWindow.appendChild(barberSummary);
+        }
+
+        if (currentStep >= 3 && selectedDate && selectedTime) {
+            const dateTimeSummary = document.createElement('p');
+            dateTimeSummary.innerHTML = `Data e Hora: <span>${selectedDate} às ${selectedTime}</span>`;
+            summaryWindow.appendChild(dateTimeSummary);
+        }
+
+        if (currentStep >= 4 && userName.value.trim()) {
+            const nameSummary = document.createElement('p');
+            nameSummary.innerHTML = `Nome: <span>${userName.value.trim()}</span>`;
+            summaryWindow.appendChild(nameSummary);
+        }
+
+        if (currentStep >= 4 && userPhone.value.trim()) {
+            const phoneSummary = document.createElement('p');
+            phoneSummary.innerHTML = `Telemóvel: <span>${userPhone.value.trim()}</span>`;
+            summaryWindow.appendChild(phoneSummary);
+        }
+
+        if (currentStep >= 4 && userEmail.value.trim()) {
+            const emailSummary = document.createElement('p');
+            emailSummary.innerHTML = `E-mail: <span>${userEmail.value.trim()}</span>`;
+            summaryWindow.appendChild(emailSummary);
+        }
+
+        // Mostra a janela flutuante se houver informações
+        summaryWindow.style.display = summaryWindow.children.length > 0 ? 'block' : 'none';
+
+        // Atualiza a posição da janela para evitar sobreposição com o footer
+        adjustSummaryWindowPosition();
+    }
+
+    // Função para ajustar a posição da janela flutuante para não sobrepor o footer
+    function adjustSummaryWindowPosition() {
+        const footer = document.getElementById('site-footer');
+        if (!footer) return; // Se o footer não existir, não faz nada
+
+        const footerRect = footer.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        const summaryRect = summaryWindow.getBoundingClientRect();
+
+        // Calcula a posição do topo do footer na viewport
+        const footerTop = footerRect.top;
+        // Calcula a posição da parte inferior da janela flutuante
+        const summaryBottom = summaryRect.bottom;
+
+        // Margem mínima entre a janela e o footer (em pixels)
+        const margin = 10;
+
+        // Se a parte inferior da janela flutuante estiver muito próxima ou sobrepor o footer
+        if (summaryBottom + margin > footerTop) {
+            // Calcula quanto a janela precisa subir para ficar acima do footer
+            const newBottom = windowHeight - footerTop + margin;
+            summaryWindow.style.bottom = `${newBottom}px`;
+        } else {
+            // Volta à posição padrão (20px do fundo)
+            summaryWindow.style.bottom = '20px';
+        }
+    }
+
+    // Adiciona um evento de rolagem para ajustar a posição da janela flutuante
+    window.addEventListener('scroll', adjustSummaryWindowPosition);
+    // Adiciona um evento de redimensionamento para ajustar a posição quando a janela for redimensionada
+    window.addEventListener('resize', adjustSummaryWindowPosition);
 
     // Função para atualizar o resumo na Etapa 5
     const updateConfirmationSummary = () => {
@@ -263,6 +327,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ],
         onChange: (selectedDates, dateStr) => {
             console.log('Data selecionada no Flatpickr:', dateStr);
+            selectedDate = formatDate(new Date(dateStr)); // Armazena a data formatada para exibição
             if (selectedBarber && dateStr) {
                 const formattedDate = formatDateForBackend(new Date(dateStr));
                 console.log('Data formatada para o backend:', formattedDate);
@@ -304,6 +369,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     timeSelect.addEventListener('change', () => {
+        selectedTime = timeSelect.value;
         updateNextButtonState(3, !!dateField.value && !!timeSelect.value && timeSelect.value !== '');
         console.log('Date Field Value:', dateField.value, 'Time Select Value:', timeSelect.value);
         updateSummaryWindow();
@@ -312,14 +378,19 @@ document.addEventListener('DOMContentLoaded', () => {
     userName.addEventListener('input', () => {
         validateName();
         updateNextButtonState(4, validateName() && validatePhone() && validateEmail());
+        updateSummaryWindow();
     });
+
     userPhone.addEventListener('input', () => {
         validatePhone();
         updateNextButtonState(4, validateName() && validatePhone() && validateEmail());
+        updateSummaryWindow();
     });
+
     userEmail.addEventListener('input', () => {
         validateEmail();
         updateNextButtonState(4, validateName() && validatePhone() && validateEmail());
+        updateSummaryWindow();
     });
 
     document.querySelectorAll('.next-btn').forEach(btn => {
@@ -334,9 +405,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.prev-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             if (currentStep > 1) {
+                // Limpar apenas os dados das etapas futuras, mantendo os dados das etapas anteriores
                 if (currentStep === 5) {
-                }
-                if (currentStep === 4) {
+                    // Limpar dados da Etapa 4 (dados pessoais)
                     userName.value = '';
                     userPhone.value = '';
                     userEmail.value = '';
@@ -344,22 +415,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.getElementById('phone-error').textContent = '';
                     document.getElementById('email-error').textContent = '';
                 }
-                if (currentStep >= 3) {
+                if (currentStep >= 4) {
+                    // Limpar dados da Etapa 3 (data e hora)
+                    selectedDate = null;
+                    selectedTime = null;
                     dateField.value = '';
                     timeSelect.innerHTML = '';
                     timeSelect.disabled = true;
                     updateTimeSelect([], 'Selecione uma data e um barbeiro');
                 }
-                if (currentStep >= 2) {
-                    barbers.forEach(b => b.classList.remove('selected'));
+                if (currentStep >= 3) {
+                    // Limpar dados da Etapa 2 (barbeiro)
                     selectedBarber = null;
                     barberInput.value = '';
+                    barbers.forEach(b => b.classList.remove('selected'));
                 }
-                if (currentStep >= 1) {
-                    optionButtons.forEach(btn => btn.classList.remove('selected'));
-                    selectedService = null;
-                    serviceInput.value = '';
-                }
+                // Não limpar selectedService ao voltar para a Etapa 1
                 updateStep(currentStep - 1);
             }
         });
