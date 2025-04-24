@@ -1,111 +1,193 @@
 /* Estilo geral do body */
 body {
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* Estilo do conteúdo principal */
 .content {
-    margin-left: 220px; /* Espaço para a navbar lateral */
+    margin-left: 220px;
     padding: 20px;
-    margin-top: 60px; /* Garante que o conteúdo comece abaixo da navbar superior */
+    margin-top: 60px;
 }
 
 /* Contêiner principal da Dashboard */
 .dashboard-container {
     margin-left: 220px;
-    padding: 20px;
+    padding: 40px;
     margin-top: 60px;
 }
+
 .dashboard-container h1 {
     font-size: 32px;
-    margin-bottom: 20px;
-    color: #444;
-}
-.dashboard-container p {
-    font-size: 16px;
-    line-height: 1.6;
-    color: #666;
+    margin-bottom: 30px;
+    color: #333;
+    background: linear-gradient(to right, #d4a373, #b88c5f);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-/* Estilo dos cartões da dashboard */
-.dashboard-cards {
+/* Filtro de Período */
+.filter-container {
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    margin-top: 20px;
-    justify-content: center; /* Centraliza os cartões */
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
 }
-.dashboard-card {
-    background-color: #fff;
+
+.filter-container label {
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+    line-height: 40px; /* Alinhar verticalmente com os outros elementos */
+}
+
+.filter-container select {
+    padding: 8px 12px;
     border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    width: calc(33.333% - 20px);
+    border-radius: 5px;
+    font-size: 16px;
+    color: #333;
+    background-color: #fff;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+    height: 40px;
     box-sizing: border-box;
-    transition: transform 0.3s, box-shadow 0.3s;
 }
-.dashboard-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+
+.filter-container select:focus {
+    outline: none;
+    border-color: #d4a373;
+    box-shadow: 0 0 5px rgba(212, 163, 115, 0.3);
 }
-.dashboard-card h3 {
-    font-size: 20px;
-    margin-bottom: 10px;
-    color: #444;
+
+/* Estilo geral para os resumos */
+.summary {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 40px;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+    position: relative;
 }
-.dashboard-card p {
+
+#dailySummary {
+    background: linear-gradient(135deg, #f9f9f9 0%, #f0f0f0 100%);
+}
+
+#weeklySummary {
+    background: linear-gradient(135deg, #f0f0f0 0%, #e8e8e8 100%);
+}
+
+#monthlySummary {
+    background: linear-gradient(135deg, #e8e8e8 0%, #e0e0e0 100%);
+}
+
+.summary h2 {
+    text-align: center;
+    margin-bottom: 5px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    background: linear-gradient(to right, #d4a373, #b88c5f);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    width: 100%;
+}
+
+.summary-note {
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
     font-size: 14px;
-    color: #777;
+    color: #666;
+    font-style: italic;
+    width: 100%;
+    text-align: center;
+}
+
+.summary-item {
+    text-align: center;
+    flex: 1;
+    padding: 10px;
+    border-right: 1px solid #ddd;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.summary-item:last-child {
+    border-right: none;
+}
+
+.summary-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(212, 163, 115, 0.2);
+}
+
+.summary-item h3 {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.summary-item h3 i {
+    font-size: 16px;
+    color: #d4a373;
+}
+
+.summary-item p {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.summary-item p.total {
+    color: #333;
+}
+
+.summary-item p.completed {
+    color: #28a745;
+}
+
+.summary-item p.pending {
+    color: #ff9800;
+}
+
+.summary-item p.canceled {
+    color: #dc3545;
 }
 
 /* Botões da dashboard */
-.dashboard-btn {
-    display: inline-block;
-    padding: 10px 15px;
-    background-color: #d4a373;
+.dashboard-btn, .export-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 15px; /* Ajustado para alinhamento */
+    background: linear-gradient(135deg, #d4a373 0%, #e0b68a 100%);
     color: white;
     text-decoration: none;
     border-radius: 6px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    margin-top: 15px;
+    border: none;
+    transition: background 0.3s ease, transform 0.2s ease;
     font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    height: 40px;
+    box-sizing: border-box;
+    line-height: 40px; /* Alinhar texto verticalmente */
 }
-.dashboard-btn:hover {
-    background-color: #b5855f;
+
+.dashboard-btn:hover, .export-btn:hover {
+    background: linear-gradient(135deg, #e0b68a 0%, #d4a373 100%);
     transform: translateY(-2px);
 }
 
-/* Tabela de dados */
-.dashboard-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-.dashboard-table thead {
-    background-color: #d4a373;
-    color: white;
-    text-align: left;
-}
-.dashboard-table th,
-.dashboard-table td {
-    padding: 12px 15px;
-    border-bottom: 1px solid #ddd;
-}
-.dashboard-table tr:hover {
-    background-color: #f9f9f9;
-}
-.dashboard-table th {
-    font-size: 14px;
-    font-weight: 600;
-}
-.dashboard-table td {
+.dashboard-btn i, .export-btn i {
     font-size: 14px;
 }
 
@@ -113,167 +195,85 @@ body {
 #chartContainer {
     width: 100%;
     height: auto;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
 }
 
-/* Gráfico responsivo - esticado em desktop */
+/* Gráfico responsivo */
 #weeklyChart {
-    width: 100% !important; /* Ocupa toda a largura disponível */
-    height: 400px !important;
-    max-width: 100%;
+    width: 100%;
+    height: 400px;
+    max-width: 1200px;
 }
 
-/* Ajuste do gráfico para telas médias (tablets) */
-@media (max-width: 1024px) {
-    #weeklyChart {
-        width: 90% !important; /* Mantém um pequeno espaçamento */
-    }
+/* Feedback de carregamento e erro */
+.loading, .error, .no-data {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.error {
+    color: #dc3545;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.no-data {
+    color: #666;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.loading i, .error i, .no-data i {
+    font-size: 18px;
 }
 
 /* Ajuste do gráfico para telas menores */
 @media (max-width: 768px) {
-    #weeklyChart {
-        width: 100% !important;
-        height: 300px !important;
-    }
-}
-
-@media (max-width: 480px) {
-    #weeklyChart {
-        width: 100% !important;
-        height: 250px !important;
-    }
-}
-
-/* Cartões de informação */
-.info-cards {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    margin-top: 20px;
-    width: 100%;
-    max-width: 90%;
-    padding-right: 10px;
-    flex-wrap: wrap;
-}
-.info-card {
-    flex: 1;
-    max-width: 300px;
-    padding: 20px;
-    background-color: #f4f4f4;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    text-align: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-}
-.info-card h3 {
-    font-size: 14px;
-    color: #444;
-}
-.info-card p {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-}
-
-/* Responsividade */
-@media (max-width: 1024px) {
-    .dashboard-container,
-    .content {
-        margin-left: 0;
-        padding: 10px;
-    }
-    .dashboard-cards {
-        justify-content: center;
-    }
-    .dashboard-card {
-        width: calc(50% - 20px);
-    }
-}
-
-@media (max-width: 768px) {
-    .info-cards {
-        flex-direction: column;
-        gap: 10px;
-    }
-    .info-card {
-        width: 100%;
-        max-width: 100%;
-    }
-    .dashboard-card {
-        width: 100%;
-    }
-}
-
-/* Estilo geral para os resumos */
-.summary {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 40px;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 15px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
-}
-
-.summary h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #333; /* Cor destacada para o título */
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-.summary-item {
-    text-align: center;
-    flex: 1; /* Cada item ocupa uma parte igual do espaço disponível */
-    padding: 10px;
-    border-right: 1px solid #ddd; /* Linha divisória entre os itens */
-}
-
-.summary-item:last-child {
-    border-right: none; /* Remove a borda do último item */
-}
-
-.summary-item h3 {
-    font-size: 1rem;
-    color: #555; /* Cor suave para o subtítulo */
-    margin-bottom: 10px;
-}
-
-.summary-item p {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #333; /* Cor mais escura para o número */
-}
-
-/* Responsividade para telas menores */
-@media (max-width: 768px) {
     .summary {
-        flex-direction: column; /* Coloca os itens em coluna */
+        flex-direction: column;
         align-items: center;
-        gap: 20px; /* Espaçamento entre os itens */
+        gap: 20px;
     }
 
     .summary-item {
-        border-right: none; /* Remove as bordas laterais */
-        width: 100%; /* Faz os itens ocuparem toda a largura */
+        border-right: none;
+        width: 100%;
     }
 
     .summary h2 {
-        font-size: 1.2rem; /* Reduz o tamanho do título */
+        font-size: 1.2rem;
+    }
+
+    .summary-note {
+        font-size: 12px;
+        top: 35px;
     }
 
     .summary-item h3 {
-        font-size: 0.9rem; /* Reduz o tamanho do subtítulo */
+        font-size: 0.9rem;
     }
 
     .summary-item p {
-        font-size: 1.2rem; /* Reduz o tamanho do número */
+        font-size: 1.2rem;
+    }
+
+    #weeklyChart {
+        width: 100%;
+        height: 300px;
     }
 }
