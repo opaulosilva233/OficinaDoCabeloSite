@@ -3,25 +3,29 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #333; /* Cor escura de fundo */
+    background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 50%, #d4a373 100%); /* Gradiente com as cores do site */
     color: #f5f5f5;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 /* Animação de zoom-in no conteúdo da página */
 main {
     opacity: 0;
-    animation: zoomIn 1s ease-out forwards; /* Aplica a animação ao main */
+    animation: fadeInUp 1.2s ease-out forwards;
 }
 
-/* Animação de zoom-in */
-@keyframes zoomIn {
+/* Animação de fade-in com leve movimento para cima */
+@keyframes fadeInUp {
     0% {
         opacity: 0;
-        transform: scale(0.8); /* Começa com um tamanho menor */
+        transform: translateY(20px);
     }
     100% {
         opacity: 1;
-        transform: scale(1); /* Chega ao tamanho normal */
+        transform: translateY(0);
     }
 }
 
@@ -29,164 +33,440 @@ main {
 .login-container {
     max-width: 400px;
     margin: 60px auto;
-    background: #444; /* Fundo ligeiramente mais claro para contrastar com o body */
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Sombra mais suave */
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
     text-align: center;
-    overflow: hidden; /* Evita que o conteúdo ultrapasse os limites */
+    overflow: hidden;
+    border: 1px solid rgba(212, 163, 115, 0.3);
 }
 
 /* Título da página */
 .login-container h2 {
-    font-size: 26px;
-    margin-bottom: 15px;
-    color: #f5f5f5; /* Texto mais claro para boa legibilidade */
-    font-weight: 500;
-    letter-spacing: 0.5px;
+    font-size: 28px;
+    margin-bottom: 25px;
+    color: #333;
+    font-weight: 800;
+    letter-spacing: 1px;
+    position: relative;
+    background: linear-gradient(to right, #d4a373, #b88c5f);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
-/* Estilização dos labels do formulário */
-form label {
-    display: block;
-    margin-bottom: 10px;
-    font-size: 16px;
-    color: #555;
-    text-align: left;
-    font-weight: 500;
+/* Ícone no título */
+.title-icon {
+    font-size: 24px;
+    color: #d4a373;
 }
 
-/* Estilização dos inputs do formulário */
-form input {
+/* Sublinhado decorativo abaixo do título */
+.login-container h2::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(to right, #d4a373, #b88c5f);
+    border-radius: 2px;
+}
+
+/* Estilização do grupo de input (para labels flutuantes) */
+.input-group {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+/* Estilização dos inputs */
+.input-group input {
     width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-    border: 1px solid #666; /* Borda mais escura para contraste */
-    border-radius: 6px;
+    padding: 12px 12px 12px 40px;
+    border: 1px solid rgba(212, 163, 115, 0.3);
+    border-radius: 8px;
     font-size: 16px;
-    color: #333; /* Cor do texto mais escura */
-    background-color: #eee; /* Cor de fundo mais clara */
+    color: #333;
+    background-color: rgba(255, 255, 255, 0.9);
     box-sizing: border-box;
-    transition: border-color 0.3s ease;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Foco nos campos de input */
-form input:focus {   
+/* Efeito de glow no foco dos inputs */
+.input-group input:focus {
     border-color: #d4a373;
     outline: none;
     background-color: #fff;
+    box-shadow: 0 0 10px rgba(212, 163, 115, 0.5);
+}
+
+/* Estilização dos labels flutuantes */
+.input-group label {
+    position: absolute;
+    top: 50%;
+    left: 40px;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #999;
+    font-weight: 500;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+/* Quando o input está preenchido ou focado, o label sobe */
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label {
+    top: 0;
+    left: 15px;
+    font-size: 12px;
+    color: #d4a373;
+    background: #fff;
+    padding: 0 5px;
+    transform: translateY(-50%);
+}
+
+/* Ícones dentro dos inputs */
+.input-group input#username {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%23d4a373" viewBox="0 0 16 16"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 2c-2.67 0-8 1.34-8 4v1h16v-1c0-2.66-5.33-4-8-4z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    background-size: 16px;
+}
+
+.input-group input#password {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%23d4a373" viewBox="0 0 16 16"><path d="M5.5 6h5V5a2.5 2.5 0 0 0-5 0v1zm5.5 1H5a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    background-size: 16px;
 }
 
 /* Botões */
-.submit-btn,
-.back-home-btn {
-    display: block;
+.submit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
-    padding: 12px;
-    background-color: #d4a373;
-    border: none;
-    border-radius: 6px;
-    color: white;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, #d4a373 0%, #e0b68a 100%);
+    border: 1px solid rgba(212, 163, 115, 0.5);
+    border-radius: 10px;
+    color: #fff;
     font-size: 16px;
+    font-weight: 700;
     cursor: pointer;
     text-align: center;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: background 0.4s ease-in-out, transform 0.2s ease, box-shadow 0.3s ease;
     box-sizing: border-box;
-    text-decoration: none;
-    }
-
-/* Efeito de hover */
-.submit-btn:hover,
-.back-home-btn:hover {
-    background-color: #b5855f;
-    transform: translateY(-2px);
+    margin-bottom: 15px;
+    box-shadow: 0 4px 15px rgba(212, 163, 115, 0.2);
+    position: relative;
+    overflow: hidden;
 }
-   
-/* Efeito de focus no botão */
-.submit-btn:focus,
+
+/* Efeito de brilho no hover do botão Entrar */
+.submit-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: 0.5s ease;
+}
+
+/* Efeito de glow no hover dos botões */
+.submit-btn:hover {
+    background: linear-gradient(135deg, #e0b68a 0%, #d4a373 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(212, 163, 115, 0.5);
+}
+
+.submit-btn:hover::after {
+    left: 100%;
+}
+
+/* Efeito de focus no botão Entrar */
+.submit-btn:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(212, 163, 115, 0.5);
+}
+
+/* Botão Voltar à Página Inicial */
+.back-home-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, #666 0%, #777 100%);
+    border: 1px solid rgba(102, 102, 102, 0.5);
+    border-radius: 10px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.4s ease-in-out, transform 0.2s ease, box-shadow 0.3s ease;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    gap: 12px;
+    box-shadow: 0 4px 15px rgba(102, 102, 102, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Ícone no botão Voltar à Página Inicial */
+.back-home-btn .fas {
+    font-size: 20px;
+    color: #fff;
+    line-height: 1;
+}
+
+/* Efeito de brilho no hover do botão Voltar */
+.back-home-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: 0.5s ease;
+}
+
+/* Efeito de glow no hover */
+.back-home-btn:hover {
+    background: linear-gradient(135deg, #777 0%, #666 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(102, 102, 102, 0.5);
+}
+
+.back-home-btn:hover::after {
+    left: 100%;
+}
+
+/* Efeito de focus no botão Voltar */
 .back-home-btn:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(212, 163, 115, 0.5);
+    box-shadow: 0 0 10px rgba(102, 102, 102, 0.5);
+}
+
+/* Estilização do erro */
+.error {
+    color: #fff;
+    font-size: 14px;
+    margin-bottom: 20px;
+    text-align: center;
+    background: rgba(255, 0, 0, 0.2);
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    animation: shake 0.5s ease;
+}
+
+/* Ícone na mensagem de erro */
+.error-icon {
+    font-size: 16px;
+    color: #fff;
+}
+
+/* Animação de shake para a mensagem de erro */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
 }
 
 /* Nota de segurança */
 .login-note {
     font-size: 13px;
-    color: #bbb;
+    color: #d4a373;
     margin-top: 15px;
     text-align: center;
-    font-weight: 300;
+    font-weight: 400;
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
-/* Estilização do erro */
-.error {
-    color: red;
-    font-size: 13px;
-    margin-bottom: 15px;
-    text-align: center;
+/* Ícone na nota de segurança */
+.note-icon {
+    font-size: 14px;
+    color: #d4a373;
 }
 
 /* Estilo para o rodapé */
 .footer {
-    width: 100%; /* Garante que o rodapé ocupa toda a largura */
-    position: fixed; /* Mantém o rodapé na parte inferior da janela do navegador */
-    bottom: 0; /* Posiciona na parte inferior */
-    left: 0; /* Posiciona na extremidade esquerda */
-    background-color: #222; /* Fundo mais escuro */
-    padding: 10px 0; /* Adiciona algum espaço interno */
-    text-align: center; /* Centraliza o texto */
-    z-index: 1000; /* Garante que o rodapé fique em cima de outros elementos */
-}
-/* Estilo para o rodapé */
-.footer {
-    transform: translateX(-50%); /* Ajusta para centralizar perfeitamente */
-    text-align: center;
     width: 100%;
+    background: linear-gradient(to top, #222, #2a2a2a);
+    padding: 15px 0;
+    text-align: center;
 }
 
+/* Estilo para o crédito no rodapé */
 .credit {
-    font-size: 0.8rem; /* Tamanho pequeno para ser discreto */
-    color: rgba(255, 255, 255, 0.7); /* Cor clara com transparência */
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
     margin: 0;
-    padding: 10px 0;
-    text-transform: uppercase; /* Deixa o texto em maiúsculas para um toque profissional */
-    letter-spacing: 1px; /* Espaçamento entre letras para um design limpo */
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .credit:hover {
-    color: rgba(255, 255, 255, 1); /* Aumenta a opacidade ao passar o mouse */
-    transition: color 0.3s ease; /* Transição suave */
+    color: rgba(255, 255, 255, 1);
+    transition: color 0.3s ease;
 }
-
 
 /* Media queries para responsividade */
 @media (max-width: 768px) {
     .login-container {
         max-width: 90%;
-        padding: 20px;
+        padding: 25px;
+        margin: 40px auto;
     }
-    
+
     .login-container h2 {
         font-size: 24px;
     }
-    
-    form label {
-        font-size: 15px;
-        margin-bottom: 8px;
+
+    .title-icon {
+        font-size: 20px;
     }
-    
-    form input {
-        padding: 10px;
-        margin-bottom: 15px;
-        font-size: 15px;
+
+    .login-container h2::after {
+        width: 40px;
     }
-    
+
+    .input-group label {
+        font-size: 14px;
+    }
+
+    .input-group input {
+        padding: 10px 10px 10px 36px;
+        font-size: 15px;
+        background-size: 14px;
+        background-position: 8px center;
+    }
+
+    .input-group input:focus + label,
+    .input-group input:not(:placeholder-shown) + label {
+        font-size: 10px;
+        left: 12px;
+    }
+
     .submit-btn, .back-home-btn {
-        padding: 10px;
+        padding: 12px 18px;
         font-size: 15px;
     }
-    
+
+    .back-home-btn .fas {
+        font-size: 18px;
+    }
+
     .login-note {
+        font-size: 12px;
+    }
+
+    .note-icon {
+        font-size: 12px;
+    }
+
+    .error {
+        font-size: 13px;
+        padding: 8px;
+    }
+
+    .error-icon {
+        font-size: 14px;
+    }
+
+    .footer {
+        padding: 12px 0;
+    }
+
+    .credit {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-container {
+        padding: 20px;
+        margin: 30px auto;
+    }
+
+    .login-container h2 {
+        font-size: 22px;
+    }
+
+    .title-icon {
+        font-size: 18px;
+    }
+
+    .input-group label {
+        font-size: 13px;
+    }
+
+    .input-group input {
+        padding: 8px 8px 8px 32px;
+        font-size: 14px;
+        background-size: 12px;
+        background-position: 8px center;
+    }
+
+    .input-group input:focus + label,
+    .input-group input:not(:placeholder-shown) + label {
+        font-size: 9px;
+        left: 10px;
+    }
+
+    .submit-btn, .back-home-btn {
+        padding: 10px 16px;
+        font-size: 14px;
+    }
+
+    .back-home-btn .fas {
+        font-size: 16px;
+    }
+
+    .login-note {
+        font-size: 11px;
+    }
+
+    .note-icon {
+        font-size: 11px;
+    }
+
+    .error {
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    .error-icon {
         font-size: 12px;
     }
 }
