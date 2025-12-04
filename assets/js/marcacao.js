@@ -29,8 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Simulação de dias cheios (sem horários disponíveis)
     // Em um ambiente real, isso seria obtido via API
     const fullDays = [
-        "2025-04-25", // Exemplo: 25 de abril de 2025 está cheio
-        "2025-04-26", // Exemplo: 26 de abril de 2025 está cheio
+        "2025-04-30", // Exemplo: 25 de abril de 2025 está cheio
     ];
 
     // Variáveis de controle

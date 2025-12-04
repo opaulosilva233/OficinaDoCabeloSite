@@ -39,7 +39,7 @@ body {
     font-size: 16px;
     color: #333;
     font-weight: 600;
-    line-height: 40px; /* Alinhar verticalmente com os outros elementos */
+    line-height: 40px;
 }
 
 .filter-container select {
@@ -86,26 +86,23 @@ body {
 }
 
 .summary h2 {
-    text-align: center;
+    text-align: left;
     margin-bottom: 5px;
     font-size: 1.5rem;
     font-weight: bold;
     background: linear-gradient(to right, #d4a373, #b88c5f);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    width: 100%;
+    width: auto;
 }
 
 .summary-note {
-    position: absolute;
-    top: 40px;
-    left: 50%;
-    transform: translateX(-50%);
+    text-align: left; /* Alinhar à esquerda */
     font-size: 14px;
     color: #666;
     font-style: italic;
-    width: 100%;
-    text-align: center;
+    margin-bottom: 20px; /* Espaço abaixo da nota */
+    width: auto;
 }
 
 .summary-item {
@@ -167,7 +164,7 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 0 15px; /* Ajustado para alinhamento */
+    padding: 0 15px;
     background: linear-gradient(135deg, #d4a373 0%, #e0b68a 100%);
     color: white;
     text-decoration: none;
@@ -179,7 +176,7 @@ body {
     cursor: pointer;
     height: 40px;
     box-sizing: border-box;
-    line-height: 40px; /* Alinhar texto verticalmente */
+    line-height: 40px;
 }
 
 .dashboard-btn:hover, .export-btn:hover {
@@ -232,7 +229,7 @@ body {
 
 .no-data {
     color: #666;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 2500, 0.9);
     padding: 10px 20px;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -261,7 +258,7 @@ body {
 
     .summary-note {
         font-size: 12px;
-        top: 35px;
+        margin-bottom: 15px;
     }
 
     .summary-item h3 {
