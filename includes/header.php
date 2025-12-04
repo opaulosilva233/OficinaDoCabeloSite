@@ -1,51 +1,30 @@
 <?php
-// Start the session
-session_start();
-if (!isset($path_prefix)) {
-    $path_prefix = './';
-}
-?><!-- Início do cabeçalho HTML -->
-<!DOCTYPE html>
-<html lang="pt-PT"> <!-- Especifica que o idioma da página é português de Portugal -->
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo $path_prefix; ?>assets/css/header.css"> <!-- Liga o ficheiro CSS do cabeçalho -->
-    <link rel="stylesheet" href="<?php echo $path_prefix; ?>assets/css/darkMode.css">
-    <link rel="icon" href="<?php echo $path_prefix; ?>assets/img/logotipo.png" type="image/x-icon"> <!-- Define o ícone da página (favicon) -->
-    <title>Oficina do Cabelo</title>
-    <script src="<?php echo $path_prefix; ?>assets/js/darkMode.js"></script>
-
-</head>
-<body>
-    <!-- Início do cabeçalho -->
-    <header>
-        <!-- Secção da logo -->
-        <div class="logo">
-            <a href="<?php echo $path_prefix; ?>index.php" class="logo"> <!-- Link para a página inicial -->
-                <img src="<?php echo $path_prefix; ?>assets/img/logotipo.png" alt="Logótipo da Barbearia"> <!-- Exibe a logo da barbearia -->
-                <span>Oficina do Cabelo</span>
-            </a>
-        </div>
-        <!-- Secção da navegação -->
-        <nav>
-            <!-- Ícone Hamburger (para dispositivos móveis) -->
-            <div class="hamburger" id="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <!-- Menu principal -->
-            <ul id="menu" class="menu">
-                <li><a href="<?php echo $path_prefix; ?>pages/sobre.php">Sobre Nós</a></li> <!-- Caminho atualizado com './' -->
-                <li><a href="<?php echo $path_prefix; ?>pages/contacto.php">Contactos</a></li> <!-- Caminho atualizado com './' -->
-                <li><a href="<?php echo $path_prefix; ?>pages/marcacoes.php">Marcações</a></li> <!-- Caminho atualizado com './' -->
-                <li>
-                    <div class="dark-mode-toggle"><button id="dark-mode-toggle"></button></div>
-                </li>
-            </ul>
-        </nav>
-    </header>
-    <!-- Inclusão do script JavaScript para o menu de navegação -->
-    <script src="<?php echo $path_prefix; ?>assets/js/navMenu.js"></script> 
-</body>
+$path_prefix = './';
+?>
+<header>
+    <div class="logo">
+        <a href="index.php?route=home">
+            <img src="assets/img/logotipo.png" alt="Oficina do Cabelo">
+            <span>Oficina do Cabelo</span>
+        </a>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="index.php?route=home">Início</a></li>
+            <li><a href="index.php?route=sobre">Sobre</a></li>
+            <li><a href="index.php?route=contacto">Contactos</a></li>
+            <li><a href="index.php?route=marcacoes" class="btn-marcacao">Marcações</a></li>
+            <li><a href="index.php?route=login" class="btn-login"><i class="fas fa-user"></i> Login</a></li>
+        </ul>
+    </nav>
+    <div class="dark-mode-toggle">
+        <input type="checkbox" id="darkModeSwitch">
+        <label for="darkModeSwitch">
+            <i class="fas fa-moon"></i>
+            <i class="fas fa-sun"></i>
+        </label>
+    </div>
+</header>
+<link rel="stylesheet" href="assets/css/header.css">
+<link rel="stylesheet" href="assets/css/darkMode.css">
+<script src="assets/js/darkMode.js"></script>

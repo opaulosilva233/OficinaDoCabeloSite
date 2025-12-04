@@ -20,6 +20,13 @@ $name = isset($_POST['name']) ? trim($_POST['name']) : '';
 $phone = isset($_POST['phone']) ? trim($_POST['phone']) : '';
 $email = isset($_POST['email']) ? trim($_POST['email']) : '';
 
+// Validar CSRF
+require_once 'CSRF.php';
+if (!isset($_POST['csrf_token']) || !CSRF::verifyToken($_POST['csrf_token'])) {
+    echo json_encode(['success' => false, 'message' => 'Erro de segurança (CSRF). Recarregue a página.']);
+    exit;
+}
+
 try {
     // Validar os dados
     if (empty($service) || empty($barber) || empty($date) || empty($time) || empty($name) || empty($phone) || empty($email)) {

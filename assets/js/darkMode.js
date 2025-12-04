@@ -3,30 +3,32 @@
  * Este ficheiro contém a lógica para o modo escuro da aplicação.
  */
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const body = document.body;
-    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const darkModeSwitch = document.getElementById('darkModeSwitch');
 
     // Verifica se o tema está guardado no LocalStorage
     const currentTheme = localStorage.getItem('theme');
-    if (currentTheme) {
-        body.classList.add(currentTheme);
-    }
 
-    // Adiciona um event listener para o botão
-    if (darkModeToggle) {
-        darkModeToggle.addEventListener('click', toggleDarkMode);
-    }
-
-    function toggleDarkMode() {
-        // Toggle na classe dark-mode no body
-        body.classList.toggle('dark-mode');
-
-        // Guarda o estado do tema no LocalStorage
-        if (body.classList.contains('dark-mode')) {
-            localStorage.setItem('theme', 'dark-mode');
-        } else {
-            localStorage.removeItem('theme');
+    // Se o tema guardado for 'dark-mode', aplica-o e marca o checkbox
+    if (currentTheme === 'dark-mode') {
+        body.classList.add('dark-mode');
+        if (darkModeSwitch) {
+            darkModeSwitch.checked = true;
         }
+    }
+    // Se não houver tema guardado ou for diferente de 'dark-mode', assume light mode (padrão)
+
+    // Adiciona um event listener para o switch (evento 'change' para checkboxes)
+    if (darkModeSwitch) {
+        darkModeSwitch.addEventListener('change', function () {
+            if (this.checked) {
+                body.classList.add('dark-mode');
+                localStorage.setItem('theme', 'dark-mode');
+            } else {
+                body.classList.remove('dark-mode');
+                localStorage.removeItem('theme');
+            }
+        });
     }
 });

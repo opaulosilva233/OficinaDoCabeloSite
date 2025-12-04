@@ -12,13 +12,16 @@ class Auth {
     }
 
     public function login($username, $password) {
-        $sql = "SELECT * FROM login WHERE username = :username AND password = :password";
+        $sql = "SELECT * FROM login WHERE username = :username";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([':username' => $username, ':password' => $password]);
-        
-        if ($stmt->rowCount() > 0) {
+        $stmt->execute([':username' => $username]);
+        $user = $stmt->fetch();
+
+        if ($user && password_verify($password, $user['password'])) {
             $_SESSION['logged_in'] = true;
             $_SESSION['username'] = $username;
+            // Regenerate session ID to prevent session fixation
+            session_regenerate_id(true);
             return true;
         }
         return false;
@@ -35,7 +38,10 @@ class Auth {
 
     public function requireLogin() {
         if (!$this->isLoggedIn()) {
-            header("Location: ../pages/login.php");
+            // Adjust path based on where this is called. 
+            // In MVC, we might redirect to index.php?route=login
+            // For now, keep relative path or absolute path logic
+            header("Location: /pages/login.php"); 
             exit();
         }
     }

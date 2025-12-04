@@ -1,73 +1,42 @@
 <?php
-/**
- * Este ficheiro contém o código HTML para o rodapé (footer) da página web.
- * O rodapé inclui seções de links rápidos, redes sociais, login, horário de funcionamento e direitos autorais.
- */
-if (!isset($path_prefix)) {
-    $path_prefix = './';
-}
+$path_prefix = './';
 ?>
-<!DOCTYPE html>
-<html lang="pt-PT"> <!-- Indica que a página está em português de Portugal -->
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo $path_prefix; ?>assets/css/footer.css"> <!-- Liga o ficheiro CSS do rodapé -->
-    <!-- Incluindo Font Awesome para os ícones -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<footer id="site-footer">
+<footer>
     <div class="footer-container">
-        <!-- Início da Secção de Links Rápidos -->
-        <div class="footer-section links">
-            <h4>Links Rápidos</h4>
+        <div class="footer-section">
+            <h3>Links Úteis</h3>
             <ul>
-                <li><a href="<?php echo $path_prefix; ?>index.php">Início</a></li> <!-- Caminho atualizado -->
-                <li><a href="<?php echo $path_prefix; ?>pages/sobre.php">Sobre Nós</a></li> <!-- Caminho atualizado -->
-                <li><a href="<?php echo $path_prefix; ?>pages/contacto.php">Contactos</a></li> <!-- Caminho atualizado -->
-                <li><a href="<?php echo $path_prefix; ?>pages/marcacoes.php">Marcações</a></li> <!-- Caminho atualizado -->
-                <li><a href="<?php echo $path_prefix; ?>pages/rgpd.php">Política de Privacidade</a></li> <!-- Caminho atualizado -->
+                <li><a href="index.php?route=home">Início</a></li>
+                <li><a href="index.php?route=sobre">Sobre</a></li>
+                <li><a href="index.php?route=contacto">Contactos</a></li>
+                <li><a href="index.php?route=marcacoes">Marcações</a></li>
+                <li><a href="index.php?route=login">Login</a></li>
             </ul>
         </div>
-
-        <!-- Horário de Funcionamento -->
-        <div class="footer-section opening-hours">
-            <h4>Horário de Funcionamento</h4>
-            <ul class="opening-hours-list">
-                <li>Segunda a Sexta: 9h às 19h</li>
-                <li>Sábado: 9h às 13h</li>
-                <li>Domingo: Encerrado</li>
+        <div class="footer-section">
+            <h3>Legal</h3>
+            <ul>
+                <li><a href="index.php?route=rgpd">Política de Privacidade (RGPD)</a></li>
             </ul>
         </div>
-
-        <!-- Secção de Redes Sociais -->
-        <div class="footer-section social-media">
-            <h4>Siga-nos</h4>
+        <div class="footer-section">
+            <h3>Redes Sociais</h3>
             <ul class="social-links">
-                <li>
-                    <a href="https://www.instagram.com/boficinadocabelo/" target="_blank" class="social-icon">
-                        <i class="fab fa-instagram"></i> Instagram
-                    </a>
-                </li>
-                <li>
-                    <a href="https://www.facebook.com/BOficinadoCabelo/" target="_blank" class="social-icon">
-                        <i class="fab fa-facebook-f"></i> Facebook
-                    </a>
-                </li>
+                <li><a href="https://facebook.com" target="_blank" class="social-icon"><i class="fab fa-facebook"></i> Facebook</a></li>
+                <li><a href="https://instagram.com" target="_blank" class="social-icon"><i class="fab fa-instagram"></i> Instagram</a></li>
             </ul>
         </div>
-
-        <!-- Secção de Login -->
-        <div class="footer-section login">
-            <h4>Login</h4>
-            <ul>
-                <li><a href="<?php echo $path_prefix; ?>pages/login.php">Área dos Barbeiros</a></li> <!-- Caminho atualizado -->
+        <div class="footer-section">
+            <h3>Horário</h3>
+            <ul class="opening-hours-list">
+                <li>Seg - Sex: 09:00 - 19:00</li>
+                <li>Sáb: 09:00 - 13:00</li>
+                <li>Dom: Fechado</li>
             </ul>
-        </div>
-
-        <!-- Rodapé Inferior com Informação de Direitos Reservados -->
-        <div class="footer-bottom">
-            <p>© <?php echo date("Y"); ?> Oficina do Cabelo. Todos os direitos reservados.</p>
         </div>
     </div>
+    <div class="footer-bottom">
+        <p>Oficina do Cabelo - A sua barbearia de confiança. &nbsp;|&nbsp; &copy; <?= date('Y') ?> Todos os direitos reservados.</p>
+    </div>
 </footer>
+<link rel="stylesheet" href="assets/css/footer.css">

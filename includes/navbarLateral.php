@@ -1,3 +1,8 @@
+<?php
+// This file is now included from index.php (root)
+// So paths should be relative to root
+$path_prefix = './'; 
+?>
 <div class="sidebar">
     <div class="logo-details">
         <img src="<?= $path_prefix ?>assets/img/logotipo2.png" alt="Logo" class="logo_img">
@@ -6,28 +11,28 @@
     </div>
     <ul class="nav-list">
         <li>
-            <a href="<?= $path_prefix ?>pages/dashboard.php">
+            <a href="<?= $path_prefix ?>index.php?route=dashboard">
                 <i class="fas fa-th-large"></i>
                 <span class="links_name">Dashboard</span>
             </a>
             <span class="tooltip">Dashboard</span>
         </li>
         <li>
-            <a href="<?= $path_prefix ?>pages/barbeiro_agenda.php?barber=Bruno%20Martins">
+            <a href="<?= $path_prefix ?>index.php?route=agenda&barber=Bruno%20Martins">
                 <i class="fas fa-user"></i>
                 <span class="links_name">Bruno Martins</span>
             </a>
             <span class="tooltip">Bruno Martins</span>
         </li>
         <li>
-            <a href="<?= $path_prefix ?>pages/barbeiro_agenda.php?barber=Hugo%20Alves">
+            <a href="<?= $path_prefix ?>index.php?route=agenda&barber=Hugo%20Alves">
                 <i class="fas fa-user"></i>
                 <span class="links_name">Hugo Alves</span>
             </a>
             <span class="tooltip">Hugo Alves</span>
         </li>
         <li>
-            <a href="<?= $path_prefix ?>pages/todasMarcacoes.php">
+            <a href="<?= $path_prefix ?>index.php?route=all">
                 <i class="fas fa-calendar-alt"></i>
                 <span class="links_name">Todas as Marcações</span>
             </a>
@@ -41,7 +46,7 @@
                     <div class="job">Barbearia</div>
                 </div>
             </div>
-            <a href="<?= $path_prefix ?>pages/logout.php" id="log_out">
+            <a href="<?= $path_prefix ?>index.php?route=logout" id="log_out">
                 <i class="fas fa-sign-out-alt"></i>
             </a>
         </li>

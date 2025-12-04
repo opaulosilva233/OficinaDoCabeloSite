@@ -1,4 +1,4 @@
-<?php $path_prefix = '../'; ?>
+<?php $path_prefix = './'; ?>
 <?php include('../includes/header.php'); ?>
 <!DOCTYPE html>
 <html lang="pt-PT">
