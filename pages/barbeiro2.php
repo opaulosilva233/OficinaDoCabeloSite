@@ -1,6 +1,7 @@
 <?php
+$path_prefix = '../';
 // Incluir a ligação à base de dados
-include './includes/db.php';
+include '../includes/db.php';
 try {
     // Obtém a data e hora atuais
     $data_atual = date('Y-m-d');
@@ -76,11 +77,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id']) && isset($_POST
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hugo Alves - Marcações</title>
     <!-- Link para o CSS -->
-    <link rel="stylesheet" href="./css/barbeiro1.css">
+    <link rel="stylesheet" href="../assets/css/barbeiro1.css">
 </head>
 <body>
     <!-- Incluir a Barra Lateral -->
-    <?php include './includes/navbarLateral.php'; ?>
+    <?php include '../includes/navbarLateral.php'; ?>
     <div class="container">
         <h1>Marcações - Hugo Alves</h1>
         <!-- Botão de Alternância -->
@@ -186,6 +187,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id']) && isset($_POST
 </div>
     </div>
     <!-- Script para alternar entre tabelas -->
-    <script src="./js/barbeirosMarc.js"></script>
+    <script src="../assets/js/barbeirosMarc.js"></script>
 </body>
 </html>

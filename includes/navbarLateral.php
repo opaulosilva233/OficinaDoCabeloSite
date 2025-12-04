@@ -1,3 +1,8 @@
+<?php
+if (!isset($path_prefix)) {
+    $path_prefix = './';
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
@@ -5,15 +10,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel de Controlo</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="stylesheet" href="./css/navbarLateral.css">
-    <link rel="icon" href="./img/logotipo2.png" type="image/x-icon">
+    <link rel="stylesheet" href="<?php echo $path_prefix; ?>assets/css/navbarLateral.css">
+    <link rel="icon" href="<?php echo $path_prefix; ?>assets/img/logotipo2.png" type="image/x-icon">
 </head>
 <body>
   <!-- Barra de Navegação Superior -->
   <header class="top-navbar">
       <div class="logo">
-          <a href="./dashboard.php" class="logo">
-              <img src="./img/logotipo.png" alt="Logótipo da Barbearia">
+          <a href="<?php echo $path_prefix; ?>pages/dashboard.php" class="logo">
+              <img src="<?php echo $path_prefix; ?>assets/img/logotipo.png" alt="Logótipo da Barbearia">
               <span>Painel de Controlo</span>
           </a>
       </div>
@@ -31,7 +36,7 @@
               <span class="section-title">Visão Geral</span>
               <ul>
                   <li>
-                      <a href="./dashboard.php" class="sidebar-link" title="Visão geral da dashboard">
+                      <a href="<?php echo $path_prefix; ?>pages/dashboard.php" class="sidebar-link" title="Visão geral da dashboard">
                           <i class="fas fa-tachometer-alt"></i> Geral
                           <span class="loading-icon"><i class="fas fa-spinner fa-spin"></i></span>
                       </a>
@@ -42,13 +47,13 @@
               <span class="section-title">Barbeiros</span>
               <ul>
                   <li>
-                      <a href="./barbeiro1.php" class="sidebar-link" title="Ver agenda de Bruno Martins">
+                      <a href="<?php echo $path_prefix; ?>pages/barbeiro1.php" class="sidebar-link" title="Ver agenda de Bruno Martins">
                           <i class="fas fa-user"></i> Bruno Martins
                           <span class="loading-icon"><i class="fas fa-spinner fa-spin"></i></span>
                       </a>
                   </li>
                   <li>
-                      <a href="./barbeiro2.php" class="sidebar-link" title="Ver agenda de Hugo Alves">
+                      <a href="<?php echo $path_prefix; ?>pages/barbeiro2.php" class="sidebar-link" title="Ver agenda de Hugo Alves">
                           <i class="fas fa-user"></i> Hugo Alves
                           <span class="loading-icon"><i class="fas fa-spinner fa-spin"></i></span>
                       </a>
@@ -59,13 +64,13 @@
               <span class="section-title">Outros</span>
               <ul>
                   <li>
-                      <a href="./todasMarcacoes.php" class="sidebar-link" title="Ver todas as marcações">
+                      <a href="<?php echo $path_prefix; ?>pages/todasMarcacoes.php" class="sidebar-link" title="Ver todas as marcações">
                           <i class="fas fa-calendar-alt"></i> Todas as Marcações
                           <span class="loading-icon"><i class="fas fa-spinner fa-spin"></i></span>
                       </a>
                   </li>
                   <li>
-                      <a href="./logout.php" class="sidebar-link logout-link" title="Terminar a sessão atual">
+                      <a href="<?php echo $path_prefix; ?>pages/logout.php" class="sidebar-link logout-link" title="Terminar a sessão atual">
                           <i class="fas fa-sign-out-alt"></i> Terminar Sessão
                           <span class="loading-icon"><i class="fas fa-spinner fa-spin"></i></span>
                       </a>
@@ -86,6 +91,6 @@
       </div>
   </div>
   <!-- Script para o menu hamburger -->
-  <script src="./js/navLatMenu.js"></script>
+  <script src="<?php echo $path_prefix; ?>assets/js/navLatMenu.js"></script>
 </body>
 </html>

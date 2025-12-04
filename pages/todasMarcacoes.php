@@ -1,12 +1,13 @@
+<?php $path_prefix = '../'; ?>
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todas as Marcações</title>
-    <link rel="stylesheet" href="./css/todasMarcacoes.css">
+    <link rel="stylesheet" href="../assets/css/todasMarcacoes.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <?php include './includes/navbarLateral.php'; ?>
+    <?php include '../includes/navbarLateral.php'; ?>
 </head>
 <body>
     <div class="container">
@@ -80,6 +81,6 @@
             </div>
         </div>
     </div>
-    <script src="./js/todasMarcacoes.js"></script>
+    <script src="../assets/js/todasMarcacoes.js"></script>
 </body>
 </html>

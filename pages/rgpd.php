@@ -1,4 +1,5 @@
-<?php include('./includes/header.php'); ?>
+<?php $path_prefix = '../'; ?>
+<?php include('../includes/header.php'); ?>
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
@@ -6,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Política de Privacidade da Oficina do Cabelo. Saiba como tratamos e protegemos os seus dados pessoais de acordo com o RGPD.">
     <title>Política de Privacidade - Oficina do Cabelo</title>
-    <link rel="stylesheet" href="./css/rgpd.css"> <!-- Link para o CSS externo -->
-    <link rel="icon" href="./img/logotipo2.png" type="image/x-icon">
+    <link rel="stylesheet" href="../assets/css/rgpd.css"> <!-- Link para o CSS externo -->
+    <link rel="icon" href="../assets/img/logotipo2.png" type="image/x-icon">
 </head>
 <body>
 

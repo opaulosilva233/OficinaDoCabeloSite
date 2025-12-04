@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terminar Sessão</title>
     <!-- Estilos CSS -->
-    <link rel="stylesheet" href="./css/logout.css">
+    <link rel="stylesheet" href="../assets/css/logout.css">
 </head>
 <body>
     <main>
@@ -14,7 +14,7 @@
             <p>A sua sessão será encerrada em breve. Obrigado por utilizar o nosso sistema!</p>
             <div class="spinner"></div>
             <p class="redirect-message">Será redirecionado em <span id="countdown">5</span> segundos.</p>
-            <a href="/" class="button">Voltar à Página Inicial</a>
+            <a href="../index.php" class="button">Voltar à Página Inicial</a>
         </div>
     </main>
     <!-- Rodapé -->
@@ -31,7 +31,7 @@
             countdownElement.textContent = countdown;
             if (countdown <= 0) {
                 clearInterval(interval);
-                window.location.href = '/'; // Redireciona para a página inicial
+                window.location.href = '../index.php'; // Redireciona para a página inicial
             }
         }, 1000);
     </script>

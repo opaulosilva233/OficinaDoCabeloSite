@@ -1,11 +1,12 @@
-<?php include('./includes/header.php'); ?>
+<?php $path_prefix = '../'; ?>
+<?php include('../includes/header.php'); ?>
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sobre</title>
-    <link rel="stylesheet" href="./css/sobre.css">
+    <link rel="stylesheet" href="../assets/css/sobre.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
@@ -22,7 +23,7 @@
             </div>
         </div>
         <div class="image">
-            <img src="./img/Space.png" alt="Imagem da Barbearia">
+            <img src="../assets/img/Space.png" alt="Imagem da Barbearia">
             <p class="image-caption">Nosso espaço acolhedor em Ermesinde</p>
         </div>
     </section>
@@ -33,7 +34,7 @@
         <div class="barbers-grid">
             <div class="barber">
                 <a href="#" class="barber-link" data-barber="barber1">
-                    <img src="./img/BBarber.png" alt="Barbeiro Bruno Martins em ação na Oficina do Cabelo">
+                    <img src="../assets/img/BBarber.png" alt="Barbeiro Bruno Martins em ação na Oficina do Cabelo">
                 </a>
                 <div class="barber-name">
                     <h3>Bruno Martins</h3>
@@ -41,7 +42,7 @@
             </div>
             <div class="barber">
                 <a href="#" class="barber-link" data-barber="barber2">
-                    <img src="./img/HBarber.png" alt="Barbeiro Hugo Alves em ação na Oficina do Cabelo">
+                    <img src="../assets/img/HBarber.png" alt="Barbeiro Hugo Alves em ação na Oficina do Cabelo">
                 </a>
                 <div class="barber-name">
                     <h3>Hugo Alves</h3>
@@ -64,7 +65,7 @@
         </div>
     </div>
 </main>
-<?php include('./includes/footer.php'); ?>
-<script src="./js/sobre-nos.js"></script>
+<?php include('../includes/footer.php'); ?>
+<script src="../assets/js/sobre-nos.js"></script>
 </body>
 </html>

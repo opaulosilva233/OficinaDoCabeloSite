@@ -1,4 +1,5 @@
 <?php
+$path_prefix = '../';
 /**
  * Página de marcações da barbearia com um stepper para guiar o usuário.
  * Etapas: 1. Tipo de Corte, 2. Barbeiro, 3. Data e Hora, 4. Dados Pessoais, 5. Confirmação.
@@ -12,16 +13,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agendar Marcação - Oficina do Cabelo Barbearia Ermesinde</title>
     <meta name="description" content="Agende sua marcação na Oficina do Cabelo, a melhor barbearia em Ermesinde. Escolha seu barbeiro, data e horário de forma rápida e fácil!">
-    <link rel="stylesheet" href="./css/marcacoes.css">
-    <link rel="icon" href="./img/logotipo.png" type="image/x-icon">
+    <link rel="stylesheet" href="../assets/css/marcacoes.css">
+    <link rel="icon" href="../assets/img/logotipo.png" type="image/x-icon">
     <!-- Adicionando Font Awesome para ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <!-- Adicionando canvas-confetti para animação de confetes -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <script src="./js/marcacao.js" defer></script>
-    <?php include('./includes/header.php'); ?>
+    <script src="../assets/js/marcacao.js" defer></script>
+    <?php include('../includes/header.php'); ?>
 </head>
 <body>
     <main>
@@ -75,13 +76,13 @@
                 <p>A sua marcação foi concluída com sucesso!</p>
                 <p>Receberá uma confirmação no seu e-mail em breve.</p>
                 <div class="step-navigation">
-                    <a href="index.php" class="cta-button home-btn">Voltar à Página Inicial</a>
+                    <a href="../index.php" class="cta-button home-btn">Voltar à Página Inicial</a>
                     <a href="marcacoes.php" class="cta-button">Fazer Nova Marcação</a>
                 </div>
             </div>
 
             <!-- Formulário com Etapas -->
-            <form id="appointment-form" action="./includes/saveBooking.php" method="POST">
+            <form id="appointment-form" action="../includes/saveBooking.php" method="POST">
                 <!-- Etapa 1: Tipo de Corte -->
                 <div class="step-content active" data-step="1">
                     <h2>Selecione o Tipo de Corte</h2>
@@ -161,11 +162,11 @@
                     <p id="selected-service" class="selected-service"></p>
                     <div class="barbers">
                         <div class="barber" data-barber="Bruno Martins">
-                            <img src="./img/BBarber.png" alt="Bruno Martins">
+                            <img src="../assets/img/BBarber.png" alt="Bruno Martins">
                             <p>Bruno Martins</p>
                         </div>
                         <div class="barber" data-barber="Hugo Alves">
-                            <img src="./img/HBarber.png" alt="Hugo Alves">
+                            <img src="../assets/img/HBarber.png" alt="Hugo Alves">
                             <p>Hugo Alves</p>
                         </div>
                     </div>
@@ -230,6 +231,6 @@
             </form>
         </section>
     </main>
-    <?php include('./includes/footer.php'); ?>
+    <?php include('../includes/footer.php'); ?>
 </body>
 </html>

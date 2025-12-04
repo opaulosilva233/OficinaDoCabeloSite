@@ -1,5 +1,6 @@
 <?php
-include('./includes/db.php'); // Inclui o arquivo de ligação à base de dados
+$path_prefix = '../';
+include('../includes/db.php'); // Inclui o arquivo de ligação à base de dados
 session_start();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Receber os dados do formulário
@@ -34,8 +35,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="stylesheet" href="./css/login.css">
-    <link rel="icon" href="./img/logotipo2.png" type="image/x-icon">
+    <link rel="stylesheet" href="../assets/css/login.css">
+    <link rel="icon" href="../assets/img/logotipo2.png" type="image/x-icon">
 </head>
 <body>
 <main>
@@ -52,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <label for="password">Palavra-Passe</label>
             </div>
             <button type="submit" class="submit-btn">Entrar</button>
-            <a href="./index.php" class="back-home-btn"><i class="fas fa-home"></i> Voltar à Página Inicial</a>
+            <a href="../index.php" class="back-home-btn"><i class="fas fa-home"></i> Voltar à Página Inicial</a>
             <!-- Nota abaixo dos botões -->
             <p class="login-note"><i class="fas fa-lock note-icon"></i> Este login só se destina a pessoas autorizadas.</p>
         </form>

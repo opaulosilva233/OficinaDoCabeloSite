@@ -1,4 +1,5 @@
 <?php
+$path_prefix = '../';
 session_start();
 // Verifica se o utilizador está autenticado
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
@@ -6,7 +7,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     exit();
 }
 // Inclui o arquivo de ligação à base de dados
-require_once './includes/db.php';
+require_once '../includes/db.php';
 
 try {
     // Consulta para obter o resumo diário
@@ -101,10 +102,10 @@ $current_date = date('d/m/Y');
     <title>Dashboard</title>
     <!-- Link para o CSS da Dashboard -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="stylesheet" href="./css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
     <!-- Incluindo o Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <?php include('./includes/navbarLateral.php'); ?>
+    <?php include('../includes/navbarLateral.php'); ?>
 </head>
 <body>
 <!-- Layout principal -->
@@ -201,6 +202,6 @@ $current_date = date('d/m/Y');
     </main>
 </div>
 <!-- Script para gerar o gráfico -->
-<script src="./js/chartScript.js"></script>
+<script src="../assets/js/chartScript.js"></script>
 </body>
 </html>

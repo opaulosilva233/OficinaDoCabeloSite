@@ -3,13 +3,16 @@
  * Este ficheiro contém o código HTML para o rodapé (footer) da página web.
  * O rodapé inclui seções de links rápidos, redes sociais, login, horário de funcionamento e direitos autorais.
  */
+if (!isset($path_prefix)) {
+    $path_prefix = './';
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-PT"> <!-- Indica que a página está em português de Portugal -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/footer.css"> <!-- Liga o ficheiro CSS do rodapé -->
+    <link rel="stylesheet" href="<?php echo $path_prefix; ?>assets/css/footer.css"> <!-- Liga o ficheiro CSS do rodapé -->
     <!-- Incluindo Font Awesome para os ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -19,11 +22,11 @@
         <div class="footer-section links">
             <h4>Links Rápidos</h4>
             <ul>
-                <li><a href="./index.php">Início</a></li> <!-- Caminho atualizado -->
-                <li><a href="./sobre.php">Sobre Nós</a></li> <!-- Caminho atualizado -->
-                <li><a href="./contacto.php">Contactos</a></li> <!-- Caminho atualizado -->
-                <li><a href="./marcacoes.php">Marcações</a></li> <!-- Caminho atualizado -->
-                <li><a href="./rgpd.php">Política de Privacidade</a></li> <!-- Caminho atualizado -->
+                <li><a href="<?php echo $path_prefix; ?>index.php">Início</a></li> <!-- Caminho atualizado -->
+                <li><a href="<?php echo $path_prefix; ?>pages/sobre.php">Sobre Nós</a></li> <!-- Caminho atualizado -->
+                <li><a href="<?php echo $path_prefix; ?>pages/contacto.php">Contactos</a></li> <!-- Caminho atualizado -->
+                <li><a href="<?php echo $path_prefix; ?>pages/marcacoes.php">Marcações</a></li> <!-- Caminho atualizado -->
+                <li><a href="<?php echo $path_prefix; ?>pages/rgpd.php">Política de Privacidade</a></li> <!-- Caminho atualizado -->
             </ul>
         </div>
 
@@ -58,7 +61,7 @@
         <div class="footer-section login">
             <h4>Login</h4>
             <ul>
-                <li><a href="./login.php">Área dos Barbeiros</a></li> <!-- Caminho atualizado -->
+                <li><a href="<?php echo $path_prefix; ?>pages/login.php">Área dos Barbeiros</a></li> <!-- Caminho atualizado -->
             </ul>
         </div>
 
