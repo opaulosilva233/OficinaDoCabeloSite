@@ -1,10 +1,21 @@
 <?php
 $path_prefix = '../';
+require_once '../includes/functions.php';
+
 /**
  * Página de marcações da barbearia com um stepper para guiar o usuário.
  * Etapas: 1. Tipo de Corte, 2. Barbeiro, 3. Data e Hora, 4. Dados Pessoais, 5. Confirmação.
  * Após a submissão bem-sucedida, exibe uma mensagem de sucesso.
  */
+
+// Função para formatar a data de YYYY-MM-DD para DD-MM-YYYY
+function formatDisplayDate($date) {
+    if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+        $dateObj = DateTime::createFromFormat('Y-m-d', $date);
+        return $dateObj ? $dateObj->format('d-m-Y') : $date;
+    }
+    return $date;
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-PT">
@@ -26,16 +37,6 @@ $path_prefix = '../';
 </head>
 <body>
     <main>
-    <?php
-    // Função para formatar a data de YYYY-MM-DD para DD-MM-YYYY
-    function formatDisplayDate($date) {
-        if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
-            $dateObj = DateTime::createFromFormat('Y-m-d', $date);
-            return $dateObj ? $dateObj->format('d-m-Y') : $date;
-        }
-        return $date;
-    }
-    ?>
         <section class="appointment-section">
             <h1>Agendar uma Marcação</h1>
             <p>Preencha as informações abaixo para agendar seu corte na Oficina do Cabelo, barbearia em Ermesinde.</p>
