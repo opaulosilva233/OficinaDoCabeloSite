@@ -1,21 +1,24 @@
 /* Estilos gerais */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #b9b9b9;
+    background-color: #f4f4f4;
+    color: #333;
 }
 
-/* Estilo geral para o slider */
+/* =========================================
+   SLIDER STYLES
+   ========================================= */
 .slider {
     position: relative;
     width: 100%;
-    height: 80vh;
+    height: 85vh;
     overflow: hidden;
     z-index: 1;
+    background-color: #000;
 }
 
-/* Estilo dos slides */
 .slide {
     display: none;
     width: 100%;
@@ -24,7 +27,7 @@ body {
     top: 0;
     left: 0;
     opacity: 0;
-    transition: opacity 0.8s ease-in-out;
+    transition: opacity 1s ease-in-out;
     z-index: 1;
 }
 
@@ -33,123 +36,153 @@ body {
     opacity: 1;
 }
 
-/* As imagens ocupam todo o espaço disponível no slide */
+/* Ken Burns Effect */
 .slide img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 1s ease-in-out;
+    transform: scale(1);
+    transition: transform 8s ease-out;
 }
 
-.slide:hover img {
-    transform: scale(1.05);
+.slide.active img {
+    transform: scale(1.1);
 }
 
-/* Estilo da caixa de texto */
+/* Overlay */
+.slide::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.6) 100%);
+    z-index: 2;
+}
+
+/* Text Box (Glassmorphism) */
 .text {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: rgba(43, 43, 43, 0.7);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     color: #ffffff;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
     text-align: center;
-    width: 100%;
-    max-width: 900px;
-    height: 350px;
+    width: 90%;
+    max-width: 800px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     gap: 20px;
     box-sizing: border-box;
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.95);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    z-index: 3;
+    transition: all 0.5s ease;
 }
 
 .text.active {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
 }
 
-/* Estilo do título */
+/* Staggered Animations */
+.text h2,
+.text p,
+.text .button,
+.text .logo-slider {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.text.active .logo-slider {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.2s;
+}
+
+.text.active h2 {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.4s;
+}
+
+.text.active p {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.6s;
+}
+
+.text.active .button {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.8s;
+}
+
 .text h2 {
-    font-size: 3rem;
+    font-size: 3.5rem;
     margin: 0;
     color: #d4a373;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-family: 'Poppins', sans-serif;
+    /* Changed to Sans-serif */
+    font-weight: 700;
 }
 
-/* Estilo do parágrafo */
 .text p {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     margin: 0;
-    color: #ffffff;
+    color: #f0f0f0;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    max-width: 600px;
 }
 
-/* Logótipo do slider */
 .logo-slider {
-    margin: 15px 0;
-    display: flex;
-    justify-content: center;
+    margin-bottom: 10px;
 }
 
 .slider .slide .logo-slider .logo {
-    width: 100px;
+    width: 120px;
     height: auto;
-    display: block;
-    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
-/* Botão de marcação */
-.button {
-    background: #d4a373;
-    color: #2b2b2b;
-    padding: 12px 24px;
-    text-decoration: none;
-    font-size: 1.1rem;
-    border-radius: 8px;
-    transition: background 0.3s ease, transform 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.button i {
-    font-size: 1.2rem;
-}
-
-.button:hover {
-    background: #b5855f;
-    transform: scale(1.05);
-}
-
-/* Botões de navegação */
+/* Slider Navigation Buttons (Soft Squares) */
 .slider-button {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background-color: #2b2b2b;
-    color: #d4a373;
-    border: none;
-    font-size: 24px;
-    padding: 15px;
+    width: 50px;
+    height: 50px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    font-size: 1.2rem;
     cursor: pointer;
-    z-index: 2;
-    border-radius: 50%;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-.slider-button i {
-    font-size: 1.5rem;
+    z-index: 10;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
 }
 
 .slider-button:hover {
-    background-color: #3e3e3e;
+    background-color: #d4a373;
+    color: #2b2b2b;
+    border-color: #d4a373;
     transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 15px rgba(212, 163, 115, 0.5);
 }
 
 .slider-button.prev {
@@ -160,372 +193,295 @@ body {
     right: 30px;
 }
 
-/* Estilos dos pontos de navegação */
+/* Dots */
 .dots-container {
     position: absolute;
-    bottom: 30px;
+    bottom: 40px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    z-index: 2;
+    z-index: 10;
+    gap: 12px;
 }
 
 .dot {
-    width: 12px;
-    height: 12px;
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.5);
-    margin: 0 8px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 2px solid transparent;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .dot:hover {
-    transform: scale(1.3);
+    background-color: rgba(255, 255, 255, 0.8);
 }
 
 .dot.active {
-    background-color: #d4a373;
-    transform: scale(1.3);
+    background-color: transparent;
+    border-color: #d4a373;
+    transform: scale(1.2);
 }
 
-/* Responsividade */
-@media (max-width: 768px) {
-    .slider {
-        height: 60vh;
-    }
-
-    .text {
-        height: 280px;
-        padding: 20px;
-        max-width: 90%;
-        gap: 15px;
-    }
-
-    .text h2 {
-        font-size: 2rem;
-    }
-
-    .text p {
-        font-size: 1rem;
-    }
-
-    .slider .slide .logo-slider .logo {
-        width: 80px;
-    }
-
-    .button {
-        padding: 10px 20px;
-        font-size: 1rem;
-    }
-
-    .button i {
-        font-size: 1rem;
-    }
-
-    .slider-button {
-        font-size: 20px;
-        padding: 10px;
-    }
-
-    .slider-button i {
-        font-size: 1.2rem;
-    }
-
-    .slider-button.prev {
-        left: 15px;
-    }
-
-    .slider-button.next {
-        right: 15px;
-    }
-
-    .dot {
-        width: 10px;
-        height: 10px;
-        margin: 0 6px;
-    }
-}
-
-/* Estilização geral */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    background-color: #f9f9f9;
-    color: #333;
-}
-
+/* =========================================
+   MAIN CONTENT STYLES
+   ========================================= */
 main {
-    padding: 40px 20px;
+    padding: 80px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-main.menu-open {
-    opacity: 0.5;
-}
-
-/* Estilo geral para secções */
 section {
-    margin-bottom: 60px;
-    padding: 40px;
-    background-color: white;
-    border-radius: 15px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+    margin-bottom: 100px;
     opacity: 0;
     animation: fadeInUp 1s ease-out forwards;
 }
 
-/* Animação de entrada (fadeInUp) */
 @keyframes fadeInUp {
-    0% {
+    from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(40px);
     }
-    100% {
+
+    to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
-/* Títulos das secções */
+/* Section Headings */
 section h2 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-    color: #333;
+    font-size: 3rem;
+    margin-bottom: 50px;
+    color: #2b2b2b;
     text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
+    font-family: 'Poppins', sans-serif;
+    /* Changed to Sans-serif */
+    font-weight: 700;
+    position: relative;
+}
+
+section h2::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background-color: #d4a373;
+    margin: 15px auto 0;
+    border-radius: 2px;
 }
 
 section h2 i {
     color: #d4a373;
-    font-size: 1.8rem;
+    margin-right: 15px;
 }
 
-/* Parágrafos nas secções */
-section p {
-    font-size: 1rem;
-    line-height: 1.8;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-/* Botões nas secções */
-section .button {
-    background-color: #d4a373;
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+/* Common Button Style */
+.button {
+    background: #d4a373;
+    color: #2b2b2b;
+    padding: 15px 35px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 50px;
+    transition: all 0.3s ease;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(212, 163, 115, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: none;
+    cursor: pointer;
 }
 
-section .button i {
-    font-size: 1.2rem;
+.button:hover {
+    background: #2b2b2b;
+    color: #d4a373;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
-section .button:hover {
-    background-color: #b88c5f;
-    transform: scale(1.05);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-/* Estilo específico para a secção "Sobre Nós" */
+/* -----------------------------------------
+   ABOUT US SECTION
+   ----------------------------------------- */
 .about-us {
     display: flex;
-    margin-top: 60px;
     align-items: center;
-    justify-content: space-between;
-    gap: 40px;
+    gap: 80px;
+    background: #fff;
+    padding: 80px;
+    border-radius: 30px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
 }
 
 .about-us .about-content {
-    width: 60%;
-    font-size: 1rem;
+    flex: 1;
+    text-align: center;
+}
+
+.about-us .about-content p {
+    font-size: 1.1rem;
     line-height: 1.8;
-    color: #333;
-    text-align: left;
-}
-
-.about-us .image img {
-    width: 100%;
-    max-width: 400px;
-    border-radius: 15px;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-    cursor: pointer;
-}
-
-.about-us .image img:hover {
-    transform: scale(1.05);
-}
-
-/* Estilo específico para a secção "Nossos Serviços" */
-.services {
-    text-align: center;
-}
-
-.service-list {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    flex-wrap: wrap;
-}
-
-.service-item {
-    background-color: #f9f9f9;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-    width: 250px;
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.service-item:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-}
-
-/* Ajuste para as imagens nos serviços */
-.service-item img {
-    width: 200px;
-    height: auto;
-    margin-bottom: 20px;
-    border-radius: 15px;
-    transition: transform 0.3s ease;
-}
-
-.service-item h3 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-    color: #333;
-}
-
-.service-item p {
-    font-size: 0.9rem;
-    color: #777;
-}
-
-/* Estilo específico para a secção "Fale Connosco" */
-.contact {
-    text-align: center;
-    background-color: #f9f9f9; /* Fundo mais suave */
-    padding: 50px 40px;
-    border-radius: 20px;
-}
-
-.contact h2 {
+    color: #555;
     margin-bottom: 30px;
 }
 
+/* -----------------------------------------
+   SERVICES SECTION
+   ----------------------------------------- */
+.services {
+    text-align: center;
+    background: #fff;
+    padding: 80px;
+    border-radius: 30px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.service-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    padding: 20px;
+}
+
+.service-item {
+    background: #f9f9f9;
+    /* Light gray cards */
+    padding: 50px 30px;
+    border-radius: 20px;
+    border: 1px solid #eee;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: all 0.4s ease;
+    border-bottom: 4px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.service-item:hover {
+    background: #fff;
+    transform: translateY(-15px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border-bottom-color: #d4a373;
+}
+
+.service-item img {
+    width: 150px;
+    /* Increased from 90px */
+    height: 150px;
+    /* Increased from 90px */
+    object-fit: contain;
+    margin-bottom: 25px;
+    transition: transform 0.4s ease;
+}
+
+.service-item:hover img {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.service-item h3 {
+    font-size: 1.5rem;
+    color: #2b2b2b;
+    margin-bottom: 15px;
+    font-family: 'Poppins', sans-serif;
+    /* Changed to Sans-serif */
+    font-weight: 600;
+}
+
+.service-item p {
+    color: #666;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* -----------------------------------------
+   CONTACT SECTION (Light Theme)
+   ----------------------------------------- */
+.contact {
+    background: #fff;
+    /* Changed from dark to white */
+    color: #333;
+    padding: 80px;
+    border-radius: 30px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+}
+
+.contact h2 {
+    color: #2b2b2b;
+}
+
 .contact p {
-    font-size: 1.1rem;
-    color: #555;
-    margin-bottom: 40px;
+    color: #666;
+    font-size: 1.2rem;
+    margin-bottom: 50px;
 }
 
 .contact-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 30px;
-    margin-bottom: 40px;
+    gap: 40px;
+    margin-bottom: 50px;
 }
 
 .contact-item {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    text-align: center;
+    background: #f9f9f9;
+    /* Light gray cards */
+    padding: 40px;
+    border-radius: 20px;
+    border: 1px solid #eee;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
 }
 
 .contact-item:hover {
+    background: #fff;
     transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    border-color: #d4a373;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
 }
 
 .contact-item i {
+    font-size: 2.5rem;
     color: #d4a373;
-    font-size: 2rem;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .contact-item h3 {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     color: #2b2b2b;
     margin-bottom: 10px;
 }
 
 .contact-item p {
-    font-size: 1rem;
     color: #555;
+    font-size: 1rem;
     margin: 0;
 }
 
-/* Responsividade para secções */
-@media (max-width: 768px) {
-    section h2 {
-        font-size: 1.8rem;
-    }
-
-    section h2 i {
-        font-size: 1.5rem;
-    }
-
-    section p {
-        font-size: 0.9rem;
-    }
-
-    section .button i {
-        font-size: 1rem;
-    }
-
+/* Responsive Adjustments */
+@media (max-width: 900px) {
     .about-us {
         flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-
-    .about-us .text {
-        width: 100%;
+        padding: 40px;
     }
 
     .service-list {
-        gap: 20px;
-    }
-
-    .service-item {
-        width: 100%;
-        padding: 20px;
+        grid-template-columns: 1fr;
     }
 
     .contact {
-        padding: 30px 20px;
+        padding: 40px 20px;
     }
 
-    .contact-list {
-        gap: 20px;
-    }
-
-    .contact-item i {
-        font-size: 1.8rem;
-    }
-
-    .contact-item h3 {
-        font-size: 1.1rem;
-    }
-
-    .contact-item p {
-        font-size: 0.9rem;
+    section h2 {
+        font-size: 2.2rem;
     }
 }

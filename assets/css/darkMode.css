@@ -42,7 +42,8 @@ body.dark-mode {
     /* Keep dark text */
 }
 
-.dark-mode .contact p {
+.dark-mode .contact p,
+.dark-mode .services p {
     color: #333;
     /* Keep the text dark in dark mode */
 }
