@@ -43,22 +43,27 @@ body.dark-mode {
 }
 
 .dark-mode .contact p,
-.dark-mode .services p {
+.dark-mode .services p,
+.dark-mode .about-section p,
+.dark-mode .barber-info p,
+.dark-mode .modal-description {
     color: #333;
-    /* Keep the text dark in dark mode */
+    /* Force dark text for readability on white cards */
 }
 
 .dark-mode .about-us p {
     color: #333;
-    /* Keep the text dark in dark mode */
+    /* Old index.css rule, preserved just in case */
 }
 
 
 .dark-mode .login-container,
-.dark-mode .dashboard-container {
+.dark-mode .dashboard-container,
+.dark-mode .modal-content {
     background-color: #333;
     box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    border-color: #444;
 }
 
 .dark-mode .submit-btn,
@@ -79,9 +84,17 @@ body.dark-mode {
     transition: color 0.3s ease;
 }
 
-.dark-mode .login-container h2 {
+.dark-mode .login-container h2,
+.dark-mode .modal-title {
     color: #f4f4f4;
     transition: color 0.3s ease;
+}
+
+/* Force dark headers for white sections in dark mode */
+.dark-mode .about-text h2,
+.dark-mode .section-header h2,
+.dark-mode .barber-info h3 {
+    color: #2b2b2b;
 }
 
 .dark-mode form label {
@@ -100,6 +113,11 @@ body.dark-mode {
     background-color: #555;
     border-color: #d4a373;
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Ensure modal text is readable in dark mode */
+.dark-mode .modal-title {
+    color: #2b2b2b !important;
 }
 
 .dark-mode .footer {
