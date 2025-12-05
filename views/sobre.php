@@ -91,7 +91,7 @@
                     <h3 class="modal-title"></h3>
                     <div class="modal-image-container">
                         <img class="modal-image" src="" alt="Imagem do Barbeiro">
-                        <button class="instagram-button"><i class="fab fa-instagram"></i> Instagram</button>
+                        <a href="#" target="_blank" class="instagram-button"><i class="fab fa-instagram"></i> Instagram</a>
                     </div>
                     <p class="modal-description"></p>
                     <a href="index.php?route=marcacoes" class="modal-button"><i class="fas fa-calendar-alt"></i> Agendar Agora</a>

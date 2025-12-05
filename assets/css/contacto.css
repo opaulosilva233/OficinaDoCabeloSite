@@ -117,7 +117,7 @@ a {
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
-    border: 1px solid #eee;
+    border: 3px solid #eee;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -130,7 +130,7 @@ a {
 .contact-card:hover {
     transform: translateY(-10px);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-    border-color: #d4a373;
+    border-color: #d4a373 !important;
 }
 
 .icon-box {

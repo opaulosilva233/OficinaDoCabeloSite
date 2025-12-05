@@ -60,8 +60,7 @@ body.dark-mode {
 
 
 .dark-mode .login-container,
-.dark-mode .dashboard-container,
-.dark-mode .modal-content {
+.dark-mode .dashboard-container {
     background-color: #333;
     box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
@@ -89,14 +88,16 @@ body.dark-mode {
 .dark-mode .login-container h2,
 .dark-mode .modal-title,
 .dark-mode .info-section h2,
-.dark-mode .social-section h3 {
-    color: #f4f4f4;
+.dark-mode .social-section h3,
+.dark-mode .section-header h2,
+.dark-mode .section-header p {
+    color: #f4f4f4 !important;
     transition: color 0.3s ease;
 }
 
 /* Force dark headers for white sections in dark mode */
 .dark-mode .about-text h2,
-.dark-mode .section-header h2,
+/* .section-header h2 moved to white list */
 .dark-mode .barber-info h3,
 .dark-mode .card-content h3 {
     color: #2b2b2b;
