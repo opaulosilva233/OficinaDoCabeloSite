@@ -46,7 +46,9 @@ body.dark-mode {
 .dark-mode .services p,
 .dark-mode .about-section p,
 .dark-mode .barber-info p,
-.dark-mode .modal-description {
+.dark-mode .modal-description,
+.dark-mode .contact-card p,
+.dark-mode .card-content p {
     color: #333;
     /* Force dark text for readability on white cards */
 }
@@ -85,7 +87,9 @@ body.dark-mode {
 }
 
 .dark-mode .login-container h2,
-.dark-mode .modal-title {
+.dark-mode .modal-title,
+.dark-mode .info-section h2,
+.dark-mode .social-section h3 {
     color: #f4f4f4;
     transition: color 0.3s ease;
 }
@@ -93,7 +97,8 @@ body.dark-mode {
 /* Force dark headers for white sections in dark mode */
 .dark-mode .about-text h2,
 .dark-mode .section-header h2,
-.dark-mode .barber-info h3 {
+.dark-mode .barber-info h3,
+.dark-mode .card-content h3 {
     color: #2b2b2b;
 }
 
