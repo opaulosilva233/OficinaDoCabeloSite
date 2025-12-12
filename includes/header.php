@@ -1,6 +1,13 @@
 <?php
 $path_prefix = './';
 ?>
+<!-- Page Transition Overlay -->
+<div class="page-transition-overlay">
+    <div class="transition-panel"></div>
+    <div class="transition-panel"></div>
+    <div class="transition-panel"></div>
+</div>
+
 <header>
     <div class="logo">
         <a href="index.php?route=home">
@@ -27,4 +34,5 @@ $path_prefix = './';
 </header>
 <link rel="stylesheet" href="assets/css/header.css">
 <link rel="stylesheet" href="assets/css/darkMode.css">
+<link rel="stylesheet" href="assets/css/transitions.css">
 <script src="assets/js/darkMode.js"></script>

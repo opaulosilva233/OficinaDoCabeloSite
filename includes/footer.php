@@ -40,3 +40,4 @@ $path_prefix = './';
     </div>
 </footer>
 <link rel="stylesheet" href="assets/css/footer.css">
+<script src="assets/js/transitions.js"></script>

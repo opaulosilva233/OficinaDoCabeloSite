@@ -6,9 +6,17 @@
     <title>Login - Oficina do Cabelo</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="assets/css/login.css">
+    <link rel="stylesheet" href="assets/css/transitions.css">
     <link rel="icon" href="assets/img/logotipo2.png" type="image/x-icon">
 </head>
 <body>
+<!-- Page Transition Overlay -->
+<div class="page-transition-overlay">
+    <div class="transition-panel"></div>
+    <div class="transition-panel"></div>
+    <div class="transition-panel"></div>
+</div>
+
 <main>
     <div class="login-container">
         <h2><i class="fas fa-lock title-icon"></i> Acesso Autorizado</h2>
@@ -37,5 +45,6 @@
 <footer class="footer">
     <p class="credit">Criado por Paulo Silva © <?= date('Y') ?></p>
 </footer>
+<script src="assets/js/transitions.js"></script>
 </body>
 </html>

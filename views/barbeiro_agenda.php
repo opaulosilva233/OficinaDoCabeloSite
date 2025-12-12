@@ -5,8 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($barberName) ?> - Marcações</title>
     <link rel="stylesheet" href="<?= $cssFile ?>">
+    <link rel="stylesheet" href="assets/css/transitions.css">
 </head>
 <body>
+<!-- Page Transition Overlay -->
+<div class="page-transition-overlay">
+    <div class="transition-panel"></div>
+    <div class="transition-panel"></div>
+    <div class="transition-panel"></div>
+</div>
     <?php include 'includes/navbarLateral.php'; ?>
     <div class="container">
         <h1>Marcações - <?= htmlspecialchars($barberName) ?></h1>
@@ -116,5 +123,6 @@
         </div>
     </div>
     <script src="assets/js/barbeirosMarc.js"></script>
+    <script src="assets/js/transitions.js"></script>
 </body>
 </html>

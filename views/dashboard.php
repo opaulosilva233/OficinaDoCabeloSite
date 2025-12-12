@@ -30,10 +30,17 @@ $csv_data_daily = arrayToCsv($export_data_daily);
     <title>Dashboard - Oficina do Cabelo</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="assets/css/dashboard.css">
+    <link rel="stylesheet" href="assets/css/transitions.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <?php include('includes/navbarLateral.php'); ?>
 </head>
 <body>
+<!-- Page Transition Overlay -->
+<div class="page-transition-overlay">
+    <div class="transition-panel"></div>
+    <div class="transition-panel"></div>
+    <div class="transition-panel"></div>
+</div>
 <div class="dashboard-container">
     <!-- Filter -->
     <div class="filter-container">
@@ -123,5 +130,6 @@ $csv_data_daily = arrayToCsv($export_data_daily);
     </main>
 </div>
 <script src="assets/js/chartScript.js"></script>
+<script src="assets/js/transitions.js"></script>
 </body>
 </html>
