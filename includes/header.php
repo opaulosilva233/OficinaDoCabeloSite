@@ -21,7 +21,7 @@ $path_prefix = './';
             <li><a href="index.php?route=sobre">Sobre</a></li>
             <li><a href="index.php?route=contacto">Contactos</a></li>
             <li><a href="index.php?route=marcacoes" class="btn-marcacao">Marcações</a></li>
-            <li><a href="index.php?route=login" class="btn-login"><i class="fas fa-user"></i> Login</a></li>
+            <li><a href="index.php?route=login" class="btn-login"><i class="fas fa-user"></i> Área Reservada</a></li>
         </ul>
     </nav>
     <div class="dark-mode-toggle">
