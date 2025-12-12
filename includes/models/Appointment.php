@@ -12,8 +12,8 @@ class Appointment {
      * Create a new appointment.
      */
     public function create($data) {
-        $sql = "INSERT INTO marcacoes (servico, barbeiro, data_marcacao, horario_marcacao, nome_utilizador, telefone_utilizador, email_utilizador, estado) 
-                VALUES (:service, :barber, :date, :time, :name, :phone, :email, 'marcada')";
+        $sql = "INSERT INTO marcacoes (servico, barbeiro, data_marcacao, horario_marcacao, nome_utilizador, telefone_utilizador, email_utilizador, observacoes, estado) 
+                VALUES (:service, :barber, :date, :time, :name, :phone, :email, :observations, 'marcada')";
         
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([
@@ -23,7 +23,8 @@ class Appointment {
             ':time' => $data['time'],
             ':name' => $data['name'],
             ':phone' => $data['phone'],
-            ':email' => $data['email']
+            ':email' => $data['email'],
+            ':observations' => $data['observations'] ?? ''
         ]);
     }
 
@@ -80,6 +81,46 @@ class Appointment {
         $sql = "UPDATE marcacoes SET estado = :status WHERE id = :id";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([':status' => $status, ':id' => $id]);
+    }
+
+    /**
+     * Get booked slots for a specific barber and date.
+     */
+    public function getBookedSlots($barber, $date) {
+        $sql = "SELECT TIME_FORMAT(horario_marcacao, '%H:%i') AS horario_marcacao 
+                FROM marcacoes 
+                WHERE TRIM(barbeiro) = :barber AND data_marcacao = :date AND estado = 'marcada'";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':barber' => $barber, ':date' => $date]);
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    }
+
+    /**
+     * Get fully booked days for a specific month/year.
+     */
+    public function getFullyBookedDays($barber, $month, $year) {
+        // Assuming 21 slots per day (09:00 to 19:00)
+        // Adjust this number if your opening hours change
+        $totalSlotsPerDay = 21; 
+
+        $sql = "SELECT data_marcacao, COUNT(*) as booked_count 
+                FROM marcacoes 
+                WHERE barbeiro = :barber 
+                AND MONTH(data_marcacao) = :month 
+                AND YEAR(data_marcacao) = :year 
+                AND estado = 'marcada'
+                GROUP BY data_marcacao
+                HAVING booked_count >= :totalSlots";
+        
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([
+            ':barber' => $barber,
+            ':month' => $month,
+            ':year' => $year,
+            ':totalSlots' => $totalSlotsPerDay
+        ]);
+        
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
 
     /**

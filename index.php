@@ -11,6 +11,8 @@ $router->add('logout', 'AuthController', 'logout');
 $router->add('dashboard', 'AppointmentController', 'dashboard');
 $router->add('agenda', 'AppointmentController', 'agenda');
 $router->add('marcacoes', 'PageController', 'booking');
+$router->add('api/book', 'AppointmentController', 'book');
+$router->add('api/slots', 'AppointmentController', 'getSlots');
 $router->add('sobre', 'PageController', 'about');
 $router->add('contacto', 'PageController', 'contact');
 // Add more routes as needed
