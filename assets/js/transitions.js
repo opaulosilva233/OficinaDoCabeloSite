@@ -12,13 +12,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const target = link.getAttribute('target');
 
             // Skip if no href, external link, anchor, or open in new tab
-            if (!href || 
-                href.startsWith('#') || 
-                href.startsWith('javascript:') || 
-                href.startsWith('mailto:') || 
-                href.startsWith('tel:') || 
-                target === '_blank' || 
-                e.ctrlKey || 
+            if (!href ||
+                href.startsWith('#') ||
+                href.startsWith('javascript:') ||
+                href.startsWith('mailto:') ||
+                href.startsWith('tel:') ||
+                target === '_blank' ||
+                e.ctrlKey ||
                 e.metaKey) {
                 return;
             }
@@ -39,7 +39,21 @@ document.addEventListener('DOMContentLoaded', () => {
             // CSS: 0.5s duration + 0.2s delay = ~700ms
             setTimeout(() => {
                 window.location.href = href;
-            }, 800); 
+            }, 800);
         });
+    });
+
+    // Handle Page Show (Restore from bfcache)
+    window.addEventListener('pageshow', (event) => {
+        // Always reset on show
+        document.body.classList.remove('is-transitioning');
+        document.body.classList.add('page-loaded');
+    });
+
+    // Handle Page Hide (Save to bfcache)
+    window.addEventListener('pagehide', (event) => {
+        // Remove the transitioning class so the cached page is clean
+        document.body.classList.remove('is-transitioning');
+        document.body.classList.add('page-loaded');
     });
 });
