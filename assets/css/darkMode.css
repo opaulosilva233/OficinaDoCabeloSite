@@ -48,7 +48,8 @@ body.dark-mode {
 .dark-mode .barber-info p,
 .dark-mode .modal-description,
 .dark-mode .contact-card p,
-.dark-mode .card-content p {
+.dark-mode .card-content p,
+.dark-mode .rgpd-content p {
     color: #333;
     /* Force dark text for readability on white cards */
 }
@@ -99,7 +100,9 @@ body.dark-mode {
 .dark-mode .about-text h2,
 /* .section-header h2 moved to white list */
 .dark-mode .barber-info h3,
-.dark-mode .card-content h3 {
+.dark-mode .card-content h3,
+.dark-mode .rgpd-content h2,
+.dark-mode .rgpd-content h3 {
     color: #2b2b2b;
 }
 

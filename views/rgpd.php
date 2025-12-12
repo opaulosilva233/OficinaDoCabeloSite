@@ -1,5 +1,3 @@
-<?php $path_prefix = './'; ?>
-<?php include('../includes/header.php'); ?>
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
@@ -7,15 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Política de Privacidade da Oficina do Cabelo. Saiba como tratamos e protegemos os seus dados pessoais de acordo com o RGPD.">
     <title>Política de Privacidade - Oficina do Cabelo</title>
-    <link rel="stylesheet" href="../assets/css/rgpd.css"> <!-- Link para o CSS externo -->
-    <link rel="icon" href="../assets/img/logotipo2.png" type="image/x-icon">
+    <link rel="stylesheet" href="assets/css/rgpd.css?v=<?= time() ?>"> <!-- Link para o CSS externo -->
+    <link rel="icon" href="assets/img/logotipo2.png" type="image/x-icon">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body>
+    <?php include('includes/header.php'); ?>
+
+    <div class="page-header">
+        <h1>Política de Privacidade</h1>
+        <p>A sua privacidade e a segurança dos seus dados são fundamentais para nós.</p>
+    </div>
 
     <!-- Conteúdo Principal -->
-    <main class="rgpd-main">
+    <main class="container">
         <section class="rgpd-content">
-            <h1>Política de Privacidade</h1>
+            <!-- <h1>Política de Privacidade</h1> Removed title from content as it is now in banner -->
             <p>Última atualização: 20/02/2025</p>
             <h2>1. Introdução</h2>
             <p>Bem-vindo à Política de Privacidade da Oficina do Cabelo. Este documento descreve como recolhemos, utilizamos, armazenamos e protegemos os seus dados pessoais de acordo com o Regulamento Geral sobre a Proteção de Dados (RGPD).</p>
@@ -51,6 +58,9 @@
             <h2>10. Contactos</h2>
             <p>Se tiver alguma dúvida ou preocupação relativamente à forma como tratamos os seus dados pessoais, por favor contacte-nos através do seguinte endereço de correio eletrónico: <a href="mailto:privacidade@oficinadocabelo.pt">privacidade@oficinadocabelo.pt</a>.</p>
         </section>
+        </section>
     </main>
+    
+    <?php include('includes/footer.php'); ?>
 </body>
 </html>

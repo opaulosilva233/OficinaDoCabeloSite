@@ -15,6 +15,7 @@ $router->add('api/book', 'AppointmentController', 'book');
 $router->add('api/slots', 'AppointmentController', 'getSlots');
 $router->add('sobre', 'PageController', 'about');
 $router->add('contacto', 'PageController', 'contact');
+$router->add('rgpd', 'PageController', 'rgpd');
 // Add more routes as needed
 
 // Get route from URL or default to home
