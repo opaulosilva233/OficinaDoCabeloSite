@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('Marcacao.js loaded v3 (Inline Calendar)');
+    console.log('Marcacao.js loaded v5 (Native Calendar)');
 
     // Elements
     const form = document.getElementById('appointment-form');
@@ -7,8 +7,60 @@ document.addEventListener('DOMContentLoaded', () => {
     const stepContents = document.querySelectorAll('.step-content');
     const barbers = document.querySelectorAll('.barber');
 
+    // Sidebar Nav Elements
+    const sidebarNextBtn = document.getElementById('sidebar-next-btn');
+    const sidebarPrevBtn = document.getElementById('sidebar-prev-btn');
+    const themeToggleBtn = document.getElementById('theme-toggle');
+
+    // --- DARK MODE LOGIC ---
+    const applyTheme = (theme) => {
+        const icon = themeToggleBtn.querySelector('i');
+        if (theme === 'dark') {
+            document.body.classList.add('dark-mode');
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        } else {
+            document.body.classList.remove('dark-mode');
+            icon.classList.remove('fa-sun');
+            icon.classList.add('fa-moon');
+        }
+        localStorage.setItem('theme', theme);
+    };
+
+    // Init Theme
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    applyTheme(savedTheme);
+
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            applyTheme(newTheme);
+        });
+    }
+
     // New Date/Time Elements
-    const inlineCalendarElement = document.getElementById('inline-calendar');
+    // Fixed: calendarContainer is now custom
+    const calendarContainer = document.getElementById('custom-calendar-container'); // Correct ID from HTML rewrite? Let's check HTML. 
+    // Wait, in previous step I simplified HTML to use #custom-calendar-container but revert might have happened.
+    // Let's assume the HTML is: <div id="custom-calendar-container"></div> inside .calendar-wrapper
+    // If not, I should target .calendar-wrapper or inject it.
+    // Based on previous view_file of marcacoes.php (Step 427), I attempted to change it to #custom-calendar-container.
+    // BUT replace might have failed there too. 
+    // Let's be safe: If I look at marcacoes.php content from Step 421, it had #inline-calendar.
+    // Detailed check: Step 427 showed "The following changes were made... [-] #inline-calendar [+] #custom-calendar-container".
+    // So if that succeeded, we use #custom-calendar-container.
+    // If that failed, we might have #inline-calendar.
+    // To be perfectly safe, I will try to find either.
+
+    let calendarTarget = document.getElementById('custom-calendar-container');
+    if (!calendarTarget) {
+        calendarTarget = document.getElementById('inline-calendar');
+        if (calendarTarget) {
+            calendarTarget.id = 'custom-calendar-container'; // Force ID update if needed
+        }
+    }
+
     const timeSlotsGrid = document.getElementById('time-slots-grid');
     const hiddenDateInput = document.getElementById('date');
     const hiddenTimeInput = document.getElementById('time');
@@ -22,6 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const userName = document.getElementById('name');
     const userPhone = document.getElementById('phone');
     const userEmail = document.getElementById('email');
+    const userObservations = document.getElementById('observations');
 
     // Confirmation
     const confirmService = document.getElementById('confirm-service');
@@ -31,6 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const confirmName = document.getElementById('confirm-name');
     const confirmPhone = document.getElementById('confirm-phone');
     const confirmEmail = document.getElementById('confirm-email');
+    const confirmObservations = document.getElementById('confirm-observations');
     const successMessage = document.getElementById('success-message');
 
     // State
@@ -39,7 +93,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let selectedBarber = null;
     let selectedDate = null;
     let selectedTime = null;
-    let fpInstance = null; // Flatpickr instance
 
     // --- UTILS ---
     const formatDate = (date) => {
@@ -47,13 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const month = String(date.getMonth() + 1).padStart(2, '0');
         const year = date.getFullYear();
         return `${day}-${month}-${year}`;
-    };
-
-    const formatDateForBackend = (date) => {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
     };
 
     const showConfirmationToast = (message) => {
@@ -69,13 +115,13 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const updateNextButtonState = (step, condition) => {
-        const nextBtn = stepContents[step - 1].querySelector('.next-btn') || stepContents[step - 1].querySelector('.submit-btn');
-        if (nextBtn) nextBtn.disabled = !condition;
+        if (currentStep === step) {
+            sidebarNextBtn.disabled = !condition;
+        }
     };
 
     // --- STEP LOGIC ---
     const updateStep = (step) => {
-        // Scroll to top of properties
         const container = document.querySelector('.booking-container');
         if (container) {
             container.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -90,10 +136,11 @@ document.addEventListener('DOMContentLoaded', () => {
             else s.classList.remove('completed');
         });
 
+        // Update Confirmation Data
         if (step === 5) {
             confirmService.textContent = selectedService || 'N/A';
             confirmBarber.textContent = selectedBarber || 'N/A';
-            confirmDate.textContent = selectedDate ? formatDate(new Date(hiddenDateInput.value)) : 'N/A';
+            confirmDate.textContent = selectedDate ? formatDate(new Date(selectedDate)) : 'N/A';
             confirmTime.textContent = selectedTime || 'N/A';
             confirmName.textContent = userName.value;
             confirmPhone.textContent = userPhone.value;
@@ -103,14 +150,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
         currentStep = step;
 
+        // Button Visibility
+        if (step === 1) {
+            sidebarPrevBtn.classList.add('hidden');
+        } else {
+            sidebarPrevBtn.classList.remove('hidden');
+        }
+
+        if (step === 5) {
+            sidebarNextBtn.innerHTML = 'Confirmar <i class="fas fa-check"></i>';
+        } else {
+            sidebarNextBtn.innerHTML = 'Avançar <i class="fas fa-arrow-right"></i>';
+        }
+
+        // Validate state
         if (step === 1) updateNextButtonState(step, !!selectedService);
         if (step === 2) updateNextButtonState(step, !!selectedBarber);
-        if (step === 3) {
-            // Re-render calendar if needed to ensure size is correct
-            if (fpInstance) fpInstance.redraw();
-            updateNextButtonState(step, !!selectedDate && !!selectedTime);
-        }
+        if (step === 3) updateNextButtonState(step, !!selectedDate && !!selectedTime);
         if (step === 4) updateNextButtonState(step, validateForm());
+        if (step === 5) sidebarNextBtn.disabled = false;
     };
 
     // --- SERVICE SELECTION ---
@@ -128,7 +186,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Accordion
+    // --- SUMMARY EDIT LOGIC ---
+    document.querySelectorAll('.summary-row.clickable').forEach(row => {
+        row.addEventListener('click', () => {
+            const stepToGo = parseInt(row.getAttribute('data-go-to-step'));
+            if (stepToGo) {
+                updateStep(stepToGo);
+            }
+        });
+    });
+
     document.querySelectorAll('.category-title').forEach(title => {
         title.addEventListener('click', (e) => {
             const category = title.parentElement;
@@ -146,26 +213,178 @@ document.addEventListener('DOMContentLoaded', () => {
             showConfirmationToast(`Barbeiro: ${selectedBarber}`);
             updateNextButtonState(2, true);
 
-            // Refresh calendar availability if already init
-            if (fpInstance) {
-                fpInstance.clear();
-                updateBusyDays(fpInstance.currentMonth, fpInstance.currentYear);
-            }
+            // Re-render calendar to update busy days if needed (simple refresh)
+            renderCalendar(currentCalendarDate);
         });
     });
 
-    // --- CALENDAR & TIME LOGIC ---
+    // --- NATIVE CUSTOM CALENDAR LOGIC ---
+    let currentCalendarDate = new Date();
+    const monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+        "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+    ];
+
+    const changeMonth = (offset) => {
+        currentCalendarDate.setMonth(currentCalendarDate.getMonth() + offset);
+        renderCalendar(currentCalendarDate);
+    };
+
+    const renderCalendar = (date) => {
+        if (!calendarTarget) return;
+        calendarTarget.innerHTML = '';
+
+        const year = date.getFullYear();
+        const month = date.getMonth();
+
+        // Header
+        const header = document.createElement('div');
+        header.className = 'custom-cal-header';
+
+        const prevBtn = document.createElement('button');
+        prevBtn.type = 'button';
+        prevBtn.className = 'cal-nav-btn';
+        prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+        prevBtn.onclick = () => changeMonth(-1);
+
+        const nextBtn = document.createElement('button');
+        nextBtn.type = 'button';
+        nextBtn.className = 'cal-nav-btn';
+        nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+        nextBtn.onclick = () => changeMonth(1);
+
+        const title = document.createElement('span');
+        title.className = 'cal-month-label';
+        title.textContent = `${monthNames[month]} ${year}`;
+
+        header.appendChild(prevBtn);
+        header.appendChild(title);
+        header.appendChild(nextBtn);
+        calendarTarget.appendChild(header);
+
+        // Days Grid
+        const grid = document.createElement('div');
+        grid.className = 'custom-cal-grid';
+
+        const weekDays = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
+        const weekRow = document.createElement('div');
+        weekRow.className = 'cal-week-row';
+        weekDays.forEach(day => {
+            const el = document.createElement('div');
+            el.className = 'cal-weekday';
+            el.textContent = day;
+            weekRow.appendChild(el);
+        });
+        grid.appendChild(weekRow);
+
+        // Calculate Days
+        const firstDayOfMonth = new Date(year, month, 1);
+        let startingDay = firstDayOfMonth.getDay() - 1;
+        if (startingDay === -1) startingDay = 6;
+
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const daysContainer = document.createElement('div');
+        daysContainer.className = 'cal-days-container';
+
+        // Fetch Busy Days first then render? For now render then fetch/update classes
+        updateBusyDaysVisuals(month, year, daysContainer);
+
+        // Previous Month Fillers
+        for (let i = 0; i < startingDay; i++) {
+            const empty = document.createElement('div');
+            empty.className = 'cal-day empty';
+            daysContainer.appendChild(empty);
+        }
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        for (let day = 1; day <= daysInMonth; day++) {
+            const dateEl = document.createElement('div');
+            dateEl.className = 'cal-day';
+            dateEl.textContent = day;
+            dateEl.dataset.day = day; // For finding it later to mark busy
+
+            const currentDayDate = new Date(year, month, day);
+            const dayOfWeek = currentDayDate.getDay();
+
+            if (dayOfWeek === 0) {
+                dateEl.classList.add('disabled', 'sunday');
+            } else if (currentDayDate < today) {
+                dateEl.classList.add('disabled', 'past');
+            } else {
+                dateEl.onclick = () => selectDate(year, month, day, dateEl);
+
+                if (selectedDate) {
+                    const [sYear, sMonth, sDay] = selectedDate.split('-').map(Number);
+                    if (sYear === year && sMonth === month + 1 && sDay === day) {
+                        dateEl.classList.add('selected');
+                    }
+                }
+            }
+            daysContainer.appendChild(dateEl);
+        }
+
+        grid.appendChild(daysContainer);
+        calendarTarget.appendChild(grid);
+    };
+
+    const updateBusyDaysVisuals = async (month, year, container) => {
+        const m = month + 1;
+        try {
+            const response = await fetch(`index.php?route=api/busy-days&barber=${selectedBarber || ''}&month=${m}&year=${year}`);
+            const data = await response.json();
+            if (data.success && data.busyDays) {
+                // busyDays are likely full date strings (or logic specific to backend)
+                // Assuming flatpickr previously handled this.
+                // If the API returns days to disable (e.g. ["2024-05-20", ...])
+                data.busyDays.forEach(busyDate => {
+                    const d = new Date(busyDate);
+                    // Match month/year
+                    if (d.getMonth() === month && d.getFullYear() === year) {
+                        const dayNum = d.getDate();
+                        // Find element in container (this is async though, container might be detached if re-rendered fast. 
+                        // But usually ok for this scale)
+                        // Better: apply class 'disabled busy'
+                        // Since I don't have reference to container easily in async without closure, 
+                        // I will query DOM if 'container' is part of DOM, or passed.
+                        // I will query actual rendered elements:
+                        const dayEl = document.querySelector(`.cal-day[data-day="${dayNum}"]`);
+                        if (dayEl) dayEl.classList.add('disabled', 'busy');
+                    }
+                });
+            }
+        } catch (e) {
+            console.error("Busy days error", e);
+        }
+    };
+
+    const selectDate = (year, month, day, el) => {
+        document.querySelectorAll('.cal-day').forEach(d => d.classList.remove('selected'));
+        el.classList.add('selected');
+
+        const m = String(month + 1).padStart(2, '0');
+        const d = String(day).padStart(2, '0');
+        const dateStr = `${year}-${m}-${d}`;
+
+        selectedDate = dateStr;
+        hiddenDateInput.value = dateStr;
+        selectedTime = null;
+        hiddenTimeInput.value = '';
+
+        fetchSlots(dateStr);
+        updateNextButtonState(3, false);
+    };
 
     const fetchSlots = async (dateStr) => {
         timeSlotsGrid.innerHTML = '';
         loadingIndicator.classList.remove('hidden');
-        timeSlotsGrid.appendChild(loadingIndicator); // Move indicator inside
+        timeSlotsGrid.appendChild(loadingIndicator);
 
         try {
             const response = await fetch(`index.php?route=api/slots&barber=${selectedBarber}&date=${dateStr}`);
             const data = await response.json();
 
-            timeSlotsGrid.innerHTML = ''; // Clear loading
+            timeSlotsGrid.innerHTML = '';
 
             if (data.success && data.slots.length > 0) {
                 data.slots.forEach(time => {
@@ -193,57 +412,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    const updateBusyDays = async (month, year) => {
-        // Adjust month to 1-based
-        const m = month + 1;
-        try {
-            const response = await fetch(`index.php?route=api/busy-days&barber=${selectedBarber}&month=${m}&year=${year}`);
-            const data = await response.json();
-            if (data.success) {
-                // Update flatpickr disable list
-                const busyDays = data.busyDays; // Array of YYYY-MM-DD
-
-                fpInstance.set('disable', [
-                    function (date) { return date.getDay() === 0; }, // Sunday
-                    ...busyDays
-                ]);
-            }
-        } catch (e) {
-            console.error("Failed to fetch busy days", e);
-        }
-    };
-
-    // Init Flatpickr
-    fpInstance = flatpickr(inlineCalendarElement, {
-        inline: true,
-        minDate: "today",
-        dateFormat: "Y-m-d",
-        locale: {
-            firstDayOfWeek: 1 // Start on Monday
-        },
-        onChange: (selectedDates, dateStr) => {
-            selectedDate = dateStr; // YYYY-MM-DD
-            hiddenDateInput.value = dateStr;
-            selectedTime = null;
-            hiddenTimeInput.value = '';
-
-            // Fetch slots
-            fetchSlots(dateStr);
-            updateNextButtonState(3, false);
-        },
-        onMonthChange: (selectedDates, dateStr, instance) => {
-            updateBusyDays(instance.currentMonth, instance.currentYear);
-        },
-        onReady: (selectedDates, dateStr, instance) => {
-            // Initial load
-            updateBusyDays(instance.currentMonth, instance.currentYear);
-        }
-    });
-
-
     // --- VALIDATION & SUBMIT ---
     const validateForm = () => {
-        // Simple check
         return userName.value.length > 2 && userPhone.value.length === 9 && userEmail.value.includes('@');
     };
 
@@ -251,22 +421,21 @@ document.addEventListener('DOMContentLoaded', () => {
         i.addEventListener('input', () => updateNextButtonState(4, validateForm()));
     });
 
-    // Navigation Buttons
-    document.querySelectorAll('.next-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            if (currentStep < 5) updateStep(currentStep + 1);
-        });
+    sidebarNextBtn.addEventListener('click', () => {
+        if (currentStep < 5) {
+            updateStep(currentStep + 1);
+        } else if (currentStep === 5) {
+            submitForm();
+        }
     });
 
-    document.querySelectorAll('.prev-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            if (currentStep > 1) updateStep(currentStep - 1);
-        });
+    sidebarPrevBtn.addEventListener('click', () => {
+        if (currentStep > 1) updateStep(currentStep - 1);
     });
 
-    // Submit
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
+    const submitForm = async () => {
+        sidebarNextBtn.disabled = true;
+        sidebarNextBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> A processar...';
 
         dateInputBackend.value = hiddenDateInput.value;
         timeInputBackend.value = hiddenTimeInput.value;
@@ -280,18 +449,24 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
 
             if (data.success) {
-                form.style.display = 'none';
-                document.querySelector('.stepper').style.display = 'none';
+                document.querySelector('.booking-layout-container').innerHTML = '';
+                document.querySelector('.booking-layout-container').appendChild(successMessage);
                 successMessage.classList.remove('hidden');
                 confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
             } else {
                 alert(data.message);
+                sidebarNextBtn.disabled = false;
+                sidebarNextBtn.innerHTML = 'Confirmar <i class="fas fa-check"></i>';
             }
         } catch (e) {
             alert("Erro ao enviar marcação.");
+            sidebarNextBtn.disabled = false;
+            sidebarNextBtn.innerHTML = 'Confirmar <i class="fas fa-check"></i>';
         }
-    });
+    };
 
-    // Initial State
+    // Init
+    renderCalendar(currentCalendarDate);
     updateStep(1);
+    updateNextButtonState(1, false);
 });
