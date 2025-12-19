@@ -11,7 +11,7 @@ if ($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == '127.0.
     // Remote Environment (Production)
     define('DB_HOST', 'sql207.infinityfree.com');
     define('DB_USER', 'if0_40722519');
-    define('DB_PASS', 'Boaspessoa10000');
+    define('DB_PASS', 'Boaspessoal0000');
     define('DB_NAME', 'if0_40722519_oficina_do_cabelo');
     define('BASE_URL', '/'); // Usually / is correct for root domains
 }
