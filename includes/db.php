@@ -1,3 +1,4 @@
+<?php
 /**
  * Database connection configuration.
  * Uses PDO for secure database interactions.
