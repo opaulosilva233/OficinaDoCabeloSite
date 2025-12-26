@@ -1,359 +1,684 @@
-/* Estilo geral */
-body {
-    font-family: Arial, Helvetica, sans-serif;
+/* Page Header */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.page-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--color-text-main);
+    margin: 0 0 5px 0;
+}
+
+.page-subtitle {
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
     margin: 0;
-    padding: 0;
-    background-color: #f4f4f9; /* Fundo claro e suave */
-    color: #333; /* Cor padrão do texto */
-    line-height: 1.6;
 }
 
-/* Contêiner principal da Dashboard */
-.container {
-    margin-left: 220px;
+/* Filters Container - Groups Approach */
+.filters-container {
+    display: flex;
+    flex-wrap: wrap;
+    /* Allow main groups to wrap if needed */
+    gap: 15px;
+    margin-bottom: 25px;
+    background: var(--color-bg-card);
     padding: 20px;
-    margin-top: 60px;
-}
-
-.container h1 {
-    font-size: 36px;
-    margin-bottom: 20px;
-    color: #444;
-    text-align: center;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
-}
-
-/* Barra de Pesquisa */
-.search-bar {
-    display: flex;
-    justify-content: center;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
     align-items: center;
-    margin-bottom: 20px;
+    justify-content: space-between;
+    /* Push search left, actions right */
 }
 
-.search-bar input {
-    padding: 12px 16px;
+/* Search Box */
+.search-box {
+    position: relative;
+    flex: 1 1 300px;
+    /* Take available width, min 300px */
+    max-width: 500px;
+    /* Don't get too wide on huge screens */
+    min-width: 250px;
+}
+
+.search-box i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    pointer-events: none;
+}
+
+.search-box input {
     width: 100%;
-    max-width: 400px;
-    border: 2px solid #ddd; /* Borda clara */
-    border-radius: 8px; /* Reduzido o arredondamento */
-    font-size: 1rem;
-    outline: none; /* Remove o contorno azul padrão */
-    transition: border-color 0.3s ease; /* Transição suave ao focar */
-}
-
-.search-bar input:focus {
-    border-color: #d4a373; /* Destaca a borda ao focar */
-}
-
-.search-bar button {
-    padding: 12px 20px;
-    background: #d4a373; /* Cor sólida para o botão de pesquisa */
-    color: white;
-    border: none;
-    border-radius: 8px; /* Reduzido o arredondamento */
-    font-size: 1rem;
-    cursor: pointer;
-    margin-left: 10px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.search-bar button:hover {
-    background: #b88c5f; /* Escurece ligeiramente ao passar o mouse */
-    transform: scale(1.05); /* Aumenta ligeiramente ao passar o mouse */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra leve */
-}
-
-/* Tabela de dados */
-#appointmentsTable {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background-color: #fff;
-    border: 1px solid #ddd;
+    height: 48px;
+    /* Slightly taller for better touch targets */
+    padding: 0 15px 0 45px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.2);
+    color: var(--color-text-main);
+    font-size: 0.95rem;
     border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-bottom: 40px;
+    transition: all 0.3s ease;
 }
 
-#appointmentsTable thead {
-    background: linear-gradient(145deg, #d4a373, #b88c5f); /* Gradiente no cabeçalho */
-    color: white;
-    text-align: center; /* Centraliza o título */
+.search-box input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px rgba(212, 163, 115, 0.1);
 }
 
-#appointmentsTable th,
-#appointmentsTable td {
-    padding: 12px 15px;
-    border-bottom: 1px solid #ddd;
-    font-size: 14px;
-    text-align: center; /* Centraliza o conteúdo das células */
-}
-
-/* Capitaliza a primeira letra de cada palavra na coluna "Estado" */
-.estado {
-    text-transform: capitalize;
-}
-
-/* Garantir que o cabeçalho não mude de cor ao passar o mouse */
-.appointments-table thead th:hover {
-    background-color: #d4a373; /* Mantém a mesma cor de fundo */
-    color: white; /* Mantém a cor do texto */
-}
-
-/* Aplicar hover apenas às células normais (td) */
-#appointmentsTable tbody tr:hover td {
-    background-color: #f9f9f9;
-}
-
-#appointmentsTable th {
-    font-size: 14px;
-    font-weight: 600;
-}
-
-#appointmentsTable td {
-    font-size: 14px;
-}
-
-/* Botões de ação na tabela */
-#appointmentsTable button {
-    display: inline-block;
-    padding: 8px 12px;
-    background: #d4a373; /* Cor sólida para os botões de ação */
-    color: white;
-    text-decoration: none;
-    border: none;
-    border-radius: 6px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    font-size: 14px;
-    cursor: pointer;
-    margin-left: 5px;
-}
-
-#appointmentsTable button:hover {
-    background: #b88c5f; /* Escurece ligeiramente ao passar o mouse */
-    transform: translateY(-2px);
-}
-
-#ultimas-marcacoes-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}
-
-#ultimas-marcacoes-table th,
-#ultimas-marcacoes-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-}
-
-#ultimas-marcacoes-table th {
-    background-color: #f4f4f9;
-    font-weight: bold;
-}
-
-#ultimas-marcacoes-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-#ultimas-marcacoes-table tr:hover {
-    background-color: #f1f1f1;
-}
-
-/* Centralizar ícones na tabela */
-td i, td span.material-icons {
+/* Filters Actions Group (Right Side) */
+.filters-actions {
     display: flex;
-    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    /* allow internal wrapping if very narrow */
+    flex: 0 1 auto;
+    /* Don't grow, just take what you need */
+}
+
+/* Individual Filter Groups */
+.filter-group {
+    display: flex;
     align-items: center;
 }
 
-/* Espaçamento entre ícones e texto */
-td i, td span.material-icons {
-    margin: 0 auto;
-}
-
-/* Paginação */
-.pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-}
-
-.pagination button {
-    padding: 12px 20px;
-    background: #d4a373; /* Cor sólida para os botões de paginação */
-    color: white;
-    border: none;
-    border-radius: 8px; /* Reduzido o arredondamento */
-    font-size: 1rem;
+/* Status Select Styling */
+.filter-select {
+    height: 48px;
+    padding: 0 45px 0 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(30, 30, 30, 0.8);
+    color: var(--color-text-main);
+    font-size: 0.95rem;
     cursor: pointer;
-    margin: 0 5px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    transition: all 0.3s ease;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d4a373' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 16px;
+    min-width: 180px;
+    font-weight: 500;
 }
 
-.pagination button:hover {
-    background: #b88c5f; /* Escurece ligeiramente ao passar o mouse */
-    transform: scale(1.05); /* Aumenta ligeiramente ao passar o mouse */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra leve */
+.filter-select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(212, 163, 115, 0.15);
 }
 
-.pagination button:disabled {
-    background: #ccc; /* Desabilita o botão com uma cor cinza */
-    cursor: not-allowed;
+/* Fix for options in Dark Mode */
+.filter-select option {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+    padding: 10px;
 }
 
-/* Modal */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
+/* Date Range Container */
+.date-filters {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(30, 30, 30, 0.8);
+    padding: 0 15px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    height: 48px;
+    flex: 0 0 auto;
+    transition: border-color 0.3s ease;
+}
+
+.date-filters:focus-within {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(212, 163, 115, 0.15);
+}
+
+/* Date Inputs */
+.filter-input[type="date"] {
+    background: transparent;
+    border: none;
+    color: var(--color-text-main);
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 0;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    outline: none;
+    width: auto;
+    font-weight: 500;
 }
 
-.modal.show {
-    display: block;
+/* Custom Calendar Icon */
+.filter-input[type="date"]::-webkit-calendar-picker-indicator {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23d4a373' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3crect x='3' y='4' width='18' height='18' rx='2' ry='2'%3e%3c/rect%3e%3cline x1='16' y1='2' x2='16' y2='6'%3e%3c/line%3e%3cline x1='8' y1='2' x2='8' y2='6'%3e%3c/line%3e%3cline x1='3' y1='10' x2='21' y2='10'%3e%3c/line%3e%3c/svg%3e");
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.filter-input[type="date"]::-webkit-calendar-picker-indicator:hover {
     opacity: 1;
 }
 
-.modal-content {
-    background-color: #fff;
-    margin: 10% auto;
-    padding: 20px;
-    border: 1px solid #ddd;
+.date-separator {
+    color: var(--color-primary);
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+/* Refresh Button */
+.btn-icon {
+    width: 48px;
+    height: 48px;
     border-radius: 8px;
-    width: 90%;
-    max-width: 600px;
-    text-align: left;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease;
-    overflow-y: auto;
-    max-height: 1000px;
-}
-
-.modal-content h2 {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 15px;
-    text-align: center;
-}
-
-.modal-content p strong {
-    font-weight: bold;
-}
-
-.modal-content p span {
-    font-size: 16px;
-    color: #555;
-}
-
-.modal-content .close-button {
-    display: block;
-    margin: 20px auto 0;
-    background: #d4a373;
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 20px;
-    font-size: 1rem;
-    font-weight: bold;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.2);
+    color: var(--color-text-muted);
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.btn-icon:hover {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+    background: rgba(212, 163, 115, 0.1);
+}
+
+/* --- Responsive Breakpoints --- */
+
+/* Tablet: Stack Search on top, Filters row below */
+@media (max-width: 1024px) {
+    .search-box {
+        flex: 1 1 100%;
+        /* Force full width line */
+        max-width: none;
+        order: -1;
+        /* Ensure it's first */
+    }
+
+    .filters-actions {
+        flex: 1 1 100%;
+        /* Take full width */
+        justify-content: space-between;
+        /* Space them out */
+        margin-top: 10px;
+    }
+
+    .filter-group {
+        flex: 1;
+        /* Grow to fill space */
+    }
+
+    .filter-select {
+        width: 100%;
+        min-width: 0;
+    }
+}
+
+/* Mobile: Stack everything vertically */
+@media (max-width: 768px) {
+    .filters-container {
+        padding: 15px;
+    }
+
+    .filters-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+
+    .filter-group,
+    .date-filters,
+    .btn-icon {
+        width: 100%;
+    }
+
+    .date-filters {
+        justify-content: space-between;
+    }
+
+    .filter-select {
+        min-width: 0;
+    }
+}
+
+/* Table Card */
+.table-card {
+    background: var(--color-bg-card);
+    /* Keep base for contrast */
+    border-radius: 16px;
+    /* Dofter corners */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    /* Elevate card */
+}
+
+/* Gradient overlay for premium feel */
+.table-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+}
+
+.premium-table {
+    width: 100%;
+    border-collapse: separate;
+    /* Allows spacing if needed, but we use it for border-radius */
+    border-spacing: 0;
+}
+
+.premium-table th {
+    text-align: left;
+    padding: 20px 25px;
+    background: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--color-text-muted);
+    font-weight: 700;
+    font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
-.modal-content .close-button:hover {
-    background: #b88c5f;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+.premium-table td {
+    padding: 20px 25px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+    color: var(--color-text-main);
+    font-size: 0.95rem;
+    vertical-align: middle;
+    transition: background 0.2s, color 0.2s;
 }
 
-.modal-content .close-button:active {
-    transform: translateY(1px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.premium-table tr:last-child td {
+    border-bottom: none;
 }
 
-/* Estilo para os grupos de informações */
-.info-group {
-    margin-bottom: 20px;
-    padding: 15px;
-    background-color: #f9f9f9;
+.premium-table tbody tr {
+    transition: all 0.2s ease;
+}
+
+.premium-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.03);
+    transform: translateY(-1px);
+    /* Subtle lift */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow on lift */
+    z-index: 1;
+    /* Ensure shadow shows */
+    position: relative;
+}
+
+.premium-table tbody tr:hover td {
+    color: #fff;
+    /* Brighten text on hover */
+    border-bottom-color: transparent;
+    /* Hide border on hover for cleaner look */
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 30px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid transparent;
+    /* Prepare for border */
+}
+
+.status-badge::before {
+    content: '';
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.status-badge.marcada {
+    background: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+    border-color: rgba(245, 158, 11, 0.2);
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.1);
+}
+
+.status-badge.concluida {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+    border-color: rgba(16, 185, 129, 0.2);
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.1);
+}
+
+.status-badge.cancelada {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border-color: rgba(239, 68, 68, 0.2);
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.1);
+}
+
+.status-badge.pendente {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+    border-color: rgba(59, 130, 246, 0.2);
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.1);
+}
+
+/* Actions */
+.table-actions button {
+    background: rgba(255, 255, 255, 0.05);
+    /* Slight background */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 8px;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    /* Rounded square */
+    transition: all 0.2s;
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.info-group h3 {
-    font-size: 18px;
-    color: #333;
-    margin-bottom: 10px;
+.table-actions button:hover {
+    transform: translateY(-2px);
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #000;
+    /* Contrast on primary */
+    box-shadow: 0 4px 10px rgba(212, 163, 115, 0.3);
+}
+
+/* Pagination */
+.pagination-container {
+    padding: 15px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pagination-info {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+}
+
+.pagination-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.pagination-controls button {
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    color: var(--color-text-main);
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagination-controls button:hover:not(:disabled) {
+    background: var(--color-primary);
+    color: #000;
+}
+
+.pagination-controls button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Modal Styles override */
+.custom-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.95);
+    width: 90%;
+    max-width: 600px;
+    background: var(--color-bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.custom-modal.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    pointer-events: all;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(2px);
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+.modal-overlay.show {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: var(--color-text-main);
+}
+
+.close-modal-btn {
+    background: none;
+    border: none;
+    color: var(--color-text-muted);
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.modal-body {
+    padding: 25px;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.detail-label {
+    color: var(--color-text-muted);
+    font-weight: 500;
+}
+
+/* Modal Details Refinements */
+.modal-divider {
+    border: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 15px 0;
+}
+
+.highlight-text {
+    font-size: 1.1rem;
+    color: var(--color-primary);
+}
+
+.text-muted {
+    color: var(--color-text-muted);
+}
+
+/* Observations Box */
+.detail-row.observations {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 5px;
+}
+
+.detail-row.observations p {
+    margin: 0;
+    color: #ccc;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+/* History Section */
+.history-section {
+    margin-top: 25px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 15px;
+}
+
+.history-section h3 {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.history-table th {
     text-align: left;
+    color: var(--color-text-muted);
+    padding: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.info-group p {
-    margin: 5px 0;
-    text-align: left;
+.history-table td {
+    padding: 8px;
+    color: var(--color-text-main);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
 }
 
+.history-table tr:last-child td {
+    border-bottom: none;
+}
 
-/* Mensagem de feedback */
-.no-data-message {
+.history-empty {
+    color: var(--color-text-muted);
+    font-style: italic;
+    font-size: 0.9rem;
+    padding: 10px 0;
+}
+
+/* Status Dot for History */
+.status-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.status-dot.marcada {
+    background-color: #f59e0b;
+    box-shadow: 0 0 5px rgba(245, 158, 11, 0.5);
+}
+
+.status-dot.concluida {
+    background-color: #10b981;
+    box-shadow: 0 0 5px rgba(16, 185, 129, 0.5);
+}
+
+.status-dot.cancelada {
+    background-color: #ef4444;
+    box-shadow: 0 0 5px rgba(239, 68, 68, 0.5);
+}
+
+.status-dot.pendente {
+    background-color: #3b82f6;
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+}
+
+/* Loading State in Modal */
+.loading-modal {
     text-align: center;
-    font-size: 18px;
-    color: #777;
-    margin-top: 20px;
+    padding: 30px;
+    color: var(--color-text-muted);
 }
 
-/* Responsividade */
-@media (max-width: 1024px) {
-    .content,
-    .container {
-        margin-left: 0;
-        padding: 10px;
-    }
-    #appointmentsTable th,
-    #appointmentsTable td {
-        font-size: 12px;
-        padding: 10px;
-    }
+.loading-modal p {
+    margin-top: 10px;
+    font-size: 0.9rem;
 }
 
-@media (max-width: 768px) {
-    .search-bar input {
-        max-width: 100%; /* Ocupa toda a largura em telas menores */
-    }
-    .search-bar button {
-        margin-left: 0;
-        margin-top: 10px;
-    }
-    #appointmentsTable th,
-    #appointmentsTable td {
-        font-size: 12px;
-        padding: 8px;
-    }
-    .modal-content {
-        width: 95%;
-        margin: 20% auto;
-    }
+/* Modal Specific Status Badge */
+.detail-value .status-badge {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    border-width: 1px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-@media (max-width: 480px) {
-    #appointmentsTable th,
-    #appointmentsTable td {
-        font-size: 10px;
-        padding: 6px;
-    }
-    .modal-content {
-        width: 95%;
-        margin: 25% auto;
-    }
+.detail-value .status-badge::before {
+    width: 8px;
+    height: 8px;
 }

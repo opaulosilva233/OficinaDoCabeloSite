@@ -14,9 +14,12 @@ $router->add('marcacoes', 'PageController', 'booking');
 $router->add('api/book', 'AppointmentController', 'book');
 $router->add('api/slots', 'AppointmentController', 'getSlots');
 $router->add('api/dashboard-chart', 'AppointmentController', 'getChartData');
+$router->add('api/appointments', 'AppointmentController', 'getAppointments');
+$router->add('api/appointment-details', 'AppointmentController', 'getDetails');
 $router->add('api/busy-days', 'AppointmentController', 'getBusyDays');
 $router->add('sobre', 'PageController', 'about');
 $router->add('contacto', 'PageController', 'contact');
+$router->add('todas_marcacoes', 'AppointmentController', 'all');
 $router->add('rgpd', 'PageController', 'rgpd');
 // Add more routes as needed
 

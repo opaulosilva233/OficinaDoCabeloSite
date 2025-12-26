@@ -1,87 +1,131 @@
-<?php $path_prefix = './'; ?>
+<?php
+// All Bookings View
+?>
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todas as Marcações</title>
-    <link rel="stylesheet" href="assets/css/todasMarcacoes.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>Todas as Marcações - Oficina do Cabelo</title>
+    <!-- External Libs -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/dashboard-layout.css?v=<?= time() ?>">
+    <link rel="stylesheet" href="assets/css/dashboard-home.css?v=<?= time() ?>"> <!-- Reusing some dashboard styles -->
+    <link rel="stylesheet" href="assets/css/todasMarcacoes.css?v=<?= time() ?>">
 </head>
 <body>
-    <?php include 'includes/navbarLateral.php'; ?>
-    <div class="container">
-        <h1>Todas as Marcações</h1>
-        <!-- Barra de Pesquisa -->
-        <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Pesquisar por nome ou telefone..." />
-            <button onclick="fetchAppointments(1)">Pesquisar</button>
+
+<div class="dashboard-layout">
+    <!-- Sidebar -->
+    <?php include('includes/navbarLateral.php'); ?>
+    
+    <!-- Top Navbar -->
+    <?php include('includes/navbarTop.php'); ?>
+    
+    <!-- Main Content -->
+    <main class="main-content-area">
+        
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Todas as Marcações</h1>
+                <p class="page-subtitle">Gerencie todas as marcações do sistema.</p>
+            </div>
+            <a href="index.php?route=marcacoes" class="btn-action primary">
+                <i class="fas fa-plus"></i> Nova Marcação
+            </a>
         </div>
-        <!-- Tabela de Marcações -->
-        <table id="appointmentsTable">
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Telefone</th>
-                    <th>Data e Horário</th>
-                    <th>Status</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Dados serão inseridos aqui via JavaScript -->
-            </tbody>
-        </table>
-        <!-- Paginação -->
-        <div class="pagination">
-            <button id="prevPage" onclick="changePage(-1)">Anterior</button>
-            <span id="currentPage">Página 1</span>
-            <button id="nextPage" onclick="changePage(1)">Próxima</button>
+
+        <!-- Filters & Search -->
+        <div class="filters-container">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Pesquisar por nome ou telefone...">
+            </div>
+            
+            <!-- Filter Actions Group -->
+            <div class="filters-actions">
+                <!-- Status Filter -->
+                <div class="filter-group">
+                    <select id="statusFilter" class="filter-select">
+                        <option value="">Todos os Estados</option>
+                        <option value="marcada">Marcada</option>
+                        <option value="concluida">Concluída</option>
+                        <option value="pendente">Pendente</option>
+                        <option value="cancelada">Cancelada</option>
+                    </select>
+                </div>
+
+                <!-- Date Filters -->
+                <div class="filter-group date-filters">
+                    <input type="date" id="dateStart" class="filter-input" placeholder="Data Início" title="Data Início">
+                    <span class="date-separator">-</span>
+                    <input type="date" id="dateEnd" class="filter-input" placeholder="Data Fim" title="Data Fim">
+                </div>
+
+                <button id="refreshBtn" class="btn-icon" title="Limpar Filtros e Atualizar"><i class="fas fa-sync-alt"></i></button>
+            </div>
         </div>
-        <!-- Modal -->
-        <div id="detailsModal" class="modal">
-            <div class="modal-content">
-                <h2>Detalhes da Marcação</h2>
-                <div class="info-group">
-                    <h3>Dados Pessoais</h3>
-                    <p><strong>ID:</strong> <span id="modal-id"></span></p>
-                    <p><strong>Nome:</strong> <span id="modal-nome"></span></p>
-                    <p><strong>Telefone:</strong> <span id="modal-telefone"></span></p>
-                    <p><strong>Email:</strong> <span id="modal-email"></span></p>
+
+        <!-- Appointments Table Card -->
+        <div class="table-card">
+            <div class="table-responsive">
+                <table class="premium-table" id="appointmentsTable">
+                    <thead>
+                        <tr>
+                            <th>Cliente</th>
+                            <th>Serviço</th>
+                            <th>Barbeiro</th>
+                            <th>Data e Hora</th>
+                            <th>Estado</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Loading State -->
+                        <tr>
+                            <td colspan="6" class="text-center py-5">
+                                <i class="fas fa-spinner fa-spin fa-2x"></i>
+                                <p class="mt-2">A carregar marcações...</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="pagination-container">
+                <span class="pagination-info">Mostrando <span id="showingStart">0</span> a <span id="showingEnd">0</span> de <span id="totalItems">0</span></span>
+                <div class="pagination-controls">
+                    <button id="prevPage" disabled><i class="fas fa-chevron-left"></i></button>
+                    <span id="currentPageDisplay">Pag. 1</span>
+                    <button id="nextPage" disabled><i class="fas fa-chevron-right"></i></button>
                 </div>
-                <div class="info-group">
-                    <h3>Serviço</h3>
-                    <p><strong>Barbeiro:</strong> <span id="modal-barbeiro"></span></p>
-                    <p><strong>Serviço:</strong> <span id="modal-servico"></span></p>
-                    <p><strong>Data e Horário:</strong> <span id="modal-data-horario"></span></p>
-                    <p><strong>Estado:</strong> <span id="modal-estado"></span></p>
-                </div>
-                <div class="info-group">
-                    <h3>Status e Histórico</h3>
-                    <p><strong>Criado Em:</strong> <span id="modal-criado-em"></span></p>
-                    <p><strong>Atualizado Em:</strong> <span id="modal-atualizado-em"></span></p>
-                    <p><strong>Total de Marcações:</strong> <span id="modal-total-marcacoes"></span></p>
-                    <h4>Últimas 5 Marcações</h4>
-                    <table id="ultimas-marcacoes-table" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
-                        <thead>
-                            <tr>
-                                <th>Data</th>
-                                <th>Horário</th>
-                                <th>Serviço</th>
-                                <th>Estado</th>
-                                <th>Barbeiro</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Linhas serão preenchidas dinamicamente pelo JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
-                <button class="close-button" onclick="closeModal()">Fechar</button>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<!-- Details Modal -->
+<div id="detailsModal" class="custom-modal">
+    <div class="modal-content-wrapper">
+        <div class="modal-header">
+            <h2>Detalhes da Marcação</h2>
+            <button class="close-modal-btn" onclick="closeModal()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body" id="modalBody">
+            <!-- Content filled by JS -->
+            <div class="loading-modal">
+                <i class="fas fa-spinner fa-spin"></i>
             </div>
         </div>
     </div>
-    <script src="assets/js/todasMarcacoes.js"></script>
+</div>
+
+<div class="modal-overlay" onclick="closeModal()"></div>
+
+<script src="assets/js/todasMarcacoes.js?v=<?= time() ?>"></script>
 </body>
 </html>

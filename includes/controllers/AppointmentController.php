@@ -200,5 +200,65 @@ class AppointmentController {
             echo json_encode(['success' => false, 'message' => 'Erro no servidor: ' . $e->getMessage()]);
         }
     }
+    public function getAppointments() {
+        $this->auth->requireLogin();
+        header('Content-Type: application/json');
+
+        try {
+            $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+            $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 10;
+            $search = $_GET['search'] ?? '';
+            
+            $filters = [
+                'status' => $_GET['status'] ?? '',
+                'date_start' => $_GET['date_start'] ?? '',
+                'date_end' => $_GET['date_end'] ?? ''
+            ];
+
+            $result = $this->appointmentModel->getAll($page, $limit, $search, $filters);
+            
+            echo json_encode(['success' => true, 'data' => $result['data'], 'pagination' => [
+                'total' => $result['total'],
+                'pages' => $result['totalPages'],
+                'current' => $result['page'],
+                'limit' => $result['limit']
+            ]]);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+        }
+        exit;
+    }
+
+    public function getDetails() {
+        $this->auth->requireLogin();
+        header('Content-Type: application/json');
+
+        try {
+            if (!isset($_GET['id'])) {
+                throw new Exception("ID not provided");
+            }
+            
+            $id = (int)$_GET['id'];
+            
+            $appointment = $this->appointmentModel->getById($id);
+            if (!$appointment) {
+                throw new Exception("Marcação não encontrada");
+            }
+
+            $history = $this->appointmentModel->getHistory(
+                $appointment['nome_utilizador'], 
+                $appointment['telefone_utilizador'], 
+                $id
+            );
+
+            echo json_encode(['success' => true, 'data' => $appointment, 'history' => $history]);
+
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+        }
+        exit;
+    }
 }
 ?>

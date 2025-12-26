@@ -15,7 +15,7 @@ $path_prefix = './';
             <i class="fas fa-th-large"></i>
             <span>Dashboard</span>
         </a>
-        <a href="<?= $path_prefix ?>index.php?route=all" class="menu-item <?= (isset($_GET['route']) && $_GET['route'] == 'all') ? 'active' : '' ?>" title="Todas as Marcações">
+        <a href="<?= $path_prefix ?>index.php?route=todas_marcacoes" class="menu-item <?= (isset($_GET['route']) && $_GET['route'] == 'todas_marcacoes') ? 'active' : '' ?>" title="Todas as Marcações">
             <i class="fas fa-calendar-alt"></i>
             <span>Todas as Marcações</span>
         </a>

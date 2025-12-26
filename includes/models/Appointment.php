@@ -238,5 +238,98 @@ class Appointment {
         $stmt = $this->db->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    /**
+     * Get all appointments with pagination and filters.
+     */
+    /**
+     * Get all appointments with pagination and filters.
+     */
+    public function getAll($page = 1, $limit = 10, $search = '', $filters = []) {
+        $offset = ($page - 1) * $limit;
+        $params = [];
+        $whereClause = "WHERE 1=1";
+
+        if (!empty($search)) {
+            $whereClause .= " AND (nome_utilizador LIKE :search OR telefone_utilizador LIKE :search_phone)";
+            $params[':search'] = "%$search%";
+            $params[':search_phone'] = "%$search%";
+        }
+
+        // Apply filters
+        if (!empty($filters['status'])) {
+            $whereClause .= " AND estado = :status";
+            $params[':status'] = $filters['status'];
+        }
+
+        if (!empty($filters['date_start'])) {
+            $whereClause .= " AND data_marcacao >= :date_start";
+            $params[':date_start'] = $filters['date_start'];
+        }
+
+        if (!empty($filters['date_end'])) {
+            $whereClause .= " AND data_marcacao <= :date_end";
+            $params[':date_end'] = $filters['date_end'];
+        }
+
+        // Count total for pagination
+        $countSql = "SELECT COUNT(*) FROM marcacoes $whereClause";
+        $stmt = $this->db->prepare($countSql);
+        $stmt->execute($params);
+        $total = $stmt->fetchColumn();
+
+        // Fetch data
+        $sql = "SELECT * FROM marcacoes 
+                $whereClause 
+                ORDER BY data_marcacao DESC, horario_marcacao DESC 
+                LIMIT :limit OFFSET :offset";
+        
+        $stmt = $this->db->prepare($sql);
+        
+        // Bind parameters manually due to LIMIT/OFFSET needing integers
+        foreach ($params as $key => $value) {
+            $stmt->bindValue($key, $value);
+        }
+        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+        
+        $stmt->execute();
+        
+        return [
+            'data' => $stmt->fetchAll(PDO::FETCH_ASSOC),
+            'total' => $total,
+            'page' => $page,
+            'limit' => $limit,
+            'totalPages' => ceil($total / $limit)
+        ];
+    }
+    /**
+     * Get unique appointment by ID.
+     */
+    public function getById($id) {
+        $sql = "SELECT * FROM marcacoes WHERE id = :id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Get client history (last 5 appointments).
+     */
+    public function getHistory($name, $phone, $currentId) {
+        $sql = "SELECT * FROM marcacoes 
+                WHERE (telefone_utilizador = :phone OR nome_utilizador = :name)
+                AND id != :id
+                ORDER BY data_marcacao DESC, horario_marcacao DESC
+                LIMIT 5";
+        
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([
+            ':phone' => $phone,
+            ':name' => $name,
+            ':id' => $currentId
+        ]);
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>
