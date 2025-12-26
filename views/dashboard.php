@@ -38,10 +38,10 @@
             
             <!-- Quick Actions -->
             <div class="quick-actions" style="display: flex; gap: 10px;">
-                <a href="marcacoes" class="btn-action primary">
+                <a href="index.php?route=marcacoes" class="btn-action primary">
                     <i class="fas fa-plus"></i> Nova Marcação
                 </a>
-                <a href="agenda" class="btn-action secondary">
+                <a href="index.php?route=agenda" class="btn-action secondary">
                     <i class="fas fa-calendar-alt"></i> Ver Agenda
                 </a>
             </div>
