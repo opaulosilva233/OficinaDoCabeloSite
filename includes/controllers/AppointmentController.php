@@ -19,6 +19,7 @@ class AppointmentController {
             $daily_summary = $this->appointmentModel->getSummary('daily');
             $weekly_summary = $this->appointmentModel->getSummary('weekly');
             $monthly_summary = $this->appointmentModel->getSummary('monthly');
+            $next_appointments = $this->appointmentModel->getNextAppointments(5);
             
             // Pass data to view
             require_once __DIR__ . '/../../views/dashboard.php';
@@ -60,6 +61,19 @@ class AppointmentController {
         $this->auth->requireLogin();
         // Logic for todasMarcacoes.php would go here
         require_once __DIR__ . '/../../views/todasMarcacoes.php';
+    }
+
+    public function getChartData() {
+        header('Content-Type: application/json');
+        try {
+            $period = $_GET['period'] ?? 'weekly';
+            $data = $this->appointmentModel->getChartStats($period);
+            echo json_encode($data);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['error' => $e->getMessage()]);
+        }
+        exit;
     }
 
     public function getSlots() {

@@ -1,26 +1,6 @@
 <?php
-// Logic is now in AppointmentController::dashboard()
-// Variables available: $daily_summary, $weekly_summary, $monthly_summary, $current_date
-$current_date = date('d/m/Y');
-
-// Helper for CSV export (can be moved to a separate JS file or kept here for simplicity)
-$export_data_daily = [
-    ['Métrica', 'Valor'],
-    ['Total de Marcações', $daily_summary['total_bookings'] ?? 0],
-    ['Concluídas', $daily_summary['completed_bookings'] ?? 0],
-    ['Marcadas', $daily_summary['pending_bookings'] ?? 0],
-    ['Canceladas', $daily_summary['canceled_bookings'] ?? 0]
-];
-// ... (CSV logic could be cleaner, but keeping it simple for now)
-function arrayToCsv($data) {
-    $output = '';
-    foreach ($data as $row) {
-        $output .= implode(',', array_map('strval', $row)) . "\n";
-    }
-    return $output;
-}
-$csv_data_daily = arrayToCsv($export_data_daily);
-// ... (omitting other CSVs for brevity, can add back if needed)
+// Main Dashboard View
+// Data available: $daily_summary, $weekly_summary, $monthly_summary, $next_appointments, $current_date
 ?>
 <!DOCTYPE html>
 <html lang="pt-PT">
@@ -28,19 +8,16 @@ $csv_data_daily = arrayToCsv($export_data_daily);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Oficina do Cabelo</title>
+    <!-- External Libs -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/dashboard.css">
-    <link rel="stylesheet" href="assets/css/transitions.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/css/dashboard-layout.css?v=<?= time() ?>">
+    <link rel="stylesheet" href="assets/css/dashboard-home.css?v=<?= time() ?>">
+    <link rel="stylesheet" href="assets/css/transitions.css">
 </head>
 <body>
-<!-- Page Transition Overlay -->
-<div class="page-transition-overlay">
-    <div class="transition-panel"></div>
-    <div class="transition-panel"></div>
-    <div class="transition-panel"></div>
-</div>
 
 <div class="dashboard-layout">
     <!-- Sidebar -->
@@ -51,99 +28,147 @@ $csv_data_daily = arrayToCsv($export_data_daily);
     
     <!-- Main Content -->
     <main class="main-content-area">
-        <div class="dashboard-container" style="margin: 0; padding: 0;"> <!-- Reset margins/padding as they are handled by main-content-area now -->
-            <!-- Filter -->
-            <div class="filter-container">
-                <label for="periodFilter">Período: </label>
-                <select id="periodFilter" onchange="updateDashboard()">
+        
+        <!-- Welcome Header -->
+        <div class="welcome-section" style="display: flex; justify-content: space-between; align-items: flex-end;">
+            <div>
+                <h1 class="welcome-title">Bom dia, Equipa!</h1>
+                <p class="welcome-subtitle">Aqui está o resumo da atividade para hoje, <?= date('d/m/Y') ?>.</p>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div class="quick-actions" style="display: flex; gap: 10px;">
+                <a href="marcacoes" class="btn-action primary">
+                    <i class="fas fa-plus"></i> Nova Marcação
+                </a>
+                <a href="agenda" class="btn-action secondary">
+                    <i class="fas fa-calendar-alt"></i> Ver Agenda
+                </a>
+            </div>
+        </div>
+        
+        <!-- Filter Bar (Moved for better layout) -->
+        <div class="filter-bar" style="margin-bottom: 20px; display: flex; justify-content: flex-end;">
+             <div class="filter-controls" style="display: flex; gap: 10px; align-items: center;">
+                <select id="periodFilter" onchange="updateDashboard()" style="padding: 8px 15px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); background: var(--color-bg-card); color: var(--color-text-main);">
                     <option value="daily">Hoje</option>
                     <option value="weekly" selected>Esta Semana</option>
                     <option value="monthly">Este Mês</option>
                 </select>
-                <button id="refreshBtn" class="dashboard-btn" onclick="window.location.reload()"><i class="fas fa-sync-alt"></i> Atualizar</button>
+                <button onclick="window.location.reload()" style="background: none; border: none; cursor: pointer; color: var(--color-text-muted); font-size: 1.1rem;"><i class="fas fa-sync-alt"></i></button>
             </div>
-        
-            <!-- Daily Summary -->
-            <section class="summary" id="dailySummary">
-                <h2>Resumo Diário</h2>
-                <p class="summary-note">Dados de hoje: <?= $current_date ?></p>
-                <div class="summary-item">
-                    <h3><i class="fas fa-calendar-alt"></i> Total de Marcações</h3>
-                    <p class="total"><?php echo $daily_summary['total_bookings'] ?? 0; ?></p>
+        </div>
+
+        <!-- Stats Grid (Using Weekly Data by Default for now, JS updates numbers) -->
+        <div class="stats-grid" id="statsGrid">
+            <!-- Total -->
+            <div class="stat-card total">
+                <div class="stat-icon"><i class="fas fa-calendar-alt"></i></div>
+                <div class="stat-info">
+                    <span class="stat-value" id="val-total"><?php echo $weekly_summary['total_bookings'] ?? 0; ?></span>
+                    <span class="stat-label">Total de Marcações</span>
                 </div>
-                <div class="summary-item">
-                    <h3><i class="fas fa-check-circle"></i> Concluídas</h3>
-                    <p class="completed"><?php echo $daily_summary['completed_bookings'] ?? 0; ?></p>
+            </div>
+
+            <!-- Completed -->
+            <div class="stat-card completed">
+                <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                <div class="stat-info">
+                    <span class="stat-value" id="val-completed"><?php echo $weekly_summary['completed_bookings'] ?? 0; ?></span>
+                    <span class="stat-label">Concluídas</span>
                 </div>
-                <div class="summary-item">
-                    <h3><i class="fas fa-clock"></i> Marcadas</h3>
-                    <p class="pending"><?php echo $daily_summary['pending_bookings'] ?? 0; ?></p>
+            </div>
+
+            <!-- Pending -->
+            <div class="stat-card pending">
+                <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                <div class="stat-info">
+                    <span class="stat-value" id="val-pending"><?php echo $weekly_summary['pending_bookings'] ?? 0; ?></span>
+                    <span class="stat-label">Por Realizar</span>
                 </div>
-                <div class="summary-item">
-                    <h3><i class="fas fa-times-circle"></i> Canceladas</h3>
-                    <p class="canceled"><?php echo $daily_summary['canceled_bookings'] ?? 0; ?></p>
-                </div>
-            </section>
-        
-            <!-- Weekly Summary -->
-            <section class="summary" id="weeklySummary">
-                <h2>Resumo Semanal</h2>
-                <p class="summary-note">Dados desta semana</p>
-                <div class="summary-item">
-                    <h3><i class="fas fa-calendar-alt"></i> Total de Marcações</h3>
-                    <p class="total"><?php echo $weekly_summary['total_bookings'] ?? 0; ?></p>
-                </div>
-                <div class="summary-item">
-                    <h3><i class="fas fa-check-circle"></i> Concluídas</h3>
-                    <p class="completed"><?php echo $weekly_summary['completed_bookings'] ?? 0; ?></p>
-                </div>
-                <div class="summary-item">
-                    <h3><i class="fas fa-clock"></i> Marcadas</h3>
-                    <p class="pending"><?php echo $weekly_summary['pending_bookings'] ?? 0; ?></p>
-                </div>
-                <div class="summary-item">
-                    <h3><i class="fas fa-times-circle"></i> Canceladas</h3>
-                    <p class="canceled"><?php echo $weekly_summary['canceled_bookings'] ?? 0; ?></p>
-                </div>
-            </section>
-        
-            <!-- Monthly Summary -->
-            <section class="summary" id="monthlySummary" style="display: none;">
-                <h2>Resumo Mensal</h2>
-                <p class="summary-note">Dados deste mês</p>
-                <div class="summary-item">
-                    <h3><i class="fas fa-calendar-alt"></i> Total de Marcações</h3>
-                    <p class="total"><?php echo $monthly_summary['total_bookings'] ?? 0; ?></p>
-                </div>
-                <div class="summary-item">
-                    <h3><i class="fas fa-check-circle"></i> Concluídas</h3>
-                    <p class="completed"><?php echo $monthly_summary['completed_bookings'] ?? 0; ?></p>
-                </div>
-                <div class="summary-item">
-                    <h3><i class="fas fa-clock"></i> Marcadas</h3>
-                    <p class="pending"><?php echo $monthly_summary['pending_bookings'] ?? 0; ?></p>
-                </div>
-                <div class="summary-item">
-                    <h3><i class="fas fa-times-circle"></i> Canceladas</h3>
-                    <p class="canceled"><?php echo $monthly_summary['canceled_bookings'] ?? 0; ?></p>
-                </div>
-            </section>
-        
-            <!-- Chart Section -->
-            <div class="main-content">
-                <h1>Marcações Semanais</h1>
-                <div id="chartContainer">
-                    <div id="chartLoading" class="loading"><i class="fas fa-spinner fa-spin"></i> Carregando gráfico...</div>
-                    <div id="chartError" class="error" style="display: none;"><i class="fas fa-exclamation-triangle"></i> Falha ao carregar os dados do gráfico.</div>
-                    <canvas id="weeklyChart"></canvas>
+            </div>
+
+            <!-- Canceled -->
+            <div class="stat-card canceled">
+                <div class="stat-icon"><i class="fas fa-times-circle"></i></div>
+                <div class="stat-info">
+                    <span class="stat-value" id="val-canceled"><?php echo $weekly_summary['canceled_bookings'] ?? 0; ?></span>
+                    <span class="stat-label">Canceladas</span>
                 </div>
             </div>
         </div>
+
+        <!-- Main Content Grid -->
+        <div class="content-grid">
+            
+            <!-- Chart Section -->
+            <div class="dashboard-card chart-card">
+                <div class="card-header">
+                    <h2 class="card-title">Performance Semanal</h2>
+                </div>
+                <div id="chartContainer" style="position: relative; height: 300px; width: 100%;">
+                    <canvas id="weeklyChart"></canvas>
+                    
+                    <!-- Loading State -->
+                    <div id="chartLoading" class="chart-overlay" style="display: none;">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <span>A carregar dados...</span>
+                    </div>
+                    
+                    <!-- Error State -->
+                    <div id="chartError" class="chart-overlay" style="display: none; color: #dc3545;">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Erro ao carregar gráfico.</span>
+                    </div>
+                    
+                </div>
+                <!-- Legend (Populated by JS) - Moved outside strictly for layout spacing -->
+                <div id="chartLegend"></div>
+            </div>
+
+            <!-- Upcoming Appointments List -->
+            <div class="dashboard-card activity-card">
+                <div class="card-header">
+                    <h2 class="card-title">Próximas Marcações</h2>
+                </div>
+                
+                <?php if (empty($next_appointments)): ?>
+                    <div class="empty-state">
+                        <i class="fas fa-calendar-times"></i>
+                        <p>Sem marcações próximas.</p>
+                    </div>
+                <?php else: ?>
+                    <ul class="activity-list">
+                        <?php foreach ($next_appointments as $appt): ?>
+                            <li class="activity-item">
+                                <div class="activity-time">
+                                    <?= date('H:i', strtotime($appt['horario_marcacao'])) ?>
+                                </div>
+                                <div class="activity-details">
+                                    <span class="activity-title"><?= htmlspecialchars($appt['cliente']) ?></span>
+                                    <div class="activity-meta">
+                                        <span><i class="fas fa-cut"></i> <?= htmlspecialchars($appt['servico']) ?></span>
+                                        <span><i class="fas fa-user-tie"></i> <?= explode(' ', $appt['barbeiro'])[0] ?></span>
+                                    </div>
+                                </div>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
+            </div>
+
+        </div>
+
     </main>
 </div>
 
-<script src="assets/js/chartScript.js"></script>
-<script src="assets/js/transitions.js"></script>
-<!-- New Layout JS is included in navbarLateral.php (which is weird, but works for now) -->
+<!-- JS -->
+<script src="assets/js/chartScript.js?v=<?= time() ?>"></script>
+<script>
+    // Pass PHP data to JS
+    const dailyData = <?= json_encode($daily_summary) ?>;
+    const weeklyData = <?= json_encode($weekly_summary) ?>;
+    const monthlyData = <?= json_encode($monthly_summary) ?>;
+</script>
 </body>
 </html>

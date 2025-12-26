@@ -152,5 +152,91 @@ class Appointment {
         $stmt = $this->db->query($sql);
         return $stmt->fetch();
     }
+    /**
+     * Get next upcoming appointments (limit by default 5)
+     */
+    public function getNextAppointments($limit = 5) {
+        $date = date('Y-m-d');
+        $time = date('H:i:s');
+        
+        $sql = "SELECT id, barbeiro, servico, data_marcacao, horario_marcacao, cliente_nome, estado 
+                FROM marcacoes 
+                WHERE estado IN ('marcada', 'pendente')
+                AND (data_marcacao > :date OR (data_marcacao = :date AND horario_marcacao >= :time))
+                ORDER BY data_marcacao ASC, horario_marcacao ASC
+                LIMIT :limit";
+                
+        // Note: 'cliente_nome' in DB schema might be 'nome_utilizador'. 
+        // Based on create() method: 'nome_utilizador' is the column. 
+        // Let's fix the SQL to select 'nome_utilizador' as 'cliente_nome' for easier usage or just use 'nome_utilizador'.
+        // Checking create() method again: 
+        // INSERT INTO marcacoes (..., nome_utilizador, ...) 
+        
+        $sql = "SELECT id, barbeiro, servico, data_marcacao, horario_marcacao, nome_utilizador as cliente, estado 
+                FROM marcacoes 
+                WHERE estado NOT IN ('concluida', 'cancelada')
+                AND (data_marcacao > :date OR (data_marcacao = :date AND horario_marcacao >= :time))
+                ORDER BY data_marcacao ASC, horario_marcacao ASC
+                LIMIT :limit";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':date', $date);
+        $stmt->bindValue(':time', $time);
+        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        return $stmt->fetchAll();
+    }
+    /**
+     * Get chart statistics based on period.
+     */
+    public function getChartStats($period) {
+        $condition = "";
+        $groupBy = "";
+        $select = "";
+        
+        switch ($period) {
+            case 'daily':
+                // Group by 4-hour blocks
+                // 00-04, 04-08, 08-12, 12-16, 16-20, 20-24
+                $sql = "SELECT 
+                            CASE 
+                                WHEN HOUR(horario_marcacao) < 4 THEN '00h-04h'
+                                WHEN HOUR(horario_marcacao) < 8 THEN '04h-08h'
+                                WHEN HOUR(horario_marcacao) < 12 THEN '08h-12h'
+                                WHEN HOUR(horario_marcacao) < 16 THEN '12h-16h'
+                                WHEN HOUR(horario_marcacao) < 20 THEN '16h-20h'
+                                ELSE '20h-24h'
+                            END as time_slot,
+                            COUNT(*) as booking_count
+                        FROM marcacoes
+                        WHERE data_marcacao = CURDATE()
+                        GROUP BY time_slot";
+                break;
+                
+            case 'monthly':
+                $sql = "SELECT DAY(data_marcacao) as day_of_month, COUNT(*) as booking_count
+                        FROM marcacoes
+                        WHERE MONTH(data_marcacao) = MONTH(CURDATE()) 
+                        AND YEAR(data_marcacao) = YEAR(CURDATE())
+                        GROUP BY day_of_month";
+                break;
+                
+            case 'weekly':
+            default:
+                // Monday to Saturday (or Sunday)
+                // ELT(WEEKDAY(data_marcacao) + 1, 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo')
+                $sql = "SELECT 
+                            ELT(WEEKDAY(data_marcacao) + 1, 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo') as day_of_week,
+                            COUNT(*) as booking_count
+                        FROM marcacoes
+                        WHERE YEARWEEK(data_marcacao, 1) = YEARWEEK(CURDATE(), 1)
+                        GROUP BY day_of_week";
+                break;
+        }
+        
+        $stmt = $this->db->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>

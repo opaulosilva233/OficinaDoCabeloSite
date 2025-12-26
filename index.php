@@ -13,6 +13,7 @@ $router->add('agenda', 'AppointmentController', 'agenda');
 $router->add('marcacoes', 'PageController', 'booking');
 $router->add('api/book', 'AppointmentController', 'book');
 $router->add('api/slots', 'AppointmentController', 'getSlots');
+$router->add('api/dashboard-chart', 'AppointmentController', 'getChartData');
 $router->add('api/busy-days', 'AppointmentController', 'getBusyDays');
 $router->add('sobre', 'PageController', 'about');
 $router->add('contacto', 'PageController', 'contact');
