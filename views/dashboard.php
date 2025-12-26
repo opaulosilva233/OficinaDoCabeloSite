@@ -32,7 +32,7 @@ $csv_data_daily = arrayToCsv($export_data_daily);
     <link rel="stylesheet" href="assets/css/dashboard.css">
     <link rel="stylesheet" href="assets/css/transitions.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <?php include('includes/navbarLateral.php'); ?>
+    <link rel="stylesheet" href="assets/css/dashboard-layout.css?v=<?= time() ?>">
 </head>
 <body>
 <!-- Page Transition Overlay -->
@@ -41,95 +41,109 @@ $csv_data_daily = arrayToCsv($export_data_daily);
     <div class="transition-panel"></div>
     <div class="transition-panel"></div>
 </div>
-<div class="dashboard-container">
-    <!-- Filter -->
-    <div class="filter-container">
-        <label for="periodFilter">Período: </label>
-        <select id="periodFilter" onchange="updateDashboard()">
-            <option value="daily">Hoje</option>
-            <option value="weekly" selected>Esta Semana</option>
-            <option value="monthly">Este Mês</option>
-        </select>
-        <button id="refreshBtn" class="dashboard-btn" onclick="window.location.reload()"><i class="fas fa-sync-alt"></i> Atualizar</button>
-    </div>
 
-    <!-- Daily Summary -->
-    <section class="summary" id="dailySummary">
-        <h2>Resumo Diário</h2>
-        <p class="summary-note">Dados de hoje: <?= $current_date ?></p>
-        <div class="summary-item">
-            <h3><i class="fas fa-calendar-alt"></i> Total de Marcações</h3>
-            <p class="total"><?php echo $daily_summary['total_bookings'] ?? 0; ?></p>
-        </div>
-        <div class="summary-item">
-            <h3><i class="fas fa-check-circle"></i> Concluídas</h3>
-            <p class="completed"><?php echo $daily_summary['completed_bookings'] ?? 0; ?></p>
-        </div>
-        <div class="summary-item">
-            <h3><i class="fas fa-clock"></i> Marcadas</h3>
-            <p class="pending"><?php echo $daily_summary['pending_bookings'] ?? 0; ?></p>
-        </div>
-        <div class="summary-item">
-            <h3><i class="fas fa-times-circle"></i> Canceladas</h3>
-            <p class="canceled"><?php echo $daily_summary['canceled_bookings'] ?? 0; ?></p>
-        </div>
-    </section>
-
-    <!-- Weekly Summary -->
-    <section class="summary" id="weeklySummary">
-        <h2>Resumo Semanal</h2>
-        <p class="summary-note">Dados desta semana</p>
-        <div class="summary-item">
-            <h3><i class="fas fa-calendar-alt"></i> Total de Marcações</h3>
-            <p class="total"><?php echo $weekly_summary['total_bookings'] ?? 0; ?></p>
-        </div>
-        <div class="summary-item">
-            <h3><i class="fas fa-check-circle"></i> Concluídas</h3>
-            <p class="completed"><?php echo $weekly_summary['completed_bookings'] ?? 0; ?></p>
-        </div>
-        <div class="summary-item">
-            <h3><i class="fas fa-clock"></i> Marcadas</h3>
-            <p class="pending"><?php echo $weekly_summary['pending_bookings'] ?? 0; ?></p>
-        </div>
-        <div class="summary-item">
-            <h3><i class="fas fa-times-circle"></i> Canceladas</h3>
-            <p class="canceled"><?php echo $weekly_summary['canceled_bookings'] ?? 0; ?></p>
-        </div>
-    </section>
-
-    <!-- Monthly Summary -->
-    <section class="summary" id="monthlySummary" style="display: none;">
-        <h2>Resumo Mensal</h2>
-        <p class="summary-note">Dados deste mês</p>
-        <div class="summary-item">
-            <h3><i class="fas fa-calendar-alt"></i> Total de Marcações</h3>
-            <p class="total"><?php echo $monthly_summary['total_bookings'] ?? 0; ?></p>
-        </div>
-        <div class="summary-item">
-            <h3><i class="fas fa-check-circle"></i> Concluídas</h3>
-            <p class="completed"><?php echo $monthly_summary['completed_bookings'] ?? 0; ?></p>
-        </div>
-        <div class="summary-item">
-            <h3><i class="fas fa-clock"></i> Marcadas</h3>
-            <p class="pending"><?php echo $monthly_summary['pending_bookings'] ?? 0; ?></p>
-        </div>
-        <div class="summary-item">
-            <h3><i class="fas fa-times-circle"></i> Canceladas</h3>
-            <p class="canceled"><?php echo $monthly_summary['canceled_bookings'] ?? 0; ?></p>
-        </div>
-    </section>
-
+<div class="dashboard-layout">
+    <!-- Sidebar -->
+    <?php include('includes/navbarLateral.php'); ?>
+    
+    <!-- Top Navbar -->
+    <?php include('includes/navbarTop.php'); ?>
+    
     <!-- Main Content -->
-    <main class="main-content">
-        <h1>Marcações Semanais</h1>
-        <div id="chartContainer">
-            <div id="chartLoading" class="loading"><i class="fas fa-spinner fa-spin"></i> Carregando gráfico...</div>
-            <div id="chartError" class="error" style="display: none;"><i class="fas fa-exclamation-triangle"></i> Falha ao carregar os dados do gráfico.</div>
-            <canvas id="weeklyChart"></canvas>
+    <main class="main-content-area">
+        <div class="dashboard-container" style="margin: 0; padding: 0;"> <!-- Reset margins/padding as they are handled by main-content-area now -->
+            <!-- Filter -->
+            <div class="filter-container">
+                <label for="periodFilter">Período: </label>
+                <select id="periodFilter" onchange="updateDashboard()">
+                    <option value="daily">Hoje</option>
+                    <option value="weekly" selected>Esta Semana</option>
+                    <option value="monthly">Este Mês</option>
+                </select>
+                <button id="refreshBtn" class="dashboard-btn" onclick="window.location.reload()"><i class="fas fa-sync-alt"></i> Atualizar</button>
+            </div>
+        
+            <!-- Daily Summary -->
+            <section class="summary" id="dailySummary">
+                <h2>Resumo Diário</h2>
+                <p class="summary-note">Dados de hoje: <?= $current_date ?></p>
+                <div class="summary-item">
+                    <h3><i class="fas fa-calendar-alt"></i> Total de Marcações</h3>
+                    <p class="total"><?php echo $daily_summary['total_bookings'] ?? 0; ?></p>
+                </div>
+                <div class="summary-item">
+                    <h3><i class="fas fa-check-circle"></i> Concluídas</h3>
+                    <p class="completed"><?php echo $daily_summary['completed_bookings'] ?? 0; ?></p>
+                </div>
+                <div class="summary-item">
+                    <h3><i class="fas fa-clock"></i> Marcadas</h3>
+                    <p class="pending"><?php echo $daily_summary['pending_bookings'] ?? 0; ?></p>
+                </div>
+                <div class="summary-item">
+                    <h3><i class="fas fa-times-circle"></i> Canceladas</h3>
+                    <p class="canceled"><?php echo $daily_summary['canceled_bookings'] ?? 0; ?></p>
+                </div>
+            </section>
+        
+            <!-- Weekly Summary -->
+            <section class="summary" id="weeklySummary">
+                <h2>Resumo Semanal</h2>
+                <p class="summary-note">Dados desta semana</p>
+                <div class="summary-item">
+                    <h3><i class="fas fa-calendar-alt"></i> Total de Marcações</h3>
+                    <p class="total"><?php echo $weekly_summary['total_bookings'] ?? 0; ?></p>
+                </div>
+                <div class="summary-item">
+                    <h3><i class="fas fa-check-circle"></i> Concluídas</h3>
+                    <p class="completed"><?php echo $weekly_summary['completed_bookings'] ?? 0; ?></p>
+                </div>
+                <div class="summary-item">
+                    <h3><i class="fas fa-clock"></i> Marcadas</h3>
+                    <p class="pending"><?php echo $weekly_summary['pending_bookings'] ?? 0; ?></p>
+                </div>
+                <div class="summary-item">
+                    <h3><i class="fas fa-times-circle"></i> Canceladas</h3>
+                    <p class="canceled"><?php echo $weekly_summary['canceled_bookings'] ?? 0; ?></p>
+                </div>
+            </section>
+        
+            <!-- Monthly Summary -->
+            <section class="summary" id="monthlySummary" style="display: none;">
+                <h2>Resumo Mensal</h2>
+                <p class="summary-note">Dados deste mês</p>
+                <div class="summary-item">
+                    <h3><i class="fas fa-calendar-alt"></i> Total de Marcações</h3>
+                    <p class="total"><?php echo $monthly_summary['total_bookings'] ?? 0; ?></p>
+                </div>
+                <div class="summary-item">
+                    <h3><i class="fas fa-check-circle"></i> Concluídas</h3>
+                    <p class="completed"><?php echo $monthly_summary['completed_bookings'] ?? 0; ?></p>
+                </div>
+                <div class="summary-item">
+                    <h3><i class="fas fa-clock"></i> Marcadas</h3>
+                    <p class="pending"><?php echo $monthly_summary['pending_bookings'] ?? 0; ?></p>
+                </div>
+                <div class="summary-item">
+                    <h3><i class="fas fa-times-circle"></i> Canceladas</h3>
+                    <p class="canceled"><?php echo $monthly_summary['canceled_bookings'] ?? 0; ?></p>
+                </div>
+            </section>
+        
+            <!-- Chart Section -->
+            <div class="main-content">
+                <h1>Marcações Semanais</h1>
+                <div id="chartContainer">
+                    <div id="chartLoading" class="loading"><i class="fas fa-spinner fa-spin"></i> Carregando gráfico...</div>
+                    <div id="chartError" class="error" style="display: none;"><i class="fas fa-exclamation-triangle"></i> Falha ao carregar os dados do gráfico.</div>
+                    <canvas id="weeklyChart"></canvas>
+                </div>
+            </div>
         </div>
     </main>
 </div>
+
 <script src="assets/js/chartScript.js"></script>
 <script src="assets/js/transitions.js"></script>
+<!-- New Layout JS is included in navbarLateral.php (which is weird, but works for now) -->
 </body>
 </html>

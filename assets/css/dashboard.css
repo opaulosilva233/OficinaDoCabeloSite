@@ -4,18 +4,17 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Estilo do conteúdo principal */
+/* Estilo do conteúdo principal - Reset for Grid Layout */
 .content {
-    margin-left: 220px;
+    /* margins handled by dashboard-layout */
     padding: 20px;
-    margin-top: 60px;
 }
 
 /* Contêiner principal da Dashboard */
 .dashboard-container {
-    margin-left: 220px;
-    padding: 40px;
-    margin-top: 60px;
+    /* margins handled by dashboard-layout */
+    padding: 30px;
+    width: 100%;
 }
 
 .dashboard-container h1 {
@@ -97,11 +96,13 @@ body {
 }
 
 .summary-note {
-    text-align: left; /* Alinhar à esquerda */
+    text-align: left;
+    /* Alinhar à esquerda */
     font-size: 14px;
     color: #666;
     font-style: italic;
-    margin-bottom: 20px; /* Espaço abaixo da nota */
+    margin-bottom: 20px;
+    /* Espaço abaixo da nota */
     width: auto;
 }
 
@@ -160,7 +161,8 @@ body {
 }
 
 /* Botões da dashboard */
-.dashboard-btn, .export-btn {
+.dashboard-btn,
+.export-btn {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -179,12 +181,14 @@ body {
     line-height: 40px;
 }
 
-.dashboard-btn:hover, .export-btn:hover {
+.dashboard-btn:hover,
+.export-btn:hover {
     background: linear-gradient(135deg, #e0b68a 0%, #d4a373 100%);
     transform: translateY(-2px);
 }
 
-.dashboard-btn i, .export-btn i {
+.dashboard-btn i,
+.export-btn i {
     font-size: 14px;
 }
 
@@ -207,7 +211,9 @@ body {
 }
 
 /* Feedback de carregamento e erro */
-.loading, .error, .no-data {
+.loading,
+.error,
+.no-data {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -235,7 +241,9 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.loading i, .error i, .no-data i {
+.loading i,
+.error i,
+.no-data i {
     font-size: 18px;
 }
 

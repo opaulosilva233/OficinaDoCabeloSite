@@ -1,0 +1,242 @@
+/* Dashboard Layout Grid */
+:root {
+    --sidebar-width: 260px;
+    --sidebar-width-collapsed: 70px;
+    --top-navbar-height: 70px;
+
+    /* Colors */
+    --color-primary: #d4a373;
+    --color-primary-dark: #b88c5f;
+    --color-dark-bg: #1a1a1a;
+    --color-darker-bg: #121212;
+    --color-light-bg: #f5f7fa;
+    --color-text-main: #333;
+    --color-text-light: #fff;
+
+    /* Shadows */
+    --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    background-color: var(--color-light-bg);
+}
+
+/* Main Layout Container */
+.dashboard-layout {
+    display: grid;
+    grid-template-columns: var(--sidebar-width) 1fr;
+    grid-template-rows: var(--top-navbar-height) 1fr;
+    min-height: 100vh;
+    transition: all 0.3s ease;
+}
+
+/* Collapsed State Class (to be toggled by JS) */
+.dashboard-layout.collapsed {
+    grid-template-columns: var(--sidebar-width-collapsed) 1fr;
+}
+
+/* Sidebar Area */
+.sidebar-area {
+    grid-row: 1 / -1;
+    grid-column: 1 / 2;
+    background-color: var(--color-dark-bg);
+    color: var(--color-text-light);
+    z-index: 100;
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Top Navbar Area */
+.top-navbar-area {
+    grid-row: 1 / 2;
+    grid-column: 2 / -1;
+    background-color: #fff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    z-index: 90;
+    box-shadow: var(--shadow-sm);
+}
+
+/* Main Content Area */
+.main-content-area {
+    grid-row: 2 / -1;
+    grid-column: 2 / -1;
+    padding: 30px;
+    overflow-y: auto;
+}
+
+/* --- Sidebar Components --- */
+.brand-box {
+    height: var(--top-navbar-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.brand-box .logo-text {
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--color-primary);
+    margin-left: 10px;
+    white-space: nowrap;
+}
+
+.brand-box img {
+    height: 32px;
+}
+
+.sidebar-menu {
+    flex: 1;
+    padding: 20px 0;
+    overflow-y: auto;
+}
+
+.menu-category {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.4);
+    padding: 10px 25px;
+    letter-spacing: 1.5px;
+    margin-top: 10px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 25px;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+}
+
+.menu-item:hover,
+.menu-item.active {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.menu-item.active {
+    border-left-color: var(--color-primary);
+    background: linear-gradient(90deg, rgba(212, 163, 115, 0.1) 0%, transparent 100%);
+}
+
+.menu-item i {
+    width: 24px;
+    font-size: 1.1rem;
+    margin-right: 10px;
+}
+
+/* --- Top Navbar Components --- */
+.nav-toggle-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: var(--color-text-main);
+    padding: 5px;
+}
+
+.breadcrumb {
+    font-size: 0.9rem;
+    color: #888;
+    margin-left: 20px;
+}
+
+.user-profile-menu {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-info {
+    text-align: right;
+}
+
+.user-name {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-text-main);
+}
+
+.user-role {
+    display: block;
+    font-size: 0.75rem;
+    color: #888;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ddd;
+    object-fit: cover;
+    border: 2px solid var(--color-primary);
+}
+
+/* Responsive Overrides */
+@media (max-width: 768px) {
+    .dashboard-layout {
+        grid-template-columns: 0 1fr;
+    }
+
+    .dashboard-layout.mobile-active {
+        grid-template-columns: 0 1fr;
+        /* Actually handling this via transform usually better for mobile, but simple grid for now */
+    }
+
+    .sidebar-area {
+        position: fixed;
+        left: -var(--sidebar-width);
+        top: 0;
+        bottom: 0;
+        width: var(--sidebar-width);
+        transition: left 0.3s ease;
+    }
+
+
+    .mobile-active .sidebar-area {
+        left: 0;
+    }
+}
+
+/* Collapsed Sidebar Styles */
+.dashboard-layout.collapsed .logo-text,
+.dashboard-layout.collapsed .menu-category,
+.dashboard-layout.collapsed .menu-item span,
+.dashboard-layout.collapsed .sidebar-menu::after {
+    /* hiding any potential extra elements */
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none;
+}
+
+.dashboard-layout.collapsed .brand-box {
+    justify-content: center;
+    padding: 0;
+}
+
+.dashboard-layout.collapsed .brand-box .logo-text {
+    margin: 0;
+}
+
+.dashboard-layout.collapsed .menu-item {
+    justify-content: center;
+    padding: 15px 0;
+}
+
+.dashboard-layout.collapsed .menu-item i {
+    margin-right: 0;
+    font-size: 1.4rem;
+}
+
+/* Tooltips handled by JS */
