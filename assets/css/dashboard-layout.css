@@ -98,7 +98,7 @@ body {
     grid-template-columns: var(--sidebar-width) 1fr;
     grid-template-rows: var(--top-navbar-height) 1fr;
     min-height: 100vh;
-    transition: all 0.3s ease;
+    /* transition: all 0.3s ease; Removed to prevent page load animation */
 }
 
 /* Collapsed State Class (to be toggled by JS) */

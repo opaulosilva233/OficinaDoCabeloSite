@@ -256,9 +256,20 @@ class Appointment {
         }
 
         // Apply filters
+        if (!empty($filters['barber'])) {
+            $whereClause .= " AND barbeiro = :barber";
+            $params[':barber'] = $filters['barber'];
+        }
+
         if (!empty($filters['status'])) {
             $whereClause .= " AND estado = :status";
             $params[':status'] = $filters['status'];
+        }
+
+        // Special filter for "Action Needed" (Past but still marked)
+        if (!empty($filters['pending_action'])) {
+             // Logic: Status is 'marcada' AND (Date < Now OR (Date == Now AND Time < Now))
+             $whereClause .= " AND estado = 'marcada' AND (data_marcacao < CURDATE() OR (data_marcacao = CURDATE() AND horario_marcacao < CURTIME()))";
         }
 
         if (!empty($filters['date_start'])) {

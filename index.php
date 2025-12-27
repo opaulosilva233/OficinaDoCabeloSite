@@ -16,6 +16,7 @@ $router->add('api/slots', 'AppointmentController', 'getSlots');
 $router->add('api/dashboard-chart', 'AppointmentController', 'getChartData');
 $router->add('api/appointments', 'AppointmentController', 'getAppointments');
 $router->add('api/appointment-details', 'AppointmentController', 'getDetails');
+$router->add('api/appointment-status', 'AppointmentController', 'updateStatusAPI');
 $router->add('api/busy-days', 'AppointmentController', 'getBusyDays');
 $router->add('sobre', 'PageController', 'about');
 $router->add('contacto', 'PageController', 'contact');

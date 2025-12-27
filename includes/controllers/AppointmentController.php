@@ -210,7 +210,9 @@ class AppointmentController {
             $search = $_GET['search'] ?? '';
             
             $filters = [
+                'barber' => $_GET['barber'] ?? '',
                 'status' => $_GET['status'] ?? '',
+                'pending_action' => $_GET['pending_action'] ?? '',
                 'date_start' => $_GET['date_start'] ?? '',
                 'date_end' => $_GET['date_end'] ?? ''
             ];
@@ -226,6 +228,35 @@ class AppointmentController {
         } catch (Exception $e) {
             http_response_code(500);
             echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+        }
+        exit;
+    }
+
+    public function updateStatusAPI() {
+        $this->auth->requireLogin();
+        header('Content-Type: application/json');
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+             echo json_encode(['success' => false, 'message' => 'Method not allowed']);
+             exit;
+        }
+
+        $input = json_decode(file_get_contents('php://input'), true);
+        
+        if (!isset($input['id']) || !isset($input['status'])) {
+            echo json_encode(['success' => false, 'message' => 'ID e Estado são obrigatórios']);
+            exit;
+        }
+
+        try {
+            if ($this->appointmentModel->updateStatus($input['id'], $input['status'])) {
+                 echo json_encode(['success' => true, 'message' => 'Estado atualizado com sucesso']);
+            } else {
+                 echo json_encode(['success' => false, 'message' => 'Erro ao atualizar estado']);
+            }
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'message' => $e->getMessage()]);
         }
         exit;
     }
