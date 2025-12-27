@@ -64,7 +64,7 @@ async function fetchAppointments() {
     tableBody.innerHTML = loadingRow;
 
     try {
-        const url = `index.php?route=api/appointments&page=${currentPage}&limit=${currentLimit}&search=${encodeURIComponent(currentSearch)}&status=${encodeURIComponent(currentStatus)}&date_start=${encodeURIComponent(currentDateStart)}&date_end=${encodeURIComponent(currentDateEnd)}`;
+        const url = `api/appointments?page=${currentPage}&limit=${currentLimit}&search=${encodeURIComponent(currentSearch)}&status=${encodeURIComponent(currentStatus)}&date_start=${encodeURIComponent(currentDateStart)}&date_end=${encodeURIComponent(currentDateEnd)}`;
         const response = await fetch(url);
         const data = await response.json();
 
@@ -157,7 +157,7 @@ async function openModal(appt) {
 
     try {
         // Fetch full details + history
-        const response = await fetch(`index.php?route=api/appointment-details&id=${appt.id}`);
+        const response = await fetch(`api/appointment-details?id=${appt.id}`);
         const result = await response.json();
 
         if (!result.success) {

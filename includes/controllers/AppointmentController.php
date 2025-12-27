@@ -42,7 +42,7 @@ class AppointmentController {
                 $novo_estado = $_POST['estado'];
                 
                 if ($this->appointmentModel->updateStatus($id, $novo_estado)) {
-                    header("Location: index.php?route=agenda&barber=" . urlencode($barberName));
+                    header("Location: " . BASE_URL . "agenda?barber=" . urlencode($barberName));
                     exit();
                 } else {
                     $error = "Erro ao atualizar estado.";

@@ -45,7 +45,7 @@
                 </div>
             <?php endif; ?>
 
-            <form action="index.php?route=login" method="POST">
+            <form action="<?= BASE_URL ?>login" method="POST">
                 <?= CSRF::renderInput() ?>
                 
                 <div class="input-group">
@@ -71,7 +71,7 @@
             </form>
 
             <div class="form-footer">
-                <a href="index.php" class="back-link">
+                <a href="<?= BASE_URL ?>home" class="back-link">
                     <i class="fas fa-arrow-left"></i> Voltar à Página Inicial
                 </a>
             </div>

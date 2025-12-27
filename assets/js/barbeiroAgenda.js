@@ -96,7 +96,7 @@ async function fetchAppointments() {
 
     try {
         // Include barber parameter
-        const url = `index.php?route=api/appointments&page=${currentPage}&limit=${currentLimit}&search=${encodeURIComponent(currentSearch)}&status=${encodeURIComponent(currentStatus)}&date_start=${encodeURIComponent(currentDateStart)}&date_end=${encodeURIComponent(currentDateEnd)}&pending_action=${encodeURIComponent(currentPendingAction)}&barber=${encodeURIComponent(barberName)}`;
+        const url = `api/appointments?page=${currentPage}&limit=${currentLimit}&search=${encodeURIComponent(currentSearch)}&status=${encodeURIComponent(currentStatus)}&date_start=${encodeURIComponent(currentDateStart)}&date_end=${encodeURIComponent(currentDateEnd)}&pending_action=${encodeURIComponent(currentPendingAction)}&barber=${encodeURIComponent(barberName)}`;
         const response = await fetch(url);
         const data = await response.json();
 
@@ -194,7 +194,7 @@ async function openModal(appt) {
 
     try {
         // Fetch full details + history
-        const response = await fetch(`index.php?route=api/appointment-details&id=${appt.id}`);
+        const response = await fetch(`api/appointment-details?id=${appt.id}`);
         const result = await response.json();
 
         if (!result.success) {
@@ -334,7 +334,7 @@ async function executeStatusUpdate() {
     if (!currentAppointmentId || !pendingStatus) return;
 
     try {
-        const response = await fetch('index.php?route=api/appointment-status', {
+        const response = await fetch('api/appointment-status', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

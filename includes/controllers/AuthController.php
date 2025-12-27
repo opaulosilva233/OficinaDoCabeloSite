@@ -8,7 +8,7 @@ class AuthController {
         
         // If already logged in, redirect to dashboard
         if ($auth->isLoggedIn()) {
-            header("Location: index.php?route=dashboard");
+            header("Location: " . BASE_URL . "dashboard");
             exit();
         }
 
@@ -22,7 +22,7 @@ class AuthController {
                 $password = $_POST['password'] ?? '';
 
                 if ($auth->login($username, $password)) {
-                    header("Location: index.php?route=dashboard");
+                    header("Location: " . BASE_URL . "dashboard");
                     exit();
                 } else {
                     $error = "Credenciais Inválidas!";
@@ -37,7 +37,7 @@ class AuthController {
     public function logout() {
         $auth = new Auth();
         $auth->logout();
-        header("Location: index.php?route=login");
+        header("Location: " . BASE_URL . "login");
         exit();
     }
 }

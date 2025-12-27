@@ -331,7 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const updateBusyDaysVisuals = async (month, year, container) => {
         const m = month + 1;
         try {
-            const response = await fetch(`index.php?route=api/busy-days&barber=${selectedBarber || ''}&month=${m}&year=${year}`);
+            const response = await fetch(`api/busy-days?barber=${selectedBarber || ''}&month=${m}&year=${year}`);
             const data = await response.json();
             if (data.success && data.busyDays) {
                 // busyDays are likely full date strings (or logic specific to backend)
@@ -381,7 +381,7 @@ document.addEventListener('DOMContentLoaded', () => {
         timeSlotsGrid.appendChild(loadingIndicator);
 
         try {
-            const response = await fetch(`index.php?route=api/slots&barber=${selectedBarber}&date=${dateStr}`);
+            const response = await fetch(`api/slots?barber=${selectedBarber}&date=${dateStr}`);
             const data = await response.json();
 
             timeSlotsGrid.innerHTML = '';

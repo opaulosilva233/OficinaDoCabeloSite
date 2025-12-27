@@ -6,17 +6,17 @@ $path_prefix = './';
         <div class="footer-section">
             <h3>Links Úteis</h3>
             <ul>
-                <li><a href="index.php?route=home">Início</a></li>
-                <li><a href="index.php?route=sobre">Sobre</a></li>
-                <li><a href="index.php?route=contacto">Contactos</a></li>
-                <li><a href="index.php?route=marcacoes">Marcações</a></li>
-                <li><a href="index.php?route=login">Login</a></li>
+                <li><a href="<?= BASE_URL ?>home">Início</a></li>
+                <li><a href="<?= BASE_URL ?>sobre">Sobre</a></li>
+                <li><a href="<?= BASE_URL ?>contacto">Contactos</a></li>
+                <li><a href="<?= BASE_URL ?>marcacoes">Marcações</a></li>
+                <li><a href="<?= BASE_URL ?>login">Login</a></li>
             </ul>
         </div>
         <div class="footer-section">
             <h3>Legal</h3>
             <ul>
-                <li><a href="index.php?route=rgpd">Política de Privacidade (RGPD)</a></li>
+                <li><a href="<?= BASE_URL ?>rgpd">Política de Privacidade (RGPD)</a></li>
             </ul>
         </div>
         <div class="footer-section">

@@ -23,7 +23,7 @@ CSRF::generateToken();
                     <!-- Sidebar Header: Back Link + Logo -->
                     <div class="sidebar-header">
                         <div class="sidebar-controls">
-                            <a href="index.php?route=home" class="back-to-site">
+                            <a href="<?= BASE_URL ?>home" class="back-to-site">
                                 <i class="fas fa-chevron-left"></i> Voltar
                             </a>
                             <button id="theme-toggle" class="theme-toggle" aria-label="Alternar Tema">
@@ -100,7 +100,7 @@ CSRF::generateToken();
                         <p>Escolha o serviço, o barbeiro e o horário ideal para si.</p>
                     </div>
 
-                    <form id="appointment-form" action="index.php?route=api/book" method="POST">
+                    <form id="appointment-form" action="<?= BASE_URL ?>api/book" method="POST">
                         <?php require_once 'includes/CSRF.php'; ?>
                         <?= CSRF::renderInput() ?>
                         
@@ -359,7 +359,7 @@ CSRF::generateToken();
                                 <p>Enviámos um email com todos os detalhes.</p>
                             </div>
                             <div class="success-actions">
-                                <a href="index.php?route=home" class="cta-button primary">
+                                <a href="<?= BASE_URL ?>home" class="cta-button primary">
                                     <i class="fas fa-home"></i> Voltar ao Início
                                 </a>
                             </div>

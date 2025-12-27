@@ -10,18 +10,23 @@ $path_prefix = './';
 
 <header>
     <div class="logo">
-        <a href="index.php?route=home">
+        <a href="<?= BASE_URL ?>home">
             <img src="assets/img/logotipo.png" alt="Oficina do Cabelo">
             <span>Oficina do Cabelo</span>
         </a>
     </div>
     <nav>
         <ul>
-            <li><a href="index.php?route=home">Início</a></li>
-            <li><a href="index.php?route=sobre">Sobre</a></li>
-            <li><a href="index.php?route=contacto">Contactos</a></li>
-            <li><a href="index.php?route=marcacoes" class="btn-marcacao">Marcações</a></li>
-            <li><a href="index.php?route=login" class="btn-login"><i class="fas fa-user"></i> Área Reservada</a></li>
+            <li><a href="<?= BASE_URL ?>home">Início</a></li>
+            <li><a href="<?= BASE_URL ?>sobre">Sobre Nós</a></li>
+            <li><a href="<?= BASE_URL ?>contacto">Contactos</a></li>
+            <li><a href="<?= BASE_URL ?>marcacoes" class="btn-marcacao">Marcações</a></li>
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <li><a href="<?= BASE_URL ?>dashboard" class="btn-login"><i class="fas fa-user"></i> Área Reservada</a></li>
+                <li><a href="<?= BASE_URL ?>logout">Logout</a></li>
+            <?php else: ?>
+                <li><a href="<?= BASE_URL ?>login" class="btn-login"><i class="fas fa-user"></i> Área Reservada</a></li>
+            <?php endif; ?>
         </ul>
     </nav>
     <div class="dark-mode-toggle">

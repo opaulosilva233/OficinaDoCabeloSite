@@ -11,31 +11,31 @@ $path_prefix = './';
     
     <div class="sidebar-menu">
         <div class="menu-category">Menu Principal</div>
-        <a href="<?= $path_prefix ?>index.php?route=dashboard" class="menu-item <?= (isset($_GET['route']) && $_GET['route'] == 'dashboard') ? 'active' : '' ?>" title="Dashboard">
+        <a href="<?= BASE_URL ?>dashboard" class="menu-item <?= (isset($_GET['route']) && $_GET['route'] == 'dashboard') ? 'active' : '' ?>" title="Dashboard">
             <i class="fas fa-th-large"></i>
             <span>Dashboard</span>
         </a>
-        <a href="<?= $path_prefix ?>index.php?route=todas_marcacoes" class="menu-item <?= (isset($_GET['route']) && $_GET['route'] == 'todas_marcacoes') ? 'active' : '' ?>" title="Todas as Marcações">
+        <a href="<?= BASE_URL ?>todas_marcacoes" class="menu-item <?= (isset($_GET['route']) && $_GET['route'] == 'todas_marcacoes') ? 'active' : '' ?>" title="Todas as Marcações">
             <i class="fas fa-calendar-alt"></i>
             <span>Todas as Marcações</span>
         </a>
 
         <div class="menu-category">Barbeiros</div>
-        <a href="<?= $path_prefix ?>index.php?route=agenda&barber=Bruno%20Martins" class="menu-item <?= (isset($_GET['barber']) && $_GET['barber'] == 'Bruno Martins') ? 'active' : '' ?>" title="Bruno Martins">
+        <a href="<?= BASE_URL ?>agenda?barber=Bruno%20Martins" class="menu-item <?= (isset($_GET['barber']) && $_GET['barber'] == 'Bruno Martins') ? 'active' : '' ?>" title="Bruno Martins">
             <i class="fas fa-user-tie"></i>
             <span>Bruno Martins</span>
         </a>
-        <a href="<?= $path_prefix ?>index.php?route=agenda&barber=Hugo%20Alves" class="menu-item <?= (isset($_GET['barber']) && $_GET['barber'] == 'Hugo Alves') ? 'active' : '' ?>" title="Hugo Alves">
+        <a href="<?= BASE_URL ?>agenda?barber=Hugo%20Alves" class="menu-item <?= (isset($_GET['barber']) && $_GET['barber'] == 'Hugo Alves') ? 'active' : '' ?>" title="Hugo Alves">
             <i class="fas fa-user-tie"></i>
             <span>Hugo Alves</span>
         </a>
 
         <div class="menu-category">Sistema</div>
-        <a href="<?= $path_prefix ?>index.php?route=settings" class="menu-item" title="Definições">
+        <a href="<?= BASE_URL ?>settings" class="menu-item" title="Definições">
             <i class="fas fa-cog"></i>
             <span>Definições</span>
         </a>
-        <a href="<?= $path_prefix ?>index.php?route=logout" class="menu-item" style="color: #ff6b6b;" title="Sair">
+        <a href="<?= BASE_URL ?>logout" class="menu-item" style="color: #ff6b6b;" title="Sair">
             <i class="fas fa-sign-out-alt"></i>
             <span>Sair</span>
         </a>
